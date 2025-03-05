@@ -16,13 +16,16 @@ export default function AboutPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           <div className="md:col-span-2">
             <p className="text-gray-700 dark:text-gray-300 mb-4">
-              Hello! I'm Dhairya Shah, a passionate full-stack developer based in Your Location. I enjoy creating things that live on the internet, whether that be websites, applications, or anything in between. My goal is to always build products that provide pixel-perfect, performant experiences.
+              Hi! I’m Dhairya Shah, a high school student, developer, and problem-solver with a passion for building innovative digital solutions. Ever since I started coding, I’ve been fascinated by how technology can streamline everyday tasks and create meaningful change.
             </p>
             <p className="text-gray-700 dark:text-gray-300 mb-4">
-              I graduated from University Name with a degree in Computer Science and have been working in the web development industry for X years. Throughout my career, I've had the privilege of working at various companies ranging from startups to large corporations.
+              I specialize in full-stack development, with a focus on creating scalable and efficient solutions. I'm also experienced in machine learning and AI, and I'm always looking for new ways to use technology to solve problems.
             </p>
             <p className="text-gray-700 dark:text-gray-300 mb-4">
-              When I'm not at the computer, I'm usually hiking, reading, or exploring new places. I'm always looking to learn new things and am currently focusing on [current learning goal].
+            Beyond coding, I’m actively involved in math competitions, DECA, STEM and chess, always looking for ways to challenge myself and grow. I also enjoy working out, playing the guitar, and exploring new technologies.
+            </p>
+            <p className="text-gray-700 dark:text-gray-300 mb-4">
+            I’m always open to collaborating on exciting projects or learning opportunities—feel free to reach out!
             </p>
           </div>
           <div className="relative h-80 rounded-lg overflow-hidden shadow-xl">

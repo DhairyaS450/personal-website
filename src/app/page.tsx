@@ -57,8 +57,7 @@ export default function Home() {
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Featured Projects</h2>
           <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            A selection of my recent work. These projects showcase my skills and
-            experience in web development.
+            A selection of my recent work. These projects showcase my skills and experience
           </p>
         </div>
 
@@ -116,14 +115,14 @@ export default function Home() {
               />
             </div>
             <div className="p-6">
-              <h3 className="text-xl font-bold mb-2">Project Name</h3>
+              <h3 className="text-xl font-bold mb-2">Chess Game + Algorithm</h3>
               <p className="text-gray-600 dark:text-gray-400 mb-4">
-                A brief description of the project, what it does, and what
-                technologies were used.
+                This is a chess game that allows player vs player and player vs computer. The computer uses the minimax algorithm along with alpha-beta pruning 
+                and other techniques to find the best move. It is made in python and uses the pygame library.
               </p>
               <div className="flex space-x-3">
                 <a
-                  href="https://github.com/DhairyaS450/project2"
+                  href="https://github.com/DhairyaS450/chess_ai"
                   target="_blank"
                   rel="noreferrer"
                   className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition"
@@ -132,7 +131,7 @@ export default function Home() {
                   <FaGithub size={20} />
                 </a>
                 <a
-                  href="https://project2.example.com"
+                  href="https://github.com/DhairyaS450/chess_ai"
                   target="_blank"
                   rel="noreferrer"
                   className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition"
@@ -148,22 +147,23 @@ export default function Home() {
           <div className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg transition duration-300 hover:shadow-xl">
             <div className="relative h-48 w-full">
               <Image
-                src="/images/project3.jpg"
-                alt="Project 3"
+                src="/images/ecoreceipt.png"
+                alt="EcoReceipts"
                 fill
                 style={{ objectFit: "cover" }}
                 sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
               />
             </div>
             <div className="p-6">
-              <h3 className="text-xl font-bold mb-2">Project Name</h3>
+              <h3 className="text-xl font-bold mb-2">EcoReceipts </h3>
               <p className="text-gray-600 dark:text-gray-400 mb-4">
-                A brief description of the project, what it does, and what
-                technologies were used.
+                This is a web app created during the **SproutHacks 2025 hackathon** 
+                that allows users to scan their receipts and get a report on the items they bought.
+                It uses HTML, CSS, Javascript, MongoDB, Express, and Gemini API.
               </p>
               <div className="flex space-x-3">
                 <a
-                  href="https://github.com/DhairyaS450/project3"
+                  href="https://github.com/DhairyaS450/ecoreceipts"
                   target="_blank"
                   rel="noreferrer"
                   className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition"
@@ -172,7 +172,7 @@ export default function Home() {
                   <FaGithub size={20} />
                 </a>
                 <a
-                  href="https://project3.example.com"
+                  href="https://ecoscan.photo"
                   target="_blank"
                   rel="noreferrer"
                   className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition"
