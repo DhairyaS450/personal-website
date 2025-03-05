@@ -96,4 +96,40 @@ This site can be easily deployed on Vercel:
 
 ## License
 
-This project is licensed under the Apache 2.0 License - see the [LICENSE](LICENSE) file for details. 
+This project is licensed under the Apache 2.0 License - see the [LICENSE](LICENSE) file for details.
+
+## Contact Form Setup
+
+The contact form is configured to send emails to the site owner. For testing purposes, it uses [Ethereal Email](https://ethereal.email/) which provides a preview URL in the console instead of actually sending emails.
+
+### For Production
+
+To set up the contact form with a real email service (like Gmail), you need to configure the following environment variables in your Vercel dashboard or in a `.env.local` file for local development:
+
+```
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=587
+EMAIL_SECURE=false
+EMAIL_USER=your-email@gmail.com
+EMAIL_PASS=your-app-password
+EMAIL_FROM=your-email@gmail.com
+```
+
+**Note for Gmail users:**
+- You need to use an "App Password" instead of your regular password
+- To generate an App Password:
+  1. Enable 2-Step Verification in your Google Account
+  2. Go to [App Passwords](https://myaccount.google.com/apppasswords)
+  3. Select "Mail" as the app and "Other" as the device
+  4. Enter a name (e.g., "Personal Website")
+  5. Copy the generated password and use it as `EMAIL_PASS`
+
+### Alternative Email Services
+
+You can also use other email services like:
+- SendGrid
+- Mailgun
+- AWS SES
+- Resend.com
+
+Each service will require different environment variables. Refer to their documentation for specific setup instructions. 

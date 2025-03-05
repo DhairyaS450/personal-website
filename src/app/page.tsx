@@ -16,12 +16,12 @@ export default function Home() {
               </span>
             </h1>
             <h2 className="text-xl md:text-2xl text-gray-600 dark:text-gray-400 mb-6">
-              Full Stack Developer & UI/UX Enthusiast
+              HS Student & Developer
             </h2>
             <p className="text-gray-700 dark:text-gray-300 mb-8 max-w-lg">
-              I build exceptional digital experiences that are fast,
-              accessible, and visually appealing. Currently focused on building
-              responsive web applications with modern technologies.
+            I’m passionate about building innovative digital experiences that are fast, intuitive, and accessible. 
+            With a strong foundation in software development, I specialize in creating web and mobile applications that solve real-world problems. 
+            Currently, I’m exploring AI-driven solutions, full-stack development, and efficient system design.
             </p>
             <div className="flex flex-wrap gap-4">
               <Link
@@ -67,22 +67,23 @@ export default function Home() {
           <div className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg transition duration-300 hover:shadow-xl">
             <div className="relative h-48 w-full">
               <Image
-                src="/images/project1.jpg"
-                alt="Project 1"
+                src="/images/trackai.png"
+                alt="Track AI"
                 fill
                 style={{ objectFit: "cover" }}
                 sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
               />
             </div>
             <div className="p-6">
-              <h3 className="text-xl font-bold mb-2">Project Name</h3>
+              <h3 className="text-xl font-bold mb-2">TaskTide AI</h3>
               <p className="text-gray-600 dark:text-gray-400 mb-4">
-                A brief description of the project, what it does, and what
-                technologies were used.
+                This is an AI-powered study scheduler for students.
+                It uses AI to help students manage their time and study schedule.
+                It uses React, Vite, Tailwind CSS, OpenAI API, Gemini API and Firebase.
               </p>
               <div className="flex space-x-3">
                 <a
-                  href="https://github.com/DhairyaS450/project1"
+                  href="https://github.com/DhairyaS450/track-ai-web"
                   target="_blank"
                   rel="noreferrer"
                   className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition"
@@ -91,7 +92,7 @@ export default function Home() {
                   <FaGithub size={20} />
                 </a>
                 <a
-                  href="https://project1.example.com"
+                  href="https://tasktide-ai.vercel.app/"
                   target="_blank"
                   rel="noreferrer"
                   className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition"

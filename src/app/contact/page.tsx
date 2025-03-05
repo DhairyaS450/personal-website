@@ -29,14 +29,31 @@ export default function ContactPage() {
     setIsSubmitting(true);
     setSubmitError("");
 
-    // Simulate form submission
     try {
-      // In a real implementation, you would send the data to an API
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to send message');
+      }
+
       setSubmitSuccess(true);
       setFormData({ name: "", email: "", subject: "", message: "" });
+      
+      // If we're using Ethereal for testing, log the preview URL
+      if (data.previewUrl) {
+        console.log('Email preview:', data.previewUrl);
+      }
     } catch (error) {
-      setSubmitError("Something went wrong. Please try again later.");
+      console.error('Error submitting form:', error);
+      setSubmitError(error instanceof Error ? error.message : "Something went wrong. Please try again later.");
     } finally {
       setIsSubmitting(false);
     }

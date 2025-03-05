@@ -10,12 +10,12 @@ export const metadata = {
 const projects = [
   {
     id: 1,
-    title: "Project One",
-    description: "A detailed description of project one. What it does, technologies used, and challenges overcome.",
-    image: "/images/project1.jpg",
+    title: "TaskTide AI",
+    description: "An AI-powered study scheduler for students. It uses AI to help students manage their time and study schedule.",
+    image: "/images/trackai.png",
     tags: ["React", "TypeScript", "Tailwind CSS", "Next.js"],
-    githubUrl: "https://github.com/DhairyaS450/project1",
-    liveUrl: "https://project1.example.com",
+    githubUrl: "https://github.com/DhairyaS450/track-ai-web",
+    liveUrl: "https://tasktide-ai.vercel.app/",
   },
   {
     id: 2,

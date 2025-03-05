@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { FaReact, FaNodeJs, FaJs, FaHtml5, FaCss3Alt, FaGitAlt } from "react-icons/fa";
-import { SiTypescript, SiNextdotjs, SiTailwindcss, SiPython, SiMongodb, SiPostgresql } from "react-icons/si";
+import { SiTypescript, SiNextdotjs, SiTailwindcss, SiPython, SiMongodb, SiFirebase } from "react-icons/si";
 
 export const metadata = {
   title: "About | Dhairya Shah",
@@ -84,8 +84,8 @@ export default function AboutPage() {
             <h3 className="font-medium">MongoDB</h3>
           </div>
           <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 text-center">
-            <SiPostgresql className="text-blue-800 text-4xl mx-auto mb-2" />
-            <h3 className="font-medium">PostgreSQL</h3>
+            <SiFirebase className="text-red-800 text-4xl mx-auto mb-2" />
+            <h3 className="font-medium">Firebase</h3>
           </div>
           <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 text-center">
             <FaGitAlt className="text-orange-600 text-4xl mx-auto mb-2" />

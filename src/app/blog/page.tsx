@@ -15,7 +15,7 @@ const blogPosts = [
     date: "June 15, 2023",
     readTime: "5 min read",
     slug: "getting-started-with-nextjs",
-    image: "/images/project1.jpg", // Reusing project image as placeholder
+    image: "/images/trackai.png", // Reusing project image as placeholder
   },
   {
     id: 2,
