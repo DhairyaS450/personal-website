@@ -14,7 +14,7 @@ const projects = [
     description: "A detailed description of project one. What it does, technologies used, and challenges overcome.",
     image: "/images/project1.jpg",
     tags: ["React", "TypeScript", "Tailwind CSS", "Next.js"],
-    githubUrl: "https://github.com/yourusername/project1",
+    githubUrl: "https://github.com/DhairyaS450/project1",
     liveUrl: "https://project1.example.com",
   },
   {
@@ -23,7 +23,7 @@ const projects = [
     description: "A detailed description of project two. What it does, technologies used, and challenges overcome.",
     image: "/images/project2.jpg",
     tags: ["Node.js", "Express", "MongoDB", "React"],
-    githubUrl: "https://github.com/yourusername/project2",
+    githubUrl: "https://github.com/DhairyaS450/project2",
     liveUrl: "https://project2.example.com",
   },
   {
@@ -32,7 +32,7 @@ const projects = [
     description: "A detailed description of project three. What it does, technologies used, and challenges overcome.",
     image: "/images/project3.jpg",
     tags: ["Python", "Django", "PostgreSQL", "Docker"],
-    githubUrl: "https://github.com/yourusername/project3",
+    githubUrl: "https://github.com/DhairyaS450/project3",
     liveUrl: "https://project3.example.com",
   },
   {
@@ -41,7 +41,7 @@ const projects = [
     description: "A detailed description of project four. What it does, technologies used, and challenges overcome.",
     image: "/images/project1.jpg", // Using project1 image as placeholder
     tags: ["Vue.js", "Firebase", "Sass", "PWA"],
-    githubUrl: "https://github.com/yourusername/project4",
+    githubUrl: "https://github.com/DhairyaS450/project4",
     liveUrl: "https://project4.example.com",
   },
   {
@@ -50,7 +50,7 @@ const projects = [
     description: "A detailed description of project five. What it does, technologies used, and challenges overcome.",
     image: "/images/project2.jpg", // Using project2 image as placeholder
     tags: ["React Native", "Redux", "GraphQL", "Expo"],
-    githubUrl: "https://github.com/yourusername/project5",
+    githubUrl: "https://github.com/DhairyaS450/project5",
     liveUrl: "https://project5.example.com",
   },
   {
@@ -59,7 +59,7 @@ const projects = [
     description: "A detailed description of project six. What it does, technologies used, and challenges overcome.",
     image: "/images/project3.jpg", // Using project3 image as placeholder
     tags: ["WordPress", "PHP", "MySQL", "JavaScript"],
-    githubUrl: "https://github.com/yourusername/project6",
+    githubUrl: "https://github.com/DhairyaS450/project6",
     liveUrl: "https://project6.example.com",
   },
 ];

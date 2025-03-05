@@ -145,10 +145,10 @@ export default function ContactPage() {
               <div>
                 <h3 className="font-medium text-lg">Email</h3>
                 <a 
-                  href="mailto:your.email@example.com" 
+                  href="mailto:dhairyashah2513@gmail.com" 
                   className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition"
                 >
-                  your.email@example.com
+                  dhairyashah2513@gmail.com
                 </a>
               </div>
             </div>
@@ -157,7 +157,7 @@ export default function ContactPage() {
               <FaMapMarkerAlt className="text-blue-600 dark:text-blue-400 text-xl mt-1 mr-4" />
               <div>
                 <h3 className="font-medium text-lg">Location</h3>
-                <p className="text-gray-700 dark:text-gray-300">City, Country</p>
+                <p className="text-gray-700 dark:text-gray-300">Kitchener, Ontario, Canada</p>
               </div>
             </div>
             
@@ -165,7 +165,7 @@ export default function ContactPage() {
               <FaPhone className="text-blue-600 dark:text-blue-400 text-xl mt-1 mr-4" />
               <div>
                 <h3 className="font-medium text-lg">Phone</h3>
-                <p className="text-gray-700 dark:text-gray-300">+1 (123) 456-7890</p>
+                <p className="text-gray-700 dark:text-gray-300">+1 (548) 384-7522</p>
               </div>
             </div>
             
@@ -173,7 +173,7 @@ export default function ContactPage() {
               <h3 className="font-medium text-lg mb-2">Connect with me</h3>
               <div className="flex space-x-4">
                 <a 
-                  href="https://github.com/yourusername" 
+                  href="https://github.com/DhairyaS450" 
                   target="_blank" 
                   rel="noreferrer" 
                   className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition"
@@ -182,7 +182,7 @@ export default function ContactPage() {
                   <FaGithub size={24} />
                 </a>
                 <a 
-                  href="https://twitter.com/yourusername" 
+                  href="https://twitter.com/DhairyaS450" 
                   target="_blank" 
                   rel="noreferrer" 
                   className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition"
@@ -191,7 +191,7 @@ export default function ContactPage() {
                   <FaTwitter size={24} />
                 </a>
                 <a 
-                  href="https://linkedin.com/in/yourusername" 
+                  href="https://linkedin.com/in/dhairyashah2513" 
                   target="_blank" 
                   rel="noreferrer" 
                   className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition"

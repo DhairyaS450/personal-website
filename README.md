@@ -60,7 +60,7 @@ A modern, responsive personal website built with Next.js, TypeScript, and Tailwi
 
 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/personal-website.git
+git clone https://github.com/DhairyaS450/personal-website.git
 cd personal-website
 ```
 
@@ -92,7 +92,7 @@ yarn dev
 
 This site can be easily deployed on Vercel:
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fyourusername%2Fpersonal-website)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FDhairyaS450%2Fpersonal-website)
 
 ## License
 

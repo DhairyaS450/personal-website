@@ -82,7 +82,7 @@ export default function Home() {
               </p>
               <div className="flex space-x-3">
                 <a
-                  href="https://github.com/yourusername/project1"
+                  href="https://github.com/DhairyaS450/project1"
                   target="_blank"
                   rel="noreferrer"
                   className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition"
@@ -122,7 +122,7 @@ export default function Home() {
               </p>
               <div className="flex space-x-3">
                 <a
-                  href="https://github.com/yourusername/project2"
+                  href="https://github.com/DhairyaS450/project2"
                   target="_blank"
                   rel="noreferrer"
                   className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition"
@@ -162,7 +162,7 @@ export default function Home() {
               </p>
               <div className="flex space-x-3">
                 <a
-                  href="https://github.com/yourusername/project3"
+                  href="https://github.com/DhairyaS450/project3"
                   target="_blank"
                   rel="noreferrer"
                   className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition"

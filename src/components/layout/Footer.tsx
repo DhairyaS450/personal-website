@@ -47,7 +47,7 @@ export default function Footer() {
             <h3 className="font-medium text-lg mb-4 text-gray-900 dark:text-white">Connect</h3>
             <div className="flex space-x-4">
               <a 
-                href="https://github.com/yourusername" 
+                href="https://github.com/DhairyaS450" 
                 target="_blank" 
                 rel="noreferrer" 
                 className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition"
@@ -56,7 +56,7 @@ export default function Footer() {
                 <FaGithub size={24} />
               </a>
               <a 
-                href="https://twitter.com/yourusername" 
+                href="https://twitter.com/DhairyaS450" 
                 target="_blank" 
                 rel="noreferrer" 
                 className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition"
@@ -65,7 +65,7 @@ export default function Footer() {
                 <FaTwitter size={24} />
               </a>
               <a 
-                href="https://linkedin.com/in/yourusername" 
+                href="https://linkedin.com/in/dhairyashah2513" 
                 target="_blank" 
                 rel="noreferrer" 
                 className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition"
@@ -74,7 +74,7 @@ export default function Footer() {
                 <FaLinkedin size={24} />
               </a>
               <a 
-                href="mailto:your.email@example.com" 
+                href="mailto:dhairyashah2513@gmail.com" 
                 className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition"
                 aria-label="Email"
               >
@@ -86,7 +86,7 @@ export default function Footer() {
         
         {/* Copyright */}
         <div className="border-t border-gray-200 dark:border-gray-800 mt-8 pt-8 text-center text-gray-500 dark:text-gray-400 text-sm">
-          <p>&copy; {currentYear} YourName. All rights reserved.</p>
+          <p>&copy; {currentYear} Dhairya Shah. All rights reserved.</p>
           <p className="mt-2">Built with Next.js, TypeScript, and Tailwind CSS</p>
         </div>
       </div>
