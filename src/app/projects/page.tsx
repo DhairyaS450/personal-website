@@ -1,10 +1,14 @@
+"use client";
+
 import Image from "next/image";
 import { FaGithub, FaExternalLinkAlt, FaDownload } from "react-icons/fa";
+import { useEffect, useRef } from "react";
+import { useSearchParams } from "next/navigation";
 
-export const metadata = {
-  title: "Projects & Achievements | Dhairya Shah",
-  description: "Showcase of my projects, academic achievements, and extracurricular activities",
-};
+// export const metadata = {
+//   title: "Projects & Achievements | Dhairya Shah",
+//   description: "Showcase of my projects, academic achievements, and extracurricular activities",
+// };
 
 // Projects data
 const projects = [
@@ -103,12 +107,12 @@ const extracurricularActivities = [
   {
     title: "Youth Tech Labs",
     description: "Developed AI healthcare application and other tech solutions. Collaborated with peers and presented solutions.",
-    period: "February 2025 - Present",
+    period: "2024 - Present, Ongoing",
   },
   {
     title: "Coding Club at Cameron Heights",
     description: "Active member learning software development and data science. Participated in various competitions.",
-    period: "February 2025 - Present",
+    period: "2023 - Present, Ongoing",
   },
   {
     title: "DECA",
@@ -118,8 +122,13 @@ const extracurricularActivities = [
   {
     title: "Chess & Tutoring",
     description: "Competitive chess player and tutor for mathematics, coding, and chess to younger students (my family members and family friends).",
-    period: "Ongoing",
+    period: "2023 - Present, Ongoing",
   },
+  {
+    title: "Cross Country Running",
+    description: "Participated in cross country running at school, and have been on the team for 2 years now.",
+    period: "2023 - Present",
+  }
 ];
 
 // Files and evidence
@@ -163,6 +172,21 @@ const files = [
 ];
 
 export default function ProjectsPage() {
+  const searchParams = useSearchParams();
+  const academicSectionRef = useRef<HTMLElement | null>(null);
+  
+  useEffect(() => {
+    if (searchParams.has('academic_achievements') && academicSectionRef.current) {
+      // Add a small delay to ensure the page is fully loaded
+      setTimeout(() => {
+        academicSectionRef.current?.scrollIntoView({ 
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }, 300);
+    }
+  }, [searchParams]);
+
   return (
     <div className="max-w-7xl mx-auto px-6 md:px-10 py-12">
       {/* Projects Section */}
@@ -233,7 +257,7 @@ export default function ProjectsPage() {
       </section>
 
       {/* Academic Achievements Section */}
-      <section className="mb-16">
+      <section ref={academicSectionRef} id="academic-achievements" className="mb-16">
         <h2 className="text-2xl md:text-3xl font-bold mb-6">Academic Achievements</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {academicAchievements.map((achievement, index) => (
