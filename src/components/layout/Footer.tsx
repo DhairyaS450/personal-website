@@ -16,7 +16,7 @@ export default function Footer() {
               </span>
             </Link>
             <p className="mt-4 text-gray-600 dark:text-gray-400 max-w-xs">
-              A passionate developer focused on creating beautiful and functional web experiences.
+              A passionate student and developer.
             </p>
           </div>
 

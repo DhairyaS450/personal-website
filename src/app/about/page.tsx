@@ -16,16 +16,16 @@ export default function AboutPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           <div className="md:col-span-2">
             <p className="text-gray-700 dark:text-gray-300 mb-4">
-              Hi! I’m Dhairya Shah, a high school student, developer, and problem-solver with a passion for building innovative digital solutions. Ever since I started coding, I’ve been fascinated by how technology can streamline everyday tasks and create meaningful change.
+              Hi! I'm Dhairya Shah, a high school student, developer, and problem-solver with a passion for building innovative digital solutions. Ever since I started coding, I've been fascinated by how technology can streamline everyday tasks and create meaningful change.
             </p>
             <p className="text-gray-700 dark:text-gray-300 mb-4">
               I specialize in full-stack development, with a focus on creating scalable and efficient solutions. I'm also experienced in machine learning and AI, and I'm always looking for new ways to use technology to solve problems.
             </p>
             <p className="text-gray-700 dark:text-gray-300 mb-4">
-            Beyond coding, I’m actively involved in math competitions, DECA, STEM and chess, always looking for ways to challenge myself and grow. I also enjoy working out, playing the guitar, and exploring new technologies.
+            Beyond coding, I'm actively involved in math competitions, DECA, STEM and chess, always looking for ways to challenge myself and grow. I also enjoy working out, playing the guitar, and exploring new technologies.
             </p>
             <p className="text-gray-700 dark:text-gray-300 mb-4">
-            I’m always open to collaborating on exciting projects or learning opportunities—feel free to reach out!
+            I'm always open to collaborating on exciting projects or learning opportunities—feel free to reach out!
             </p>
           </div>
           <div className="relative h-80 rounded-lg overflow-hidden shadow-xl">
@@ -97,52 +97,82 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Experience Section */}
+      {/* Project Collaborations */}
       <section className="mb-16">
-        <h2 className="text-2xl md:text-3xl font-bold mb-6">Experience</h2>
+        <h2 className="text-2xl md:text-3xl font-bold mb-6">Project Collaborations</h2>
         <div className="space-y-8">
-          {/* Job 1 */}
+
+          {/* TaskTide AI */}
           <div className="border-l-4 border-blue-600 pl-6 py-2">
             <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-2">
-              <h3 className="text-xl font-bold">Senior Developer</h3>
-              <span className="text-gray-600 dark:text-gray-400">Jan 2020 - Present</span>
+              <h3 className="text-xl font-bold">TaskTide AI</h3>
+              <span className="text-gray-600 dark:text-gray-400">2025</span>
             </div>
-            <h4 className="text-gray-700 dark:text-gray-300 mb-2">Company Name</h4>
+            <h4 className="text-gray-700 dark:text-gray-300 mb-2">AI-Powered Study Scheduler</h4>
             <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-2">
-              <li>Led the front-end development of the company's flagship product</li>
-              <li>Improved site performance by 40% through code optimization</li>
-              <li>Mentored junior developers and conducted code reviews</li>
-              <li>Implemented CI/CD pipelines for automated testing and deployment</li>
+              <li>Developed an AI-powered scheduling application for personalized, adaptive study plans</li>
+              <li>Working on it with a few friends</li>
+              <li>Integrated Google Calendar and other task management platforms for real-time updates</li>
+              <li>Designed an AI chatbot for task automation and study assistance</li>
+              <li>Currently in testing phase among students, with plans for wider release</li>
             </ul>
           </div>
 
-          {/* Job 2 */}
+          {/* Toyota Experience */}
           <div className="border-l-4 border-blue-600 pl-6 py-2">
             <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-2">
-              <h3 className="text-xl font-bold">Web Developer</h3>
-              <span className="text-gray-600 dark:text-gray-400">Mar 2018 - Dec 2019</span>
+              <h3 className="text-xl font-bold">Toyota</h3>
+              <span className="text-gray-600 dark:text-gray-400">2024</span>
             </div>
-            <h4 className="text-gray-700 dark:text-gray-300 mb-2">Previous Company</h4>
+            <h4 className="text-gray-700 dark:text-gray-300 mb-2">Software Development (with father)</h4>
             <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-2">
-              <li>Developed and maintained multiple client websites</li>
-              <li>Collaborated with designers to implement responsive designs</li>
-              <li>Integrated RESTful APIs for various web applications</li>
-              <li>Participated in daily stand-ups and sprint planning</li>
+              <li>Assisted in writing software code and developing solutions for internal projects (outsourced to me)</li>
+              <li>Gained hands-on experience in a professional technology environment</li>
+              <li>Learned about industry standards and professional development workflows</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* Volunteering Section */}
+      <section className="mb-16">
+        <h2 className="text-2xl md:text-3xl font-bold mb-6">Volunteering</h2>
+        <div className="space-y-8">
+          {/* School Volunteering */}
+          <div className="border-l-4 border-blue-600 pl-6 py-2">
+            <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-2">
+              <h3 className="text-xl font-bold">Cameron Heights Collegiate Institute</h3>
+              <span className="text-gray-600 dark:text-gray-400">2025</span>
+            </div>
+            <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-2">
+              <li>Helped run various school events and activities</li>
+              <li>Eg: I assisted with Connect With Cameron in grade 9</li>
             </ul>
           </div>
 
-          {/* Job 3 */}
+          {/* Canada Day Event */}
           <div className="border-l-4 border-blue-600 pl-6 py-2">
             <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-2">
-              <h3 className="text-xl font-bold">Junior Developer</h3>
-              <span className="text-gray-600 dark:text-gray-400">Jun 2016 - Feb 2018</span>
+              <h3 className="text-xl font-bold">Canada Day Event</h3>
+              <span className="text-gray-600 dark:text-gray-400">2024</span>
             </div>
-            <h4 className="text-gray-700 dark:text-gray-300 mb-2">First Company</h4>
             <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-2">
-              <li>Assisted senior developers in building web applications</li>
-              <li>Fixed bugs and implemented minor features</li>
-              <li>Developed and maintained documentation</li>
-              <li>Participated in code reviews and learning sessions</li>
+              <li>Checked one of the gates to ensure only authorized members entered</li>
+              <li>Sold tickets for a lucky draw fundraiser</li>
+              <li>Assisted with event organization and crowd management</li>
+            </ul>
+          </div>
+
+          {/* Middle School */}
+          <div className="border-l-4 border-blue-600 pl-6 py-2">
+            <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-2">
+              <h3 className="text-xl font-bold">Middle School STEM Support</h3>
+              <span className="text-gray-600 dark:text-gray-400">2024</span>
+            </div>
+            <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-2">
+              <li>Provided advice and mentorship to younger students (my family members and family friends)</li>
+              <li>Helped the STEM club with Arduino programming and projects</li>
+              <li>Provided assistance to teachers for technical activities</li>
             </ul>
           </div>
         </div>
@@ -153,10 +183,10 @@ export default function AboutPage() {
         <h2 className="text-2xl md:text-3xl font-bold mb-6">Education</h2>
         <div className="border-l-4 border-blue-600 pl-6 py-2">
           <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-2">
-            <h3 className="text-xl font-bold">Bachelor of Science in Computer Science</h3>
-            <span className="text-gray-600 dark:text-gray-400">2012 - 2016</span>
+            <h3 className="text-xl font-bold">High School</h3>
+            <span className="text-gray-600 dark:text-gray-400">2023 - Present</span>
           </div>
-          <h4 className="text-gray-700 dark:text-gray-300">University Name</h4>
+          <h4 className="text-gray-700 dark:text-gray-300">Cameron Heights Collegiate Institute</h4>
         </div>
       </section>
     </div>
