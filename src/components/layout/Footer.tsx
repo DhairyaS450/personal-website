@@ -24,7 +24,8 @@ export default function Footer() {
     e.preventDefault();
     // In a real app, you'd verify this against a secure backend
     // This is just a basic example - replace with your own secure password
-    if (password === process.env.NEXT_PUBLIC_ADMIN_PASSWORD) {
+    const adminPassword = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || "dhairya2025";
+    if (password === adminPassword) {
       setIsAdmin(true);
       localStorage.setItem("isAdmin", "true");
       setMessage("Admin access granted!");

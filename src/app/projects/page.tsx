@@ -4,6 +4,7 @@ import Image from "next/image";
 import { FaGithub, FaExternalLinkAlt, FaDownload } from "react-icons/fa";
 import { useEffect, useRef } from "react";
 import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
 // export const metadata = {
 //   title: "Projects & Achievements | Dhairya Shah",
@@ -171,7 +172,8 @@ const files = [
   },
 ];
 
-export default function ProjectsPage() {
+// Client-side wrapper component to handle URL parameters
+function ProjectsClient() {
   const searchParams = useSearchParams();
   const academicSectionRef = useRef<HTMLElement | null>(null);
   
@@ -315,5 +317,32 @@ export default function ProjectsPage() {
         </div>
       </section>
     </div>
+  );
+}
+
+// Loading fallback component
+function ProjectsLoading() {
+  return (
+    <div className="max-w-7xl mx-auto px-6 md:px-10 py-12">
+      <div className="animate-pulse">
+        <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded w-1/4 mb-6"></div>
+        <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-3/4 mb-12"></div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="bg-gray-100 dark:bg-gray-800 rounded-xl h-96"></div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// The main page component that uses the client component with Suspense
+export default function ProjectsPage() {
+  return (
+    <Suspense fallback={<ProjectsLoading />}>
+      <ProjectsClient />
+    </Suspense>
   );
 } 
