@@ -291,6 +291,20 @@
         "react"
       ],
       "published": true
+    },
+    {
+      "id": "060696a4-7713-4eba-950d-73b2d46815ca",
+      "title": "My Second Ever Post",
+      "slug": "my-second-ever-post",
+      "content": "<ul><li><p>It was at Sheraton, very nerve wracking but very fun we stayed for a few days</p></li></ul><p></p><p><strong>Bold Text</strong></p><p></p><p><strong><em>Bold Italic</em></strong></p><p></p><p><strong><em><u>Bold Italic Underline Final Boss</u></em></strong></p><p><a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"https://www.lipsum.com/feed/html\">https://www.lipsum.com/feed/html</a></p><img src=\"https://plus.unsplash.com/premium_photo-1681426327290-1ec5fb4d3dd8?fm=jpg&amp;q=60&amp;w=3000&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cmVhbGx5JTIwY29vbHxlbnwwfHwwfHx8MA%3D%3D\">",
+      "excerpt": "Deca provincials was a very W experience",
+      "coverImage": "/files/deca.jpg",
+      "publishedAt": "2025-03-08T01:32:36.208Z",
+      "updatedAt": "2025-03-08T01:36:08.890Z",
+      "tags": [
+        "deca"
+      ],
+      "published": true
     }
   ]
 }
