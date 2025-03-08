@@ -1,0 +1,296 @@
+{
+  "projects": [
+    {
+      "id": 1,
+      "title": "TaskTide AI",
+      "description": "An AI-powered study scheduler for students. It uses AI to help students manage their time and study schedule.",
+      "image": "/images/trackai.png",
+      "tags": [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "OpenAI API",
+        "Gemini API",
+        "Firebase"
+      ],
+      "githubUrl": "https://github.com/DhairyaS450/track-ai-web",
+      "liveUrl": "https://tasktide-ai.vercel.app/"
+    },
+    {
+      "id": 2,
+      "title": "Chess Game + Algorithm",
+      "description": "A chess game that allows player vs player and player vs computer. The computer uses the minimax algorithm along with alpha-beta pruning to find the best move.",
+      "image": "/images/project2.jpg",
+      "tags": [
+        "Python",
+        "Pygame",
+        "Minimax Algorithm",
+        "Alpha-Beta Pruning"
+      ],
+      "githubUrl": "https://github.com/DhairyaS450/chess_ai",
+      "liveUrl": "https://github.com/DhairyaS450/chess_ai"
+    },
+    {
+      "id": 3,
+      "title": "EcoReceipts",
+      "description": "A web app created during the SproutHacks 2025 hackathon that allows users to scan their receipts and get a report on the items they bought.",
+      "image": "/images/ecoreceipt.png",
+      "tags": [
+        "HTML",
+        "CSS",
+        "Javascript",
+        "MongoDB",
+        "Express",
+        "Gemini API"
+      ],
+      "githubUrl": "https://github.com/DhairyaS450/ecoreceipts",
+      "liveUrl": "https://ecoscan.photo"
+    },
+    {
+      "id": 4,
+      "title": "Face Recognition App",
+      "description": "A face recognition app that uses the face_recognition library to detect faces and identify them. Users can add their faces to the database and then the app will identify them when they are in the camera feed.",
+      "image": "/images/face.png",
+      "tags": [
+        "Python",
+        "Face Recognition",
+        "OpenCV",
+        "HTML",
+        "CSS",
+        "Javascript",
+        "Flask"
+      ],
+      "githubUrl": "https://github.com/DhairyaS450/FaceRecognitionApp",
+      "liveUrl": "https://github.com/DhairyaS450/FaceRecognitionApp"
+    },
+    {
+      "id": 5,
+      "title": "Replica Of Tetris",
+      "description": "A replica of the classic game Tetris. It is a program in html css and javascript.",
+      "image": "/images/tetris.png",
+      "tags": [
+        "HTML",
+        "CSS",
+        "Javascript"
+      ],
+      "githubUrl": "https://github.com/DhairyaS450/my-version-of-tetris",
+      "liveUrl": "https://dhairyas450.github.io/my-version-of-tetris/"
+    },
+    {
+      "id": 6,
+      "title": "Snake AI Agent",
+      "description": "A python program that uses reinforcement learning to train an AI agent to play the game snake.",
+      "image": "/images/snake.png",
+      "tags": [
+        "Python",
+        "Reinforcement Learning",
+        "PyTorch",
+        "Pygame"
+      ],
+      "githubUrl": "https://github.com/DhairyaS450/snake_ai_agent",
+      "liveUrl": "https://github.com/DhairyaS450/snake_ai_agent"
+    }
+  ],
+  "academicAchievements": [
+    {
+      "title": "Canadian Computing Competition (CCC)",
+      "description": "Scored 73/75 in the Junior Division, ranking among the top performers at school.",
+      "year": "2025"
+    },
+    {
+      "title": "Youth Tech Labs Demo Day",
+      "description": "Presented my project to a panel of judges and got second place, winning $300",
+      "year": "2024"
+    },
+    {
+      "title": "Pascal Math Competition",
+      "description": "Scored around 120, ranking among the top performers at school.",
+      "year": "2024"
+    },
+    {
+      "title": "DECA Provincials",
+      "description": "Competed in Entrepreneurship Team Decision Making (ETDM), focusing on business strategy and tech innovation.",
+      "year": "2025"
+    },
+    {
+      "title": "Hackathon Awards",
+      "description": "Won 'Best use of MongoDB' award at SproutHacks. Participated in multiple hackathons including HawkHacks.",
+      "year": "2025"
+    },
+    {
+      "title": "CIMC Math Competition",
+      "description": "Ranked among the top performers at school.",
+      "year": "2024"
+    }
+  ],
+  "extracurricularActivities": [
+    {
+      "title": "Youth Tech Labs",
+      "description": "Developed AI healthcare application and other tech solutions. Collaborated with peers and presented solutions.",
+      "period": "2024 - Present, Ongoing"
+    },
+    {
+      "title": "Coding Club at Cameron Heights",
+      "description": "Active member learning software development and data science. Participated in various competitions.",
+      "period": "2023 - Present, Ongoing"
+    },
+    {
+      "title": "DECA",
+      "description": "Participated in Entrepreneurship Team Decision Making (ETDM), focusing on business strategy and tech innovation.",
+      "period": "2025"
+    },
+    {
+      "title": "Chess & Tutoring",
+      "description": "Competitive chess player and tutor for mathematics, coding, and chess to younger students (my family members and family friends).",
+      "period": "2023 - Present, Ongoing"
+    },
+    {
+      "title": "Cross Country Running",
+      "description": "Participated in cross country running at school, and have been on the team for 2 years now.",
+      "period": "2023 - Present"
+    },
+    {
+      "title": "Guitar",
+      "description": "Self-taught, and I practice every day",
+      "period": "Ongoing"
+    }
+  ],
+  "files": [
+    {
+      "title": "Resume",
+      "description": "My current resume detailing academic achievements and technical skills",
+      "fileUrl": "/files/resume.pdf",
+      "fileType": "PDF"
+    },
+    {
+      "title": "Youth Tech Labs Demo Day Photo",
+      "description": "Photo of my second place award at the Youth Tech Labs Demo Day",
+      "fileUrl": "/files/ytl_photo.png",
+      "fileType": "PNG"
+    },
+    {
+      "title": "Pascal Math Competition Certificate",
+      "description": "Certificate of achievement from the Pascal Math Competition",
+      "fileUrl": "/files/pascal.jpg",
+      "fileType": "JPEG"
+    },
+    {
+      "title": "CIMC Math Competition Certificate",
+      "description": "Certificate of achievement from the CIMC Math Competition",
+      "fileUrl": "/files/cimc.jpg",
+      "fileType": "JPEG"
+    },
+    {
+      "title": "CCC Score",
+      "description": "Score of 73/75 in the Junior Division of the Canadian Computing Competition",
+      "fileUrl": "/files/ccc_score.png",
+      "fileType": "PNG"
+    },
+    {
+      "title": "DECA Provincial Proof",
+      "description": "Proof of participation in DECA Provincials",
+      "fileUrl": "/files/deca.jpg",
+      "fileType": "JPEG"
+    }
+  ],
+  "aboutMe": {
+    "paragraphs": [
+      "Hi! I'm Dhairya Shah, a high school student, developer, and problem-solver with a passion for building innovative digital solutions. Ever since I started coding, I've been fascinated by how technology can streamline everyday tasks and create meaningful change. ",
+      "I specialize in full-stack development, with a focus on creating scalable and efficient solutions. I'm also experienced in machine learning and AI, and I'm always looking for new ways to use technology to solve problems.",
+      "Beyond coding, I'm actively involved in math competitions, DECA, STEM and chess, always looking for ways to challenge myself and grow. I also enjoy working out, playing the guitar, and exploring new technologies.  ",
+      "I'm always open to collaborating on exciting projects or learning opportunities—feel free to reach out!"
+    ]
+  },
+  "collaborations": [
+    {
+      "title": "TaskTide AI",
+      "period": "Current",
+      "organization": "TaskTide Organization",
+      "description": [
+        "AI-powered scheduling application for personalized, adaptive study plans tailored towards students",
+        "Integrated Google Calendar, working on integrating other task management platforms",
+        "Designed an AI chatbot for task automation and study assistance",
+        "Currently in testing phase with plans for wider release"
+      ]
+    },
+    {
+      "title": "Toyota Projects",
+      "period": "2024 - Present",
+      "organization": "Toyota (with father)",
+      "description": [
+        "Assisted in writing software code and developing solutions for internal projects (some of it outsourced to me)",
+        "Gained hands-on experience in a professional technology environment",
+        "Learned about industry standards and professional development workflows"
+      ]
+    }
+  ],
+  "volunteering": [
+    {
+      "title": "Cameron Heights Collegiate Institute",
+      "period": "2024 - Present",
+      "description": [
+        "Helped run various school events and activities",
+        "Eg: I assisted with Connect With Cameron in 2024"
+      ]
+    },
+    {
+      "title": "Canada Day Event (2024)",
+      "period": "2024",
+      "description": [
+        "Checked one of the gates to ensure only authorized members entered",
+        "Sold tickets for a lucky draw fundraiser",
+        "Assisted with event organization and crowd management"
+      ]
+    },
+    {
+      "title": "Middle School STEM Support",
+      "period": "2024",
+      "description": [
+        "Provided advice and mentorship to younger students",
+        "Helped the STEM club with Arduino programming and projects",
+        "Provided assistance to teachers for technical activities"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "institution": "Cameron Heights Collegiate Institute. This semester: Math, Science, English, Guitar",
+      "degree": "High School",
+      "period": "2023 - Present",
+      "description": ""
+    }
+  ],
+  "home": {
+    "hero": {
+      "title": "Dhairya Shah",
+      "subtitle": "HS Student & Developer",
+      "description": "I'm passionate about building innovative digital experiences that are fast, intuitive, and accessible. With a strong foundation in software development, I specialize in creating web and mobile applications that solve real-world problems. Currently, I'm exploring AI-driven solutions, full-stack development, and efficient system design."
+    },
+    "featuredProjects": {
+      "heading": "Featured Projects",
+      "subheading": "A selection of my recent work. These projects showcase my skills and experience",
+      "projectIds": [
+        1,
+        6,
+        3
+      ]
+    }
+  },
+  "blogPosts": [
+    {
+      "id": "965d3ba5-13c2-4a61-8018-734860c17905",
+      "title": "Test Website Blog",
+      "slug": "test-website-blog",
+      "content": "<h1>Very Cool Heading</h1><p>I want to see if this saves</p><p></p><p><em><u>Suspendisse potenti. Praesent consequat nibh eu tincidunt dictum. Donec sed dignissim est. Proin quis commodo odio. Aliquam eleifend eros ex, id mollis eros luctus non. Mauris blandit dictum risus, sit amet facilisis nisl pulvinar ac. Sed sit amet auctor augue. Nunc porttitor justo eget aliquam posuere. Etiam pretium est felis, at tempor justo dignissim eget. Ut hendrerit at nibh vitae pellentesque. Sed vitae nisl ut dolor suscipit condimentum quis vel lacus. Cras id mauris tellus. Nunc vel feugiat ante. Aenean ut tincidunt elit, vel sagittis augue.</u></em></p><p><em><u><br></u></em></p>",
+      "excerpt": "This blog is purely for testing purposes, to see if the posting mechanism works. Also trying an update rq",
+      "coverImage": "/images/profile.jpg",
+      "publishedAt": "2025-03-08T01:06:40.310Z",
+      "updatedAt": "2025-03-08T01:23:20.830Z",
+      "tags": [
+        "testing",
+        "react"
+      ],
+      "published": true
+    }
+  ]
+}

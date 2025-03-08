@@ -1,13 +1,199 @@
+"use client";
+
 import Image from "next/image";
-import { FaReact, FaNodeJs, FaJs, FaHtml5, FaCss3Alt, FaGitAlt } from "react-icons/fa";
+import { FaReact, FaNodeJs, FaJs, FaHtml5, FaCss3Alt, FaGitAlt, FaPlus, FaTrash, FaEdit } from "react-icons/fa";
 import { SiTypescript, SiNextdotjs, SiTailwindcss, SiPython, SiMongodb, SiFirebase } from "react-icons/si";
+import { useState, useEffect } from "react";
+import { useContent, AboutMeContent, Collaboration, VolunteerExperience, Education } from "@/contexts/ContentContext";
+import EditableContent from "@/components/EditableContent";
+import EditableList from "@/components/EditableList";
 
-export const metadata = {
-  title: "About | Dhairya Shah",
-  description: "Learn more about me, my skills, and my experience",
-};
+// export const metadata = {
+//   title: "About | Dhairya Shah",
+//   description: "Learn more about me, my skills, and my experience",
+// }; gives error since cannot have use client and metadata together
 
-export default function AboutPage() {
+function AboutPageLoading() {
+  return (
+    <div className="max-w-7xl mx-auto px-6 md:px-10 py-12">
+      <div className="animate-pulse">
+        <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded w-1/4 mb-6"></div>
+        <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-3/4 mb-12"></div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="md:col-span-2 space-y-4">
+            <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-full"></div>
+            <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-full"></div>
+            <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-3/4"></div>
+          </div>
+          <div className="h-80 bg-gray-200 dark:bg-gray-700 rounded"></div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function AboutClient() {
+  const { content, isLoading, error, updateContent, isEditMode } = useContent();
+  
+  // Local states for editing
+  const [localAboutMe, setLocalAboutMe] = useState<AboutMeContent | null>(null);
+  const [localCollaborations, setLocalCollaborations] = useState<Collaboration[]>([]);
+  const [localVolunteering, setLocalVolunteering] = useState<VolunteerExperience[]>([]);
+  const [localEducation, setLocalEducation] = useState<Education[]>([]);
+  const [prevEditMode, setPrevEditMode] = useState(false);
+
+  // Initialize local states from content
+  useEffect(() => {
+    if (content) {
+      console.log('Initializing About page from content');
+      setLocalAboutMe(content.aboutMe || { paragraphs: [] });
+      setLocalCollaborations(content.collaborations || []);
+      setLocalVolunteering(content.volunteering || []);
+      setLocalEducation(content.education || []);
+    }
+  }, [content]);
+  
+  // Track edit mode changes
+  useEffect(() => {
+    if (!content) return;
+    setPrevEditMode(isEditMode);
+  }, [isEditMode, content]);
+  
+  // Save changes when exiting edit mode
+  useEffect(() => {
+    if (!content || !localAboutMe) return;
+    
+    if (prevEditMode && !isEditMode) {
+      console.log('Saving About page changes...');
+      
+      // Create updated content object with non-null aboutMe
+      const updatedContent = {
+        ...content,
+        aboutMe: localAboutMe,
+        collaborations: localCollaborations,
+        volunteering: localVolunteering,
+        education: localEducation
+      };
+      
+      updateContent(updatedContent)
+        .then(success => {
+          if (success) {
+            console.log('About page changes saved successfully');
+          } else {
+            console.error('Failed to save About page changes');
+          }
+        })
+        .catch(err => {
+          console.error('Error saving About page changes:', err);
+        });
+    }
+  }, [isEditMode, prevEditMode, content, localAboutMe, localCollaborations, localVolunteering, localEducation, updateContent]);
+
+  // Helper to update a collaboration
+  const updateCollaboration = (index: number, field: keyof Collaboration, value: any) => {
+    const updatedCollaborations = [...localCollaborations];
+    updatedCollaborations[index] = { ...updatedCollaborations[index], [field]: value };
+    setLocalCollaborations(updatedCollaborations);
+  };
+
+  // Helper to add a new collaboration
+  const addCollaboration = () => {
+    const newCollaboration: Collaboration = {
+      title: "New Project",
+      period: "Current",
+      organization: "Organization Name",
+      description: ["Add project description"]
+    };
+    setLocalCollaborations([...localCollaborations, newCollaboration]);
+  };
+
+  // Helper to remove a collaboration
+  const removeCollaboration = (index: number) => {
+    const updatedCollaborations = [...localCollaborations];
+    updatedCollaborations.splice(index, 1);
+    setLocalCollaborations(updatedCollaborations);
+  };
+
+  // Helper to update a volunteer experience
+  const updateVolunteering = (index: number, field: keyof VolunteerExperience, value: any) => {
+    const updatedVolunteering = [...localVolunteering];
+    updatedVolunteering[index] = { ...updatedVolunteering[index], [field]: value };
+    setLocalVolunteering(updatedVolunteering);
+  };
+
+  // Helper to add a new volunteer experience
+  const addVolunteering = () => {
+    const newVolunteering: VolunteerExperience = {
+      title: "New Volunteer Experience",
+      period: "Current",
+      description: ["Add description"]
+    };
+    setLocalVolunteering([...localVolunteering, newVolunteering]);
+  };
+
+  // Helper to remove a volunteer experience
+  const removeVolunteering = (index: number) => {
+    const updatedVolunteering = [...localVolunteering];
+    updatedVolunteering.splice(index, 1);
+    setLocalVolunteering(updatedVolunteering);
+  };
+
+  // Helper to update education
+  const updateEducation = (index: number, field: keyof Education, value: string) => {
+    const updatedEducation = [...localEducation];
+    updatedEducation[index] = { ...updatedEducation[index], [field]: value };
+    setLocalEducation(updatedEducation);
+  };
+
+  // Helper to add education
+  const addEducation = () => {
+    const newEducation: Education = {
+      institution: "New Institution",
+      degree: "Degree/Program",
+      period: "Years",
+      description: "Program details"
+    };
+    setLocalEducation([...localEducation, newEducation]);
+  };
+
+  // Helper to remove education
+  const removeEducation = (index: number) => {
+    const updatedEducation = [...localEducation];
+    updatedEducation.splice(index, 1);
+    setLocalEducation(updatedEducation);
+  };
+
+  // Helper to update about me paragraphs
+  const updateAboutMeParagraph = (index: number, value: string) => {
+    if (!localAboutMe) return;
+    
+    const updatedParagraphs = [...localAboutMe.paragraphs];
+    updatedParagraphs[index] = value;
+    setLocalAboutMe({ ...localAboutMe, paragraphs: updatedParagraphs });
+  };
+
+  // Helper to add a new paragraph
+  const addAboutMeParagraph = () => {
+    if (!localAboutMe) return;
+    
+    const updatedParagraphs = [...localAboutMe.paragraphs, "New paragraph"];
+    setLocalAboutMe({ ...localAboutMe, paragraphs: updatedParagraphs });
+  };
+
+  // Helper to remove a paragraph
+  const removeAboutMeParagraph = (index: number) => {
+    if (!localAboutMe) return;
+    
+    const updatedParagraphs = [...localAboutMe.paragraphs];
+    updatedParagraphs.splice(index, 1);
+    setLocalAboutMe({ ...localAboutMe, paragraphs: updatedParagraphs });
+  };
+
+  if (isLoading) return <AboutPageLoading />;
+  if (error) return <div className="max-w-7xl mx-auto px-6 md:px-10 py-12 text-red-500">Error loading content: {error}</div>;
+  if (!content || !localAboutMe) return <div className="max-w-7xl mx-auto px-6 md:px-10 py-12">Loading content...</div>;
+
   return (
     <div className="max-w-7xl mx-auto px-6 md:px-10 py-12">
       {/* About Me Section */}
@@ -15,18 +201,40 @@ export default function AboutPage() {
         <h1 className="text-3xl md:text-4xl font-bold mb-6">About Me</h1>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           <div className="md:col-span-2">
-            <p className="text-gray-700 dark:text-gray-300 mb-4">
-              Hi! I'm Dhairya Shah, a high school student, developer, and problem-solver with a passion for building innovative digital solutions. Ever since I started coding, I've been fascinated by how technology can streamline everyday tasks and create meaningful change.
-            </p>
-            <p className="text-gray-700 dark:text-gray-300 mb-4">
-              I specialize in full-stack development, with a focus on creating scalable and efficient solutions. I'm also experienced in machine learning and AI, and I'm always looking for new ways to use technology to solve problems.
-            </p>
-            <p className="text-gray-700 dark:text-gray-300 mb-4">
-            Beyond coding, I'm actively involved in math competitions, DECA, STEM and chess, always looking for ways to challenge myself and grow. I also enjoy working out, playing the guitar, and exploring new technologies.
-            </p>
-            <p className="text-gray-700 dark:text-gray-300 mb-4">
-            I'm always open to collaborating on exciting projects or learning opportunities—feel free to reach out!
-            </p>
+            {localAboutMe.paragraphs.map((paragraph, index) => (
+              <div key={index} className="relative group mb-4">
+                {isEditMode ? (
+                  <EditableContent
+                    value={paragraph}
+                    onChange={(value) => updateAboutMeParagraph(index, value)}
+                    as="p"
+                    className="text-gray-700 dark:text-gray-300"
+                    isTextArea
+                  />
+                ) : (
+                  <p className="text-gray-700 dark:text-gray-300">{paragraph}</p>
+                )}
+                
+                {isEditMode && (
+                  <button
+                    onClick={() => removeAboutMeParagraph(index)}
+                    className="absolute top-0 right-0 p-1 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                    aria-label="Remove paragraph"
+                  >
+                    <FaTrash size={10} />
+                  </button>
+                )}
+              </div>
+            ))}
+            
+            {isEditMode && (
+              <button
+                onClick={addAboutMeParagraph}
+                className="mt-4 px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 flex items-center text-sm"
+              >
+                <FaPlus className="mr-1" size={10} /> Add Paragraph
+              </button>
+            )}
           </div>
           <div className="relative h-80 rounded-lg overflow-hidden shadow-xl">
             <Image
@@ -100,95 +308,213 @@ export default function AboutPage() {
       {/* Project Collaborations */}
       <section className="mb-16">
         <h2 className="text-2xl md:text-3xl font-bold mb-6">Project Collaborations</h2>
+        
+        {isEditMode && (
+          <button
+            onClick={addCollaboration}
+            className="mb-6 flex items-center px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition"
+          >
+            <FaPlus className="mr-2" /> Add Collaboration
+          </button>
+        )}
+        
         <div className="space-y-8">
-
-          {/* TaskTide AI */}
-          <div className="border-l-4 border-blue-600 pl-6 py-2">
-            <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-2">
-              <h3 className="text-xl font-bold">TaskTide AI</h3>
-              <span className="text-gray-600 dark:text-gray-400">2025</span>
+          {localCollaborations.map((collab, index) => (
+            <div key={index} className="border-l-4 border-blue-600 pl-6 py-2 relative">
+              {isEditMode && (
+                <button
+                  onClick={() => removeCollaboration(index)}
+                  className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full hover:bg-red-600 transition"
+                  aria-label="Delete Collaboration"
+                >
+                  <FaTrash size={12} />
+                </button>
+              )}
+              
+              <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-2">
+                {isEditMode ? (
+                  <EditableContent
+                    value={collab.title}
+                    onChange={(value) => updateCollaboration(index, 'title', value)}
+                    as="h3"
+                    className="text-xl font-bold"
+                  />
+                ) : (
+                  <h3 className="text-xl font-bold">{collab.title}</h3>
+                )}
+                
+                {isEditMode ? (
+                  <EditableContent
+                    value={collab.period}
+                    onChange={(value) => updateCollaboration(index, 'period', value)}
+                    as="span"
+                    className="text-gray-600 dark:text-gray-400"
+                  />
+                ) : (
+                  <span className="text-gray-600 dark:text-gray-400">{collab.period}</span>
+                )}
+              </div>
+              
+              {isEditMode ? (
+                <EditableContent
+                  value={collab.organization}
+                  onChange={(value) => updateCollaboration(index, 'organization', value)}
+                  as="h4"
+                  className="text-gray-700 dark:text-gray-300 mb-2"
+                />
+              ) : (
+                <h4 className="text-gray-700 dark:text-gray-300 mb-2">{collab.organization}</h4>
+              )}
+              
+              <EditableList
+                items={collab.description}
+                onChange={(newItems) => updateCollaboration(index, 'description', newItems)}
+                itemClassName="text-gray-700 dark:text-gray-300"
+              />
             </div>
-            <h4 className="text-gray-700 dark:text-gray-300 mb-2">AI-Powered Study Scheduler</h4>
-            <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-2">
-              <li>Developed an AI-powered scheduling application for personalized, adaptive study plans</li>
-              <li>Working on it with a few friends</li>
-              <li>Integrated Google Calendar and other task management platforms for real-time updates</li>
-              <li>Designed an AI chatbot for task automation and study assistance</li>
-              <li>Currently in testing phase among students, with plans for wider release</li>
-            </ul>
-          </div>
-
-          {/* Toyota Experience */}
-          <div className="border-l-4 border-blue-600 pl-6 py-2">
-            <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-2">
-              <h3 className="text-xl font-bold">Toyota</h3>
-              <span className="text-gray-600 dark:text-gray-400">2024</span>
-            </div>
-            <h4 className="text-gray-700 dark:text-gray-300 mb-2">Software Development (with father)</h4>
-            <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-2">
-              <li>Assisted in writing software code and developing solutions for internal projects (outsourced to me)</li>
-              <li>Gained hands-on experience in a professional technology environment</li>
-              <li>Learned about industry standards and professional development workflows</li>
-            </ul>
-          </div>
+          ))}
         </div>
       </section>
 
       {/* Volunteering Section */}
       <section className="mb-16">
         <h2 className="text-2xl md:text-3xl font-bold mb-6">Volunteering</h2>
+        
+        {isEditMode && (
+          <button
+            onClick={addVolunteering}
+            className="mb-6 flex items-center px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition"
+          >
+            <FaPlus className="mr-2" /> Add Volunteer Experience
+          </button>
+        )}
+        
         <div className="space-y-8">
-          {/* School Volunteering */}
-          <div className="border-l-4 border-blue-600 pl-6 py-2">
-            <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-2">
-              <h3 className="text-xl font-bold">Cameron Heights Collegiate Institute</h3>
-              <span className="text-gray-600 dark:text-gray-400">2025</span>
+          {localVolunteering.map((volunteer, index) => (
+            <div key={index} className="border-l-4 border-blue-600 pl-6 py-2 relative">
+              {isEditMode && (
+                <button
+                  onClick={() => removeVolunteering(index)}
+                  className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full hover:bg-red-600 transition"
+                  aria-label="Delete Volunteer Experience"
+                >
+                  <FaTrash size={12} />
+                </button>
+              )}
+              
+              <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-2">
+                {isEditMode ? (
+                  <EditableContent
+                    value={volunteer.title}
+                    onChange={(value) => updateVolunteering(index, 'title', value)}
+                    as="h3"
+                    className="text-xl font-bold"
+                  />
+                ) : (
+                  <h3 className="text-xl font-bold">{volunteer.title}</h3>
+                )}
+                
+                {isEditMode ? (
+                  <EditableContent
+                    value={volunteer.period}
+                    onChange={(value) => updateVolunteering(index, 'period', value)}
+                    as="span"
+                    className="text-gray-600 dark:text-gray-400"
+                  />
+                ) : (
+                  <span className="text-gray-600 dark:text-gray-400">{volunteer.period}</span>
+                )}
+              </div>
+              
+              <EditableList
+                items={volunteer.description}
+                onChange={(newItems) => updateVolunteering(index, 'description', newItems)}
+                itemClassName="text-gray-700 dark:text-gray-300"
+              />
             </div>
-            <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-2">
-              <li>Helped run various school events and activities</li>
-              <li>Eg: I assisted with Connect With Cameron in grade 9</li>
-            </ul>
-          </div>
-
-          {/* Canada Day Event */}
-          <div className="border-l-4 border-blue-600 pl-6 py-2">
-            <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-2">
-              <h3 className="text-xl font-bold">Canada Day Event</h3>
-              <span className="text-gray-600 dark:text-gray-400">2024</span>
-            </div>
-            <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-2">
-              <li>Checked one of the gates to ensure only authorized members entered</li>
-              <li>Sold tickets for a lucky draw fundraiser</li>
-              <li>Assisted with event organization and crowd management</li>
-            </ul>
-          </div>
-
-          {/* Middle School */}
-          <div className="border-l-4 border-blue-600 pl-6 py-2">
-            <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-2">
-              <h3 className="text-xl font-bold">Middle School STEM Support</h3>
-              <span className="text-gray-600 dark:text-gray-400">2024</span>
-            </div>
-            <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-2">
-              <li>Provided advice and mentorship to younger students (my family members and family friends)</li>
-              <li>Helped the STEM club with Arduino programming and projects</li>
-              <li>Provided assistance to teachers for technical activities</li>
-            </ul>
-          </div>
+          ))}
         </div>
       </section>
 
       {/* Education Section */}
       <section>
         <h2 className="text-2xl md:text-3xl font-bold mb-6">Education</h2>
-        <div className="border-l-4 border-blue-600 pl-6 py-2">
-          <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-2">
-            <h3 className="text-xl font-bold">High School</h3>
-            <span className="text-gray-600 dark:text-gray-400">2023 - Present</span>
+        
+        {isEditMode && (
+          <button
+            onClick={addEducation}
+            className="mb-6 flex items-center px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition"
+          >
+            <FaPlus className="mr-2" /> Add Education
+          </button>
+        )}
+        
+        {localEducation.map((edu, index) => (
+          <div key={index} className="border-l-4 border-blue-600 pl-6 py-2 relative">
+            {isEditMode && (
+              <button
+                onClick={() => removeEducation(index)}
+                className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full hover:bg-red-600 transition"
+                aria-label="Delete Education"
+              >
+                <FaTrash size={12} />
+              </button>
+            )}
+            
+            <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-2">
+              {isEditMode ? (
+                <EditableContent
+                  value={edu.degree}
+                  onChange={(value) => updateEducation(index, 'degree', value)}
+                  as="h3"
+                  className="text-xl font-bold"
+                />
+              ) : (
+                <h3 className="text-xl font-bold">{edu.degree}</h3>
+              )}
+              
+              {isEditMode ? (
+                <EditableContent
+                  value={edu.period}
+                  onChange={(value) => updateEducation(index, 'period', value)}
+                  as="span"
+                  className="text-gray-600 dark:text-gray-400"
+                />
+              ) : (
+                <span className="text-gray-600 dark:text-gray-400">{edu.period}</span>
+              )}
+            </div>
+            
+            {isEditMode ? (
+              <EditableContent
+                value={edu.institution}
+                onChange={(value) => updateEducation(index, 'institution', value)}
+                as="h4"
+                className="text-gray-700 dark:text-gray-300"
+              />
+            ) : (
+              <h4 className="text-gray-700 dark:text-gray-300">{edu.institution}</h4>
+            )}
+            
+            {edu.description && (
+              isEditMode ? (
+                <EditableContent
+                  value={edu.description}
+                  onChange={(value) => updateEducation(index, 'description', value)}
+                  as="p"
+                  className="text-gray-600 dark:text-gray-400 mt-2"
+                />
+              ) : (
+                <p className="text-gray-600 dark:text-gray-400 mt-2">{edu.description}</p>
+              )
+            )}
           </div>
-          <h4 className="text-gray-700 dark:text-gray-300">Cameron Heights Collegiate Institute</h4>
-        </div>
+        ))}
       </section>
     </div>
   );
+}
+
+export default function AboutPage() {
+  return <AboutClient />;
 } 

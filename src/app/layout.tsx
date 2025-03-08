@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import ThemeProvider from "@/components/ThemeProvider";
+import { ContentProvider } from "@/contexts/ContentContext";
 
 export const metadata: Metadata = {
   title: "Dhairya Shah | Personal Website",
@@ -19,11 +20,13 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className="antialiased">
         <ThemeProvider>
-          <div className="flex flex-col min-h-screen">
-            <Navbar />
-            <main className="flex-grow pt-24">{children}</main>
-            <Footer />
-          </div>
+          <ContentProvider>
+            <div className="flex flex-col min-h-screen">
+              <Navbar />
+              <main className="flex-grow pt-24">{children}</main>
+              <Footer />
+            </div>
+          </ContentProvider>
         </ThemeProvider>
       </body>
     </html>
