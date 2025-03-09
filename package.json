@@ -6,10 +6,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "migrate-to-supabase": "node scripts/migrate-to-supabase.js",
+    "test-supabase": "node scripts/test-supabase.js"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
+    "@supabase/supabase-js": "^2.49.1",
     "@tiptap/extension-heading": "^2.11.5",
     "@tiptap/extension-image": "^2.11.5",
     "@tiptap/extension-link": "^2.11.5",
@@ -17,6 +20,7 @@
     "@tiptap/extension-underline": "^2.11.5",
     "@tiptap/react": "^2.11.5",
     "@tiptap/starter-kit": "^2.11.5",
+    "dotenv": "^16.4.7",
     "framer-motion": "^12.4.10",
     "lucide-react": "^0.479.0",
     "next": "15.2.1",
