@@ -11,6 +11,57 @@ if (!supabaseUrl || !supabaseKey) {
 // Create a single supabase client for interacting with your database
 export const supabase = createClient(supabaseUrl, supabaseKey);
 
+// Type definition for blog posts
+export type BlogPost = {
+  id: string;
+  title: string;
+  slug: string;
+  content: string;
+  excerpt: string;
+  coverImage?: string;
+  publishedAt: string;
+  updatedAt?: string;
+  tags: string[];
+  published: boolean;
+};
+
+// Type definition for home page content
+export type HomeContent = {
+  hero: {
+    title: string;
+    subtitle: string;
+    description: string;
+  };
+  featuredProjects: {
+    heading: string;
+    subheading: string;
+    projectIds: number[];
+  };
+};
+
+// Type definition for education
+export type Education = {
+  institution: string;
+  degree: string;
+  period: string;
+  description?: string;
+};
+
+// Type definition for collaborations
+export type Collaboration = {
+  title: string;
+  period: string;
+  organization: string;
+  description: string[];
+};
+
+// Type definition for volunteer experiences
+export type VolunteerExperience = {
+  title: string;
+  period: string;
+  description: string[];
+};
+
 // Type definition for our website content
 export type WebsiteContent = {
   projects: Project[];
@@ -18,6 +69,12 @@ export type WebsiteContent = {
   extracurricularActivities: Activity[];
   files: File[];
   aboutMe: AboutMe;
+  // Add optional fields for the other content types
+  blogPosts?: BlogPost[];
+  home?: HomeContent;
+  collaborations?: Collaboration[];
+  volunteering?: VolunteerExperience[];
+  education?: Education[];
 };
 
 export type Project = {

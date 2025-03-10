@@ -9,9 +9,9 @@ const EditorClient = dynamic(() => import('./client').then(mod => mod.EditorClie
 });
 
 // Simplify the page component to avoid type errors in production builds
-export default function BlogEditorPage({ params }: any) {
+export default async function BlogEditorPage({ params }: any) {
   // Use type assertion to avoid the params.id error during build
-  const id = (params as { id: string }).id || '';
+  const id = (await params as { id: string }).id || '';
   
   if (!id) {
     return notFound();
