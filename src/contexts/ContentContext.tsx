@@ -145,6 +145,8 @@ export interface WebsiteContent {
   collaborations?: Collaboration[];
   volunteering?: VolunteerExperience[];
   education?: Education[];
+  softSkills?: string[];
+  futureGoals?: string[];
   
   // Home page content
   home?: HomeContent;
@@ -196,6 +198,20 @@ const fallbackContent: WebsiteContent = {
       "Hi! I'm Dhairya Shah, a high school student, developer, and problem-solver with a passion for building innovative digital solutions.",
     ]
   },
+  softSkills: [
+    "Strong communication and presentation skills",
+    "Team leadership and collaboration",
+    "Problem-solving and critical thinking",
+    "Time management and organization",
+    "Adaptability and quick learning"
+  ],
+  futureGoals: [
+    "Pursue a degree in Computer Engineering or ML",
+    "Develop expertise in artificial intelligence and machine learning",
+    "Contribute to open-source projects and build a strong portfolio",
+    "Gain internship experience at tech companies",
+    "Create innovative solutions that have positive social impact"
+  ],
   blogPosts: [],
   academics: {
     title: "Academic Journey",
@@ -205,10 +221,10 @@ const fallbackContent: WebsiteContent = {
         title: "Grade 9",
         status: "(Completed)",
         courses: [
-          { subject: "English", code: "ENG1W" },
-          { subject: "Mathematics", code: "MTH1W" },
-          { subject: "Science", code: "SNC1W" },
-          { subject: "Geography", code: "CGC1D" }
+          { subject: "Geography", code: "CGC1D" },
+          { subject: "Technologies", code: "TIJ1O" },
+          { subject: "French", code: "FSF1D" },
+          { subject: "English", code: "ENG1W" }
         ]
       },
       {

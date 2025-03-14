@@ -3,11 +3,12 @@
 import { useState, useEffect, useRef } from "react";
 import { useContent } from "@/contexts/ContentContext";
 import EditableContent from "@/components/EditableContent";
-import { FaEdit, FaPlus, FaTrash } from "react-icons/fa";
+import { FaEdit, FaPlus, FaTrash, FaDownload } from "react-icons/fa";
 import { usePathname } from "next/navigation";
+import { File as FileType } from "@/contexts/ContentContext";
 
 // export const metadata = {
-//   title: "Academic Journey | Ishaan Dhiman",
+//   title: "Academic Journey | Dhairya Shah",
 //   description: "My educational path, achievements, course history and academic goals",
 // };
 
@@ -92,14 +93,15 @@ function AcademicsClient() {
         title: "Grade 9",
         status: "(Completed)",
         courses: [
-          { subject: "English", code: "ENG1W" },
-          { subject: "Mathematics", code: "MTH1W" },
-          { subject: "Science", code: "SNC1W" },
           { subject: "Geography", code: "CGC1D" },
+          { subject: "Technologies", code: "TIJ1O" },
           { subject: "French", code: "FSF1D" },
-          { subject: "Drama", code: "ADA1O" },
+          { subject: "Phys-ed", code: "PPL1O" },
+          { subject: "Math", code: "MTH1W" },
+          { subject: "Science", code: "SNC1W" },
           { subject: "Business", code: "BBI1O" },
-          { subject: "Hindi", code: "LKHBD" }
+          { subject: "English", code: "ENL1W" },
+          { subject: "Gujarati", code: "LIJBDI" }
         ]
       },
       {
@@ -113,21 +115,23 @@ function AcademicsClient() {
           { subject: "Civics", code: "CHV2O" },
           { subject: "Careers", code: "GLC2O" },
           { subject: "Computer Science", code: "ICS3U" },
-          { subject: "Physics", code: "SPH3U" }
+          { subject: "Accounting", code: "BAF3M" },
+          { subject: "French", code: "FSF2D" },
+          { subject: "Guitar", code: "AMG2O" }
         ]
       },
       {
         title: "Grade 11",
         status: "(Next Year)",
         courses: [
-          { subject: "English", code: "NBE3U" },
+          { subject: "IB English", code: "NBE3U" },
           { subject: "IB Math", code: "MCR3U" },
-          { subject: "IB Physics (Part 1)", code: "SPH4U" },
-          { subject: "Chemistry", code: "SCH3U" },
-          { subject: "Computer Science", code: "ICS4U" },
+          { subject: "IB Physics (Part 1)", code: "SPH3U" },
+          { subject: "IB Chemistry", code: "SCH3U" },
+          { subject: "IB History", code: "CHY4U" },
           { subject: "IB Physics (Part 2)", code: "SPH4U" },
-          { subject: "Yearbook", code: "AWS3M" },
-          { subject: "Personal Fitness", code: "PAF3O" }
+          { subject: "IB TOK", code: "HZT4U" },
+          { subject: "IB French", code: "FSF3U" }
         ]
       },
       {
@@ -147,49 +151,50 @@ function AcademicsClient() {
     ],
     examScores: [
       {
-        name: "2025 CCC Exam",
-        score: "58",
+        name: "2025 Junior CCC Exam",
+        score: "73",
         maxScore: "75",
         year: "2025",
         description: "The Canadian Computing Competition (CCC) is a programming competition that tests problem-solving and algorithmic thinking skills. With each of the questions becoming exponentially harder, I was able to solve 4 questions correctly.",
         highlights: [
-          "Above average performance in algorithmic challenges",
+          "First place in the school for junior division",
           "Strong problem-solving demonstration",
           "Efficient code implementation"
         ]
       },
       {
         name: "Pascal Contest",
-        score: "104",
+        score: "120",
         maxScore: "150",
         year: "2024",
         description: "The Pascal Contest is a mathematics competition that challenges students with complex problem-solving and mathematical reasoning.",
         highlights: [
+          "Ranked high in the school",
           "Excellence in mathematical reasoning",
           "Creative problem-solving approach",
           "Strong analytical skills"
         ]
       },
       {
-        name: "2024 CCC Exam",
-        score: "45",
-        maxScore: "75",
+        name: "CIMC 2024",
+        score: "40",
+        maxScore: "60",
         year: "2024",
-        description: "The Canadian Computing Competition (CCC) is a programming competition that tests problem-solving and algorithmic thinking skills. With each of the questions becoming exponentially harder, I was able to solve 3 questions correctly.",
+        description: "The Canadian Intermediate Mathematics Contest (CIMC) is a mathematics competition that challenges students with complex problem-solving and mathematical reasoning.",
         highlights: [
-          "Above average performance in algorithmic challenges",
-          "Strong problem-solving demonstration",
-          "Efficient code implementation"
+          "Ranked high in the school",
+          "Excellence in mathematical reasoning",
+          "Creative problem-solving approach",
+          "Strong analytical skills"
         ]
       },
       {
         name: "Grade 10 Math final Exam",
-        score: "97",
+        score: "99",
         maxScore: "100",
         year: "2024",
-        description: "I was able to score full marks in the final exam of Grade 10 Math. This was a great achievement for me as I was able to understand the concepts and apply them to solve problems effectively.",
+        description: "I was able to score almost full marksin the final exam of Grade 10 Math. This was a great achievement for me as I was able to understand the concepts and apply them to solve problems effectively.",
         highlights: [
-          "Full marks in the final exam",
           "Strong understanding of the concepts",
           "Efficient problem-solving"
         ]
@@ -198,28 +203,48 @@ function AcademicsClient() {
     academicAchievements: [
       {
         title: "Academic Honor Roll",
-        year: "2023",
-        description: "Maintained high academic standing throughout the academic year."
+        year: "2024",
+        description: "Maintained high academic standing throughout the academic year, averaging 96% in all subjects."
       },
       {
-        title: "Mathematics Club Member",
-        year: "2023",
-        description: "Led weekly problem-solving sessions and organized math competitions."
+        title: "DECA Provincial Competitor",
+        year: "2025",
+        description: "Participated in the DECA Provincial Competition representing CHCI in Entrepreneurship."
+      },
+      {
+        title: "Computer Science Course",
+        year: "2025",
+        description: "Completed the Computer Science course with a grade of 98%, helped and mentored others bringing their grades up by average of 5%."
+      },
+      {
+        title: "SproutHacks Hackathon",
+        year: "2025",
+        description: "Participated in the SproutHacks Hackathon, a 36 hour hackathon and built a great project with my friend, winning 'Best use of MongoDB'"
+      },
+      {
+        title: "Youth Tech Labs Demo Day",
+        year: "2024",
+        description: "Presented my AI-powered project to a panel of judges, winning second place prize of $300"
       }
     ],
     academicGoals: [
-      "Participating in advanced programming competitions",
+      "Improving my grades in all subjects especially in grade 11 IB",
+      "Balancing school, coding, and other activities",
       "Expanding knowledge in artificial intelligence and machine learning",
-      "Maintaining strong academic performance while pursuing practical projects"
+      "Participating in more contests, hackathons and other competitions"
     ]
   });
   
+  const [localFiles, setLocalFiles] = useState<FileType[]>([]);
   const [prevEditMode, setPrevEditMode] = useState(false);
   
   // Initialize local state from content if available
   useEffect(() => {
-    if (content && content.academics) {
-      setLocalAcademics(content.academics);
+    if (content) {
+      if (content.academics) {
+        setLocalAcademics(content.academics);
+      }
+      setLocalFiles(content.files || []);
     }
   }, [content]);
   
@@ -235,7 +260,8 @@ function AcademicsClient() {
     
     const updatedContent = {
       ...content,
-      academics: localAcademics
+      academics: localAcademics,
+      files: localFiles
     };
     
     updateContent(updatedContent)
@@ -246,7 +272,7 @@ function AcademicsClient() {
           console.error('Failed to save academic content');
         }
       });
-  }, [isEditMode, prevEditMode, localAcademics, content, updateContent]);
+  }, [isEditMode, prevEditMode, localAcademics, localFiles, content, updateContent]);
 
   // Scroll to the achievements section
   useEffect(() => {
@@ -428,6 +454,29 @@ function AcademicsClient() {
       newGoals.splice(index, 1);
       return { ...prev, academicGoals: newGoals };
     });
+  };
+
+  // File management functions
+  const updateFile = (index: number, field: keyof FileType, value: string) => {
+    const updatedFiles = [...localFiles];
+    updatedFiles[index] = { ...updatedFiles[index], [field]: value };
+    setLocalFiles(updatedFiles);
+  };
+
+  const addFile = () => {
+    const newFile: FileType = {
+      title: "New File",
+      description: "File description",
+      fileUrl: "/files/example.pdf",
+      fileType: "PDF",
+    };
+    setLocalFiles([...localFiles, newFile]);
+  };
+
+  const removeFile = (index: number) => {
+    const updatedFiles = [...localFiles];
+    updatedFiles.splice(index, 1);
+    setLocalFiles(updatedFiles);
   };
 
   if (isLoading) {
@@ -667,7 +716,7 @@ function AcademicsClient() {
       </section>
 
       {/* Academic Goals */}
-      <section>
+      <section className="mb-16">
         <h2 className="text-2xl font-bold text-indigo-600 dark:text-indigo-400 mb-6">Academic Goals</h2>
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
           <p className="mb-4">I am committed to continuous learning and academic excellence. My current goals include:</p>
@@ -705,6 +754,97 @@ function AcademicsClient() {
             </button>
           )}
         </div>
+      </section>
+      
+      {/* Files and Evidence Section */}
+      <section className="mb-16">
+        <h2 className="text-2xl font-bold text-indigo-600 dark:text-indigo-400 mb-6">Files & Evidence</h2>
+        
+        {isEditMode && (
+          <button
+            onClick={addFile}
+            className="mb-6 flex items-center px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition"
+          >
+            <FaPlus className="mr-2" /> Add File
+          </button>
+        )}
+        
+        {localFiles && localFiles.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {localFiles.map((file, index) => (
+              <div
+                key={index}
+                className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg relative"
+              >
+                {isEditMode && (
+                  <button
+                    onClick={() => removeFile(index)}
+                    className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full hover:bg-red-600 transition"
+                    aria-label="Delete File"
+                  >
+                    <FaTrash size={12} />
+                  </button>
+                )}
+                
+                {isEditMode ? (
+                  <EditableContent
+                    value={file.title}
+                    onChange={(value) => updateFile(index, 'title', value)}
+                    as="h3"
+                    className="text-xl font-bold mb-2"
+                  />
+                ) : (
+                  <h3 className="text-xl font-bold mb-2">{file.title}</h3>
+                )}
+                
+                {isEditMode ? (
+                  <EditableContent
+                    value={file.description}
+                    onChange={(value) => updateFile(index, 'description', value)}
+                    as="p"
+                    className="text-gray-600 dark:text-gray-400 mb-4"
+                    isTextArea
+                  />
+                ) : (
+                  <p className="text-gray-600 dark:text-gray-400 mb-4">{file.description}</p>
+                )}
+                
+                <div className="flex flex-col">
+                  <a
+                    href={file.fileUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center text-blue-600 dark:text-blue-400 hover:underline"
+                  >
+                    <FaDownload className="mr-2" />
+                    Download {file.fileType}
+                  </a>
+                  
+                  {isEditMode && (
+                    <div className="mt-2 flex flex-col space-y-2">
+                      <EditableContent
+                        value={file.fileUrl}
+                        onChange={(value) => updateFile(index, 'fileUrl', value)}
+                        as="span"
+                        className="text-xs text-gray-500"
+                        isPlainValue
+                      />
+                      <EditableContent
+                        value={file.fileType}
+                        onChange={(value) => updateFile(index, 'fileType', value)}
+                        as="span"
+                        className="text-xs text-gray-500"
+                        isPlainValue
+                      />
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-gray-600 dark:text-gray-400">No files available.</p>
+        )}
       </section>
       
       {/* Contact Section */}

@@ -3,10 +3,12 @@
 import Image from "next/image";
 import { FaReact, FaNodeJs, FaJs, FaHtml5, FaCss3Alt, FaGitAlt, FaPlus, FaTrash, FaEdit } from "react-icons/fa";
 import { SiTypescript, SiNextdotjs, SiTailwindcss, SiPython, SiMongodb, SiFirebase } from "react-icons/si";
-import { useState, useEffect } from "react";
-import { useContent, AboutMeContent, Collaboration, VolunteerExperience, Education } from "@/contexts/ContentContext";
+import { useState, useEffect, useRef } from "react";
+import { useContent, AboutMeContent, Collaboration, VolunteerExperience, Education, ExtracurricularActivity } from "@/contexts/ContentContext";
 import EditableContent from "@/components/EditableContent";
 import EditableList from "@/components/EditableList";
+import Link from "next/link";
+import { usePathname, useSearchParams } from "next/navigation";
 
 // export const metadata = {
 //   title: "About | Dhairya Shah",
@@ -35,12 +37,18 @@ function AboutPageLoading() {
 
 function AboutClient() {
   const { content, isLoading, error, updateContent, isEditMode } = useContent();
+  const activitiesRef = useRef<HTMLElement | null>(null);
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   
   // Local states for editing
   const [localAboutMe, setLocalAboutMe] = useState<AboutMeContent | null>(null);
   const [localCollaborations, setLocalCollaborations] = useState<Collaboration[]>([]);
   const [localVolunteering, setLocalVolunteering] = useState<VolunteerExperience[]>([]);
   const [localEducation, setLocalEducation] = useState<Education[]>([]);
+  const [localActivities, setLocalActivities] = useState<ExtracurricularActivity[]>([]);
+  const [localSoftSkills, setLocalSoftSkills] = useState<string[]>([]);
+  const [localFutureGoals, setLocalFutureGoals] = useState<string[]>([]);
   const [prevEditMode, setPrevEditMode] = useState(false);
 
   // Initialize local states from content
@@ -51,6 +59,21 @@ function AboutClient() {
       setLocalCollaborations(content.collaborations || []);
       setLocalVolunteering(content.volunteering || []);
       setLocalEducation(content.education || []);
+      setLocalActivities(content.extracurricularActivities || []);
+      setLocalSoftSkills(content.softSkills || [
+        "Strong communication and presentation skills",
+        "Team leadership and collaboration",
+        "Problem-solving and critical thinking",
+        "Time management and organization",
+        "Adaptability and quick learning"
+      ]);
+      setLocalFutureGoals(content.futureGoals || [
+        "Pursue a degree in Computer Engineering or ML",
+        "Develop expertise in artificial intelligence and machine learning",
+        "Contribute to open-source projects and build a strong portfolio",
+        "Gain internship experience at tech companies",
+        "Create innovative solutions that have positive social impact"
+      ]);
     }
   }, [content]);
   
@@ -73,7 +96,10 @@ function AboutClient() {
         aboutMe: localAboutMe,
         collaborations: localCollaborations,
         volunteering: localVolunteering,
-        education: localEducation
+        education: localEducation,
+        extracurricularActivities: localActivities,
+        softSkills: localSoftSkills,
+        futureGoals: localFutureGoals
       };
       
       updateContent(updatedContent)
@@ -88,7 +114,7 @@ function AboutClient() {
           console.error('Error saving About page changes:', err);
         });
     }
-  }, [isEditMode, prevEditMode, content, localAboutMe, localCollaborations, localVolunteering, localEducation, updateContent]);
+  }, [isEditMode, prevEditMode, content, localAboutMe, localCollaborations, localVolunteering, localEducation, localActivities, localSoftSkills, localFutureGoals, updateContent]);
 
   // Helper to update a collaboration
   const updateCollaboration = (index: number, field: keyof Collaboration, value: any) => {
@@ -190,6 +216,78 @@ function AboutClient() {
     setLocalAboutMe({ ...localAboutMe, paragraphs: updatedParagraphs });
   };
 
+  // Helper to update an activity
+  const updateActivity = (index: number, field: keyof ExtracurricularActivity, value: string) => {
+    const updatedActivities = [...localActivities];
+    updatedActivities[index] = { ...updatedActivities[index], [field]: value };
+    setLocalActivities(updatedActivities);
+  };
+
+  // Helper to add a new activity
+  const addActivity = () => {
+    const newActivity: ExtracurricularActivity = {
+      title: "New Activity",
+      description: "Description of the activity",
+      period: "Current"
+    };
+    setLocalActivities([...localActivities, newActivity]);
+  };
+
+  // Helper to remove an activity
+  const removeActivity = (index: number) => {
+    const updatedActivities = [...localActivities];
+    updatedActivities.splice(index, 1);
+    setLocalActivities(updatedActivities);
+  };
+
+  // Helper functions for soft skills
+  const updateSoftSkill = (index: number, value: string) => {
+    const updatedSkills = [...localSoftSkills];
+    updatedSkills[index] = value;
+    setLocalSoftSkills(updatedSkills);
+  };
+
+  const addSoftSkill = () => {
+    setLocalSoftSkills([...localSoftSkills, "New skill"]);
+  };
+
+  const removeSoftSkill = (index: number) => {
+    const updatedSkills = [...localSoftSkills];
+    updatedSkills.splice(index, 1);
+    setLocalSoftSkills(updatedSkills);
+  };
+
+  // Helper functions for future goals
+  const updateFutureGoal = (index: number, value: string) => {
+    const updatedGoals = [...localFutureGoals];
+    updatedGoals[index] = value;
+    setLocalFutureGoals(updatedGoals);
+  };
+
+  const addFutureGoal = () => {
+    setLocalFutureGoals([...localFutureGoals, "New goal"]);
+  };
+
+  const removeFutureGoal = (index: number) => {
+    const updatedGoals = [...localFutureGoals];
+    updatedGoals.splice(index, 1);
+    setLocalFutureGoals(updatedGoals);
+  };
+
+  // Effect to handle hash navigation
+  useEffect(() => {
+    // Check if URL has activities hash
+    if (window.location.hash === '#activities' && activitiesRef.current) {
+      // Add a small delay to ensure the page is fully loaded
+      setTimeout(() => {
+        activitiesRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }, 300);
+    }
+  }, [pathname, searchParams]);
+
   if (isLoading) return <AboutPageLoading />;
   if (error) return <div className="max-w-7xl mx-auto px-6 md:px-10 py-12 text-red-500">Error loading content: {error}</div>;
   if (!content || !localAboutMe) return <div className="max-w-7xl mx-auto px-6 md:px-10 py-12">Loading content...</div>;
@@ -249,9 +347,9 @@ function AboutClient() {
         </div>
       </section>
 
-      {/* Skills Section */}
+      {/* Technical Skills Section */}
       <section className="mb-16">
-        <h2 className="text-2xl md:text-3xl font-bold mb-6">Skills & Technologies</h2>
+        <h2 className="text-2xl md:text-3xl font-bold mb-6">Technical Skills</h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
           {/* Frontend */}
           <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 text-center">
@@ -305,8 +403,150 @@ function AboutClient() {
         </div>
       </section>
 
-      {/* Project Collaborations */}
+      {/* Soft Skills Section */}
       <section className="mb-16">
+        <h2 className="text-2xl md:text-3xl font-bold mb-6">Soft Skills</h2>
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+          <ul className="space-y-2">
+            {localSoftSkills.map((skill, index) => (
+              <li key={index} className="flex items-start group">
+                <div className="before:content-['•'] before:mr-2 before:text-blue-500 dark:before:text-blue-400 flex-grow">
+                  {isEditMode ? (
+                    <EditableContent
+                      value={skill}
+                      onChange={(value) => updateSoftSkill(index, value)}
+                      as="span"
+                      className="text-gray-700 dark:text-gray-300"
+                    />
+                  ) : (
+                    <span className="text-gray-700 dark:text-gray-300">{skill}</span>
+                  )}
+                </div>
+                {isEditMode && (
+                  <button
+                    onClick={() => removeSoftSkill(index)}
+                    className="opacity-0 group-hover:opacity-100 text-red-500 ml-2"
+                    aria-label="Remove skill"
+                  >
+                    <FaTrash size={12} />
+                  </button>
+                )}
+              </li>
+            ))}
+          </ul>
+          
+          {isEditMode && (
+            <button
+              onClick={addSoftSkill}
+              className="mt-4 px-3 py-1 flex items-center text-sm bg-blue-500 text-white rounded hover:bg-blue-600"
+            >
+              <FaPlus className="mr-1" size={10} /> Add Skill
+            </button>
+          )}
+        </div>
+      </section>
+
+      {/* Future Goals Section */}
+      <section className="mb-16">
+        <h2 className="text-2xl md:text-3xl font-bold mb-6">Future Goals</h2>
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+          <ul className="space-y-3">
+            {localFutureGoals.map((goal, index) => (
+              <li key={index} className="flex items-start group">
+                <div className="before:content-['→'] before:mr-2 before:text-indigo-500 dark:before:text-indigo-400 flex-grow">
+                  {isEditMode ? (
+                    <EditableContent
+                      value={goal}
+                      onChange={(value) => updateFutureGoal(index, value)}
+                      as="span"
+                      className="text-gray-700 dark:text-gray-300"
+                    />
+                  ) : (
+                    <span className="text-gray-700 dark:text-gray-300">{goal}</span>
+                  )}
+                </div>
+                {isEditMode && (
+                  <button
+                    onClick={() => removeFutureGoal(index)}
+                    className="opacity-0 group-hover:opacity-100 text-red-500 ml-2"
+                    aria-label="Remove goal"
+                  >
+                    <FaTrash size={12} />
+                  </button>
+                )}
+              </li>
+            ))}
+          </ul>
+          
+          {isEditMode && (
+            <button
+              onClick={addFutureGoal}
+              className="mt-4 px-3 py-1 flex items-center text-sm bg-blue-500 text-white rounded hover:bg-blue-600"
+            >
+              <FaPlus className="mr-1" size={10} /> Add Goal
+            </button>
+          )}
+        </div>
+      </section>
+
+      {/* Extracurricular Activities Section */}
+      <section ref={activitiesRef} id="activities" className="mb-16">
+        <h2 className="text-2xl md:text-3xl font-bold mb-6">Extracurricular Activities</h2>
+        
+        {isEditMode && (
+          <button
+            onClick={addActivity}
+            className="mb-6 flex items-center px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition"
+          >
+            <FaPlus className="mr-2" /> Add Activity
+          </button>
+        )}
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {localActivities.map((activity, index) => (
+            <div
+              key={index}
+              className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg relative"
+            >
+              {isEditMode && (
+                <button
+                  onClick={() => removeActivity(index)}
+                  className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full hover:bg-red-600 transition"
+                  aria-label="Delete Activity"
+                >
+                  <FaTrash size={12} />
+                </button>
+              )}
+              
+              <EditableContent
+                value={activity.title}
+                onChange={(value) => updateActivity(index, 'title', value)}
+                as="h3"
+                className="text-xl font-bold mb-2"
+              />
+              
+              <EditableContent
+                value={activity.description}
+                onChange={(value) => updateActivity(index, 'description', value)}
+                as="p"
+                className="text-gray-600 dark:text-gray-400 mb-2"
+                isTextArea
+              />
+              
+              <EditableContent
+                value={activity.period}
+                onChange={(value) => updateActivity(index, 'period', value)}
+                as="span"
+                className="text-blue-600 dark:text-blue-400"
+                isPlainValue
+              />
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Project Collaborations */}
+      {/* <section className="mb-16">
         <h2 className="text-2xl md:text-3xl font-bold mb-6">Project Collaborations</h2>
         
         {isEditMode && (
@@ -374,7 +614,7 @@ function AboutClient() {
             </div>
           ))}
         </div>
-      </section>
+      </section> */}
 
       {/* Volunteering Section */}
       <section className="mb-16">
@@ -510,6 +750,11 @@ function AboutClient() {
             )}
           </div>
         ))}
+
+        { /* View more at Academics page*/}
+        <p className="text-gray-600 dark:text-gray-400 mt-2">
+          <Link href="/academics">View more at Academics page</Link>
+        </p>
       </section>
     </div>
   );

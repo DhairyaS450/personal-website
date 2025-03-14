@@ -12,7 +12,16 @@ const nextConfig = {
   eslint: {
     // Also disable ESLint during build
     ignoreDuringBuilds: true,
-  }
+  },
+  images: {
+    // Allow images from the public folder or from external sources like google
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
+    ],
+  },
 };
 
 module.exports = nextConfig; 

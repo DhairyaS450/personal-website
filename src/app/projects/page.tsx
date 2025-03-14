@@ -6,7 +6,8 @@ import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 import EditableContent from "@/components/EditableContent";
-import { useContent, Project, AcademicAchievement, ExtracurricularActivity, File as FileType } from "@/contexts/ContentContext";
+import EditableList from "@/components/EditableList";
+import { useContent, Project, AcademicAchievement, ExtracurricularActivity, File as FileType, Collaboration } from "@/contexts/ContentContext";
 
 // export const metadata = {
 //   title: "Projects & Achievements | Dhairya Shah",
@@ -203,6 +204,7 @@ function ProjectsClient() {
   const [localAchievements, setLocalAchievements] = useState<AcademicAchievement[]>([]);
   const [localActivities, setLocalActivities] = useState<ExtracurricularActivity[]>([]);
   const [localFiles, setLocalFiles] = useState<FileType[]>([]);
+  const [localCollaborations, setLocalCollaborations] = useState<Collaboration[]>([]);
   const [prevEditMode, setPrevEditMode] = useState(false);
 
   // Initialize local states from content
@@ -214,6 +216,7 @@ function ProjectsClient() {
       setLocalAchievements(content.academicAchievements || []);
       setLocalActivities(content.extracurricularActivities || []);
       setLocalFiles(content.files || files); // Fallback to static files if none in content
+      setLocalCollaborations(content.collaborations || []);
     }
   }, [content]);
   
@@ -239,7 +242,8 @@ function ProjectsClient() {
         projects: localProjects,
         academicAchievements: localAchievements,
         extracurricularActivities: localActivities,
-        files: localFiles
+        files: localFiles,
+        collaborations: localCollaborations
       };
       
       updateContent(updatedContent)
@@ -254,7 +258,7 @@ function ProjectsClient() {
           console.error('Error saving changes:', err);
         });
     }
-  }, [isEditMode, prevEditMode, content, localProjects, localAchievements, localActivities, localFiles, updateContent]);
+  }, [isEditMode, prevEditMode, localProjects, localAchievements, localActivities, localFiles, localCollaborations, content, updateContent]);
 
   // Scroll to academic section if needed
   useEffect(() => {
@@ -360,6 +364,29 @@ function ProjectsClient() {
     const updatedFiles = [...localFiles];
     updatedFiles.splice(index, 1);
     setLocalFiles(updatedFiles);
+  };
+
+  // Collaboration update handlers
+  const updateCollaboration = (index: number, field: keyof Collaboration, value: any) => {
+    const updatedCollaborations = [...localCollaborations];
+    updatedCollaborations[index] = { ...updatedCollaborations[index], [field]: value };
+    setLocalCollaborations(updatedCollaborations);
+  };
+
+  const addCollaboration = () => {
+    const newCollaboration: Collaboration = {
+      title: "New Project",
+      period: "Current",
+      organization: "Organization Name",
+      description: ["Add project description"]
+    };
+    setLocalCollaborations([...localCollaborations, newCollaboration]);
+  };
+
+  const removeCollaboration = (index: number) => {
+    const updatedCollaborations = [...localCollaborations];
+    updatedCollaborations.splice(index, 1);
+    setLocalCollaborations(updatedCollaborations);
   };
 
   // Make sure we always have data to display, even if localFiles is empty
@@ -524,6 +551,77 @@ function ProjectsClient() {
         </div>
       </section>
 
+      {/* Project Collaborations */}
+      <section className="mb-16">
+        <h2 className="text-2xl md:text-3xl font-bold mb-6">Project Collaborations</h2>
+        
+        {isEditMode && (
+          <button
+            onClick={addCollaboration}
+            className="mb-6 flex items-center px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition"
+          >
+            <FaPlus className="mr-2" /> Add Collaboration
+          </button>
+        )}
+        
+        <div className="space-y-8">
+          {localCollaborations.map((collab, index) => (
+            <div key={index} className="border-l-4 border-blue-600 pl-6 py-2 relative">
+              {isEditMode && (
+                <button
+                  onClick={() => removeCollaboration(index)}
+                  className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full hover:bg-red-600 transition"
+                  aria-label="Delete Collaboration"
+                >
+                  <FaTrash size={12} />
+                </button>
+              )}
+              
+              <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-2">
+                {isEditMode ? (
+                  <EditableContent
+                    value={collab.title}
+                    onChange={(value) => updateCollaboration(index, 'title', value)}
+                    as="h3"
+                    className="text-xl font-bold"
+                  />
+                ) : (
+                  <h3 className="text-xl font-bold">{collab.title}</h3>
+                )}
+                
+                {isEditMode ? (
+                  <EditableContent
+                    value={collab.period}
+                    onChange={(value) => updateCollaboration(index, 'period', value)}
+                    as="span"
+                    className="text-gray-600 dark:text-gray-400"
+                  />
+                ) : (
+                  <span className="text-gray-600 dark:text-gray-400">{collab.period}</span>
+                )}
+              </div>
+              
+              {isEditMode ? (
+                <EditableContent
+                  value={collab.organization}
+                  onChange={(value) => updateCollaboration(index, 'organization', value)}
+                  as="h4"
+                  className="text-gray-700 dark:text-gray-300 mb-2"
+                />
+              ) : (
+                <h4 className="text-gray-700 dark:text-gray-300 mb-2">{collab.organization}</h4>
+              )}
+              
+              <EditableList
+                items={collab.description}
+                onChange={(newItems) => updateCollaboration(index, 'description', newItems)}
+                itemClassName="text-gray-700 dark:text-gray-300"
+              />
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* Academic Achievements Section */}
       {/* <section ref={academicSectionRef} id="academic-achievements" className="mb-16">
         <h2 className="text-2xl md:text-3xl font-bold mb-6">Academic Achievements</h2>
@@ -581,7 +679,7 @@ function ProjectsClient() {
       </section> */}
 
       {/* Extracurricular Activities Section */}
-      <section className="mb-16">
+      {/* <section className="mb-16">
         <h2 className="text-2xl md:text-3xl font-bold mb-6">Extracurricular Activities</h2>
         
         {isEditMode && (
@@ -634,10 +732,10 @@ function ProjectsClient() {
             </div>
           ))}
         </div>
-      </section>
+      </section> */}
 
       {/* Files and Evidence Section */}
-      <section>
+      {/* <section>
         <h2 className="text-2xl md:text-3xl font-bold mb-6">Files & Evidence</h2>
         
         {isEditMode && (
@@ -723,9 +821,10 @@ function ProjectsClient() {
             ))}
           </div>
         ) : (
-          <p className="text-gray-600 dark:text-gray-400">No files or evidence available.</p>
+          <p className="text-gray-600 dark:text-gray-400">No files available.</p>
         )}
-      </section>
+      </section> */}
+
     </div>
   );
 }
