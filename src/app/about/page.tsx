@@ -3,12 +3,12 @@
 import Image from "next/image";
 import { FaReact, FaNodeJs, FaJs, FaHtml5, FaCss3Alt, FaGitAlt, FaPlus, FaTrash, FaEdit } from "react-icons/fa";
 import { SiTypescript, SiNextdotjs, SiTailwindcss, SiPython, SiMongodb, SiFirebase } from "react-icons/si";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
 import { useContent, AboutMeContent, Collaboration, VolunteerExperience, Education, ExtracurricularActivity } from "@/contexts/ContentContext";
 import EditableContent from "@/components/EditableContent";
 import EditableList from "@/components/EditableList";
 import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 // export const metadata = {
 //   title: "About | Dhairya Shah",
@@ -35,11 +35,43 @@ function AboutPageLoading() {
   );
 }
 
+// Import useSearchParams inside the client component
 function AboutClient() {
   const { content, isLoading, error, updateContent, isEditMode } = useContent();
   const activitiesRef = useRef<HTMLElement | null>(null);
   const pathname = usePathname();
-  const searchParams = useSearchParams();
+  
+  // Get hash from window location instead of using useSearchParams
+  const [hash, setHash] = useState<string>('');
+  
+  useEffect(() => {
+    // This will run only in the client, so window is available
+    setHash(window.location.hash);
+    
+    // Listen for hash changes
+    const handleHashChange = () => {
+      setHash(window.location.hash);
+    };
+    
+    window.addEventListener('hashchange', handleHashChange);
+    return () => {
+      window.removeEventListener('hashchange', handleHashChange);
+    };
+  }, []);
+  
+  // Effect to handle hash navigation
+  useEffect(() => {
+    // Check if URL has activities hash
+    if (hash === '#activities' && activitiesRef.current) {
+      // Add a small delay to ensure the page is fully loaded
+      setTimeout(() => {
+        activitiesRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }, 300);
+    }
+  }, [hash]);
   
   // Local states for editing
   const [localAboutMe, setLocalAboutMe] = useState<AboutMeContent | null>(null);
@@ -273,20 +305,6 @@ function AboutClient() {
     updatedGoals.splice(index, 1);
     setLocalFutureGoals(updatedGoals);
   };
-
-  // Effect to handle hash navigation
-  useEffect(() => {
-    // Check if URL has activities hash
-    if (window.location.hash === '#activities' && activitiesRef.current) {
-      // Add a small delay to ensure the page is fully loaded
-      setTimeout(() => {
-        activitiesRef.current?.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
-        });
-      }, 300);
-    }
-  }, [pathname, searchParams]);
 
   if (isLoading) return <AboutPageLoading />;
   if (error) return <div className="max-w-7xl mx-auto px-6 md:px-10 py-12 text-red-500">Error loading content: {error}</div>;
@@ -761,5 +779,9 @@ function AboutClient() {
 }
 
 export default function AboutPage() {
-  return <AboutClient />;
+  return (
+    <Suspense fallback={<AboutPageLoading />}>
+      <AboutClient />
+    </Suspense>
+  );
 } 
