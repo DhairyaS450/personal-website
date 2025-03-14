@@ -525,7 +525,7 @@ function ProjectsClient() {
       </section>
 
       {/* Academic Achievements Section */}
-      <section ref={academicSectionRef} id="academic-achievements" className="mb-16">
+      {/* <section ref={academicSectionRef} id="academic-achievements" className="mb-16">
         <h2 className="text-2xl md:text-3xl font-bold mb-6">Academic Achievements</h2>
         
         {isEditMode && (
@@ -578,7 +578,7 @@ function ProjectsClient() {
             </div>
           ))}
         </div>
-      </section>
+      </section> */}
 
       {/* Extracurricular Activities Section */}
       <section className="mb-16">

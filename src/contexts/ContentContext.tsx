@@ -103,6 +103,36 @@ export interface HomeContent {
   };
 }
 
+// Academics page types
+export interface CourseEntry {
+  subject: string;
+  code: string;
+}
+
+export interface GradeSection {
+  title: string;
+  status: string;
+  courses: CourseEntry[];
+}
+
+export interface ExamScore {
+  name: string;
+  score: string;
+  maxScore: string;
+  year: string;
+  description: string;
+  highlights: string[];
+}
+
+export interface AcademicsContent {
+  title: string;
+  subtitle: string;
+  courseHistory: GradeSection[];
+  examScores: ExamScore[];
+  academicAchievements: AcademicAchievement[];
+  academicGoals: string[];
+}
+
 export interface WebsiteContent {
   // Projects page content
   projects: Project[];
@@ -121,6 +151,9 @@ export interface WebsiteContent {
   
   // Blog content
   blogPosts?: BlogPost[];
+  
+  // Academics page content
+  academics?: AcademicsContent;
 }
 
 // Fallback content in case API fails
@@ -163,7 +196,59 @@ const fallbackContent: WebsiteContent = {
       "Hi! I'm Dhairya Shah, a high school student, developer, and problem-solver with a passion for building innovative digital solutions.",
     ]
   },
-  blogPosts: []
+  blogPosts: [],
+  academics: {
+    title: "Academic Journey",
+    subtitle: "I currently attend Cameron Heights Collegiate Institute and am in the IB program.\nMy educational path, achievements, and course history",
+    courseHistory: [
+      {
+        title: "Grade 9",
+        status: "(Completed)",
+        courses: [
+          { subject: "English", code: "ENG1W" },
+          { subject: "Mathematics", code: "MTH1W" },
+          { subject: "Science", code: "SNC1W" },
+          { subject: "Geography", code: "CGC1D" }
+        ]
+      },
+      {
+        title: "Grade 10",
+        status: "(Current Year)",
+        courses: [
+          { subject: "English", code: "ENG2D" },
+          { subject: "Math", code: "MPM2D" },
+          { subject: "Science", code: "SNC2D" },
+          { subject: "History", code: "CHC2D" }
+        ]
+      }
+    ],
+    examScores: [
+      {
+        name: "2025 CCC Exam",
+        score: "58",
+        maxScore: "75",
+        year: "2025",
+        description: "The Canadian Computing Competition (CCC) is a programming competition that tests problem-solving and algorithmic thinking skills.",
+        highlights: [
+          "Above average performance in algorithmic challenges",
+          "Strong problem-solving demonstration",
+          "Efficient code implementation"
+        ]
+      }
+    ],
+    academicAchievements: [
+      {
+        title: "Academic Honor Roll",
+        year: "2023",
+        description: "Maintained high academic standing throughout the academic year."
+      }
+    ],
+    academicGoals: [
+      "Participating in advanced programming competitions",
+      "Expanding knowledge in artificial intelligence and machine learning",
+      "Maintaining strong academic performance while pursuing practical projects"
+    ]
+  }
 };
 
 interface ContentContextType {
