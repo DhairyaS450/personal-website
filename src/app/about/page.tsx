@@ -1,12 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { FaReact, FaNodeJs, FaJs, FaHtml5, FaCss3Alt, FaGitAlt, FaPlus, FaTrash, FaEdit } from "react-icons/fa";
+import { FaReact, FaNodeJs, FaJs, FaHtml5, FaCss3Alt, FaGitAlt, FaPlus, FaTrash } from "react-icons/fa";
 import { SiTypescript, SiNextdotjs, SiTailwindcss, SiPython, SiMongodb, SiFirebase } from "react-icons/si";
-import { useState, useEffect, useRef, Suspense } from "react";
-import { useContent, AboutMeContent, Collaboration, VolunteerExperience, Education, ExtracurricularActivity } from "@/contexts/ContentContext";
+import { useState, useEffect, Suspense } from "react";
+import { useContent, AboutMeContent, Collaboration, Education } from "@/contexts/ContentContext";
 import EditableContent from "@/components/EditableContent";
-import EditableList from "@/components/EditableList";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -38,8 +37,6 @@ function AboutPageLoading() {
 // Import useSearchParams inside the client component
 function AboutClient() {
   const { content, isLoading, error, updateContent, isEditMode } = useContent();
-  const activitiesRef = useRef<HTMLElement | null>(null);
-  const pathname = usePathname();
   
   // Get hash from window location instead of using useSearchParams
   const [hash, setHash] = useState<string>('');
@@ -59,26 +56,10 @@ function AboutClient() {
     };
   }, []);
   
-  // Effect to handle hash navigation
-  useEffect(() => {
-    // Check if URL has activities hash
-    if (hash === '#activities' && activitiesRef.current) {
-      // Add a small delay to ensure the page is fully loaded
-      setTimeout(() => {
-        activitiesRef.current?.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
-        });
-      }, 300);
-    }
-  }, [hash]);
-  
   // Local states for editing
   const [localAboutMe, setLocalAboutMe] = useState<AboutMeContent | null>(null);
   const [localCollaborations, setLocalCollaborations] = useState<Collaboration[]>([]);
-  const [localVolunteering, setLocalVolunteering] = useState<VolunteerExperience[]>([]);
   const [localEducation, setLocalEducation] = useState<Education[]>([]);
-  const [localActivities, setLocalActivities] = useState<ExtracurricularActivity[]>([]);
   const [localSoftSkills, setLocalSoftSkills] = useState<string[]>([]);
   const [localFutureGoals, setLocalFutureGoals] = useState<string[]>([]);
   const [prevEditMode, setPrevEditMode] = useState(false);
@@ -89,9 +70,7 @@ function AboutClient() {
       console.log('Initializing About page from content');
       setLocalAboutMe(content.aboutMe || { paragraphs: [] });
       setLocalCollaborations(content.collaborations || []);
-      setLocalVolunteering(content.volunteering || []);
       setLocalEducation(content.education || []);
-      setLocalActivities(content.extracurricularActivities || []);
       setLocalSoftSkills(content.softSkills || [
         "Strong communication and presentation skills",
         "Team leadership and collaboration",
@@ -127,9 +106,7 @@ function AboutClient() {
         ...content,
         aboutMe: localAboutMe,
         collaborations: localCollaborations,
-        volunteering: localVolunteering,
         education: localEducation,
-        extracurricularActivities: localActivities,
         softSkills: localSoftSkills,
         futureGoals: localFutureGoals
       };
@@ -146,56 +123,7 @@ function AboutClient() {
           console.error('Error saving About page changes:', err);
         });
     }
-  }, [isEditMode, prevEditMode, content, localAboutMe, localCollaborations, localVolunteering, localEducation, localActivities, localSoftSkills, localFutureGoals, updateContent]);
-
-  // Helper to update a collaboration
-  const updateCollaboration = (index: number, field: keyof Collaboration, value: any) => {
-    const updatedCollaborations = [...localCollaborations];
-    updatedCollaborations[index] = { ...updatedCollaborations[index], [field]: value };
-    setLocalCollaborations(updatedCollaborations);
-  };
-
-  // Helper to add a new collaboration
-  const addCollaboration = () => {
-    const newCollaboration: Collaboration = {
-      title: "New Project",
-      period: "Current",
-      organization: "Organization Name",
-      description: ["Add project description"]
-    };
-    setLocalCollaborations([...localCollaborations, newCollaboration]);
-  };
-
-  // Helper to remove a collaboration
-  const removeCollaboration = (index: number) => {
-    const updatedCollaborations = [...localCollaborations];
-    updatedCollaborations.splice(index, 1);
-    setLocalCollaborations(updatedCollaborations);
-  };
-
-  // Helper to update a volunteer experience
-  const updateVolunteering = (index: number, field: keyof VolunteerExperience, value: any) => {
-    const updatedVolunteering = [...localVolunteering];
-    updatedVolunteering[index] = { ...updatedVolunteering[index], [field]: value };
-    setLocalVolunteering(updatedVolunteering);
-  };
-
-  // Helper to add a new volunteer experience
-  const addVolunteering = () => {
-    const newVolunteering: VolunteerExperience = {
-      title: "New Volunteer Experience",
-      period: "Current",
-      description: ["Add description"]
-    };
-    setLocalVolunteering([...localVolunteering, newVolunteering]);
-  };
-
-  // Helper to remove a volunteer experience
-  const removeVolunteering = (index: number) => {
-    const updatedVolunteering = [...localVolunteering];
-    updatedVolunteering.splice(index, 1);
-    setLocalVolunteering(updatedVolunteering);
-  };
+  }, [isEditMode, prevEditMode, content, localAboutMe, localCollaborations, localEducation, localSoftSkills, localFutureGoals, updateContent]);
 
   // Helper to update education
   const updateEducation = (index: number, field: keyof Education, value: string) => {
@@ -246,30 +174,6 @@ function AboutClient() {
     const updatedParagraphs = [...localAboutMe.paragraphs];
     updatedParagraphs.splice(index, 1);
     setLocalAboutMe({ ...localAboutMe, paragraphs: updatedParagraphs });
-  };
-
-  // Helper to update an activity
-  const updateActivity = (index: number, field: keyof ExtracurricularActivity, value: string) => {
-    const updatedActivities = [...localActivities];
-    updatedActivities[index] = { ...updatedActivities[index], [field]: value };
-    setLocalActivities(updatedActivities);
-  };
-
-  // Helper to add a new activity
-  const addActivity = () => {
-    const newActivity: ExtracurricularActivity = {
-      title: "New Activity",
-      description: "Description of the activity",
-      period: "Current"
-    };
-    setLocalActivities([...localActivities, newActivity]);
-  };
-
-  // Helper to remove an activity
-  const removeActivity = (index: number) => {
-    const updatedActivities = [...localActivities];
-    updatedActivities.splice(index, 1);
-    setLocalActivities(updatedActivities);
   };
 
   // Helper functions for soft skills
@@ -507,197 +411,11 @@ function AboutClient() {
         </div>
       </section>
 
-      {/* Extracurricular Activities Section */}
-      <section ref={activitiesRef} id="activities" className="mb-16">
-        <h2 className="text-2xl md:text-3xl font-bold mb-6">Extracurricular Activities</h2>
-        
-        {isEditMode && (
-          <button
-            onClick={addActivity}
-            className="mb-6 flex items-center px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition"
-          >
-            <FaPlus className="mr-2" /> Add Activity
-          </button>
-        )}
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {localActivities.map((activity, index) => (
-            <div
-              key={index}
-              className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg relative"
-            >
-              {isEditMode && (
-                <button
-                  onClick={() => removeActivity(index)}
-                  className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full hover:bg-red-600 transition"
-                  aria-label="Delete Activity"
-                >
-                  <FaTrash size={12} />
-                </button>
-              )}
-              
-              <EditableContent
-                value={activity.title}
-                onChange={(value) => updateActivity(index, 'title', value)}
-                as="h3"
-                className="text-xl font-bold mb-2"
-              />
-              
-              <EditableContent
-                value={activity.description}
-                onChange={(value) => updateActivity(index, 'description', value)}
-                as="p"
-                className="text-gray-600 dark:text-gray-400 mb-2"
-                isTextArea
-              />
-              
-              <EditableContent
-                value={activity.period}
-                onChange={(value) => updateActivity(index, 'period', value)}
-                as="span"
-                className="text-blue-600 dark:text-blue-400"
-                isPlainValue
-              />
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Project Collaborations */}
-      {/* <section className="mb-16">
-        <h2 className="text-2xl md:text-3xl font-bold mb-6">Project Collaborations</h2>
-        
-        {isEditMode && (
-          <button
-            onClick={addCollaboration}
-            className="mb-6 flex items-center px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition"
-          >
-            <FaPlus className="mr-2" /> Add Collaboration
-          </button>
-        )}
-        
-        <div className="space-y-8">
-          {localCollaborations.map((collab, index) => (
-            <div key={index} className="border-l-4 border-blue-600 pl-6 py-2 relative">
-              {isEditMode && (
-                <button
-                  onClick={() => removeCollaboration(index)}
-                  className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full hover:bg-red-600 transition"
-                  aria-label="Delete Collaboration"
-                >
-                  <FaTrash size={12} />
-                </button>
-              )}
-              
-              <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-2">
-                {isEditMode ? (
-                  <EditableContent
-                    value={collab.title}
-                    onChange={(value) => updateCollaboration(index, 'title', value)}
-                    as="h3"
-                    className="text-xl font-bold"
-                  />
-                ) : (
-                  <h3 className="text-xl font-bold">{collab.title}</h3>
-                )}
-                
-                {isEditMode ? (
-                  <EditableContent
-                    value={collab.period}
-                    onChange={(value) => updateCollaboration(index, 'period', value)}
-                    as="span"
-                    className="text-gray-600 dark:text-gray-400"
-                  />
-                ) : (
-                  <span className="text-gray-600 dark:text-gray-400">{collab.period}</span>
-                )}
-              </div>
-              
-              {isEditMode ? (
-                <EditableContent
-                  value={collab.organization}
-                  onChange={(value) => updateCollaboration(index, 'organization', value)}
-                  as="h4"
-                  className="text-gray-700 dark:text-gray-300 mb-2"
-                />
-              ) : (
-                <h4 className="text-gray-700 dark:text-gray-300 mb-2">{collab.organization}</h4>
-              )}
-              
-              <EditableList
-                items={collab.description}
-                onChange={(newItems) => updateCollaboration(index, 'description', newItems)}
-                itemClassName="text-gray-700 dark:text-gray-300"
-              />
-            </div>
-          ))}
-        </div>
-      </section> */}
-
-      {/* Volunteering Section */}
-      <section className="mb-16">
-        <h2 className="text-2xl md:text-3xl font-bold mb-6">Volunteering</h2>
-        
-        {isEditMode && (
-          <button
-            onClick={addVolunteering}
-            className="mb-6 flex items-center px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition"
-          >
-            <FaPlus className="mr-2" /> Add Volunteer Experience
-          </button>
-        )}
-        
-        <div className="space-y-8">
-          {localVolunteering.map((volunteer, index) => (
-            <div key={index} className="border-l-4 border-blue-600 pl-6 py-2 relative">
-              {isEditMode && (
-                <button
-                  onClick={() => removeVolunteering(index)}
-                  className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full hover:bg-red-600 transition"
-                  aria-label="Delete Volunteer Experience"
-                >
-                  <FaTrash size={12} />
-                </button>
-              )}
-              
-              <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-2">
-                {isEditMode ? (
-                  <EditableContent
-                    value={volunteer.title}
-                    onChange={(value) => updateVolunteering(index, 'title', value)}
-                    as="h3"
-                    className="text-xl font-bold"
-                  />
-                ) : (
-                  <h3 className="text-xl font-bold">{volunteer.title}</h3>
-                )}
-                
-                {isEditMode ? (
-                  <EditableContent
-                    value={volunteer.period}
-                    onChange={(value) => updateVolunteering(index, 'period', value)}
-                    as="span"
-                    className="text-gray-600 dark:text-gray-400"
-                  />
-                ) : (
-                  <span className="text-gray-600 dark:text-gray-400">{volunteer.period}</span>
-                )}
-              </div>
-              
-              <EditableList
-                items={volunteer.description}
-                onChange={(newItems) => updateVolunteering(index, 'description', newItems)}
-                itemClassName="text-gray-700 dark:text-gray-300"
-              />
-            </div>
-          ))}
-        </div>
-      </section>
-
       {/* Education Section */}
       <section>
         <h2 className="text-2xl md:text-3xl font-bold mb-6">Education</h2>
         
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
         {isEditMode && (
           <button
             onClick={addEducation}
@@ -768,10 +486,18 @@ function AboutClient() {
             )}
           </div>
         ))}
+        </div>
 
         { /* View more at Academics page*/}
-        <p className="text-gray-600 dark:text-gray-400 mt-2">
+        <p className="text-gray-600 dark:text-gray-400 mt-4">
           <Link href="/academics">View more at Academics page</Link>
+        </p>
+
+        { /* Link to Activities page */}
+        <p className="text-gray-600 dark:text-gray-400 mt-2">
+          <Link href="/activities" className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300">
+            See my activities, volunteering work, and services on the Activities page →
+          </Link>
         </p>
       </section>
     </div>

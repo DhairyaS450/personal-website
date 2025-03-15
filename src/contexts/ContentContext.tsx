@@ -7,18 +7,6 @@ import {
   useEffect,
   ReactNode,
 } from "react";
-import { 
-  WebsiteContent as SupabaseContent, 
-  Project as SupabaseProject, 
-  Achievement, 
-  Activity,
-  File as SupabaseFile,
-  AboutMe,
-  BlogPost as SupabaseBlogPost
-} from '@/lib/supabase';
-
-// Add this at the top of the file, after imports
-const ADMIN_TOKEN = process.env.ADMIN_API_TOKEN || 'fallback-admin-token-12345';
 
 // Define types for our content for backward compatibility
 export interface Project {
@@ -133,6 +121,27 @@ export interface AcademicsContent {
   academicGoals: string[];
 }
 
+export interface Testimonial {
+  name: string;
+  role: string;
+  text: string;
+  avatarUrl?: string;
+}
+
+export interface Service {
+  title: string;
+  description: string;
+  icon?: string;
+  features?: string[];
+}
+
+export interface ProjectFile {
+  title: string;
+  description: string;
+  fileUrl: string;
+  fileType: string;
+}
+
 export interface WebsiteContent {
   // Projects page content
   projects: Project[];
@@ -156,6 +165,10 @@ export interface WebsiteContent {
   
   // Academics page content
   academics?: AcademicsContent;
+
+  projectFiles?: ProjectFile[];
+  testimonials?: Testimonial[];
+  services?: Service[];
 }
 
 // Fallback content in case API fails
@@ -198,6 +211,29 @@ const fallbackContent: WebsiteContent = {
       "Hi! I'm Dhairya Shah, a high school student, developer, and problem-solver with a passion for building innovative digital solutions.",
     ]
   },
+  collaborations: [
+    {
+      title: "Project Collaboration",
+      period: "2023-Present",
+      organization: "ABC Company",
+      description: ["Collaborated on a project to develop a new AI-powered study scheduler for students. The project was a success and we achieved our goals."]
+    }
+  ],
+  volunteering: [
+    {
+      title: "Youth Tech Labs",
+      period: "February 2025 - Present",
+      description: ["Developed AI healthcare application and other tech solutions. Collaborated with peers and presented solutions."]
+    }
+  ],
+  education: [
+    {
+      institution: "Cameron Heights Collegiate Institute",
+      degree: "IB Diploma",
+      period: "2023-Present",
+      description: "Currently attending Cameron Heights Collegiate Institute and pursuing the IB program."
+    }
+  ],
   softSkills: [
     "Strong communication and presentation skills",
     "Team leadership and collaboration",
@@ -264,7 +300,55 @@ const fallbackContent: WebsiteContent = {
       "Expanding knowledge in artificial intelligence and machine learning",
       "Maintaining strong academic performance while pursuing practical projects"
     ]
-  }
+  },
+  projectFiles: [
+    {
+      title: "Resume",
+      description: "My current resume detailing academic achievements and technical skills",
+      fileUrl: "/files/resume.pdf",
+      fileType: "PDF",
+    }
+  ],
+  testimonials: [
+    {
+      name: "John Doe",
+      role: "Project Collaborator, ABC Company",
+      text: "Working with Dhairya was a pleasure. His technical skills and ability to understand client requirements made our project a success.",
+      avatarUrl: "/images/testimonials/avatar1.jpg"
+    },
+    {
+      name: "Jane Smith",
+      role: "Chess Student",
+      text: "Dhairya is an excellent tutor. He explains complex concepts in a simple way that helped me improve my chess skills significantly.",
+      avatarUrl: "/images/testimonials/avatar2.jpg"
+    }
+  ],
+  services: [
+    {
+      title: "Custom Website Development",
+      description: "I create modern, responsive websites for individuals and businesses that are fast, secure, and easy to maintain.",
+      icon: "website",
+      features: [
+        "Mobile-responsive design",
+        "SEO optimization",
+        "Content management systems",
+        "E-commerce integration",
+        "Performance optimization"
+      ]
+    },
+    {
+      title: "STEM, Coding & Chess Tutoring",
+      description: "Personalized tutoring sessions for students of all ages in STEM subjects, programming, and chess strategy.",
+      icon: "tutoring",
+      features: [
+        "Customized learning plans",
+        "Hands-on projects",
+        "Beginner to advanced levels",
+        "One-on-one or small group sessions",
+        "Regular progress assessments"
+      ]
+    }
+  ]
 };
 
 interface ContentContextType {
