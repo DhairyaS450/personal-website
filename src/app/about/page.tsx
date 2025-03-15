@@ -8,6 +8,9 @@ import { useContent, AboutMeContent, Collaboration, Education } from "@/contexts
 import EditableContent from "@/components/EditableContent";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { GiAchievement, GiSkills } from "react-icons/gi";
+import { MdSchool, MdWork, MdStar, MdOutlineFlag } from "react-icons/md";
+import { FaRocket, FaCertificate, FaBrain, FaUsers, FaLightbulb, FaClock, FaTools, FaChartLine } from "react-icons/fa";
 
 // export const metadata = {
 //   title: "About | Dhairya Shah",
@@ -325,181 +328,228 @@ function AboutClient() {
         </div>
       </section>
 
-      {/* Soft Skills Section */}
-      <section className="mb-16">
-        <h2 className="text-2xl md:text-3xl font-bold mb-6">Soft Skills</h2>
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-          <ul className="space-y-2">
-            {localSoftSkills.map((skill, index) => (
-              <li key={index} className="flex items-start group">
-                <div className="before:content-['•'] before:mr-2 before:text-blue-500 dark:before:text-blue-400 flex-grow">
-                  {isEditMode ? (
-                    <EditableContent
-                      value={skill}
-                      onChange={(value) => updateSoftSkill(index, value)}
-                      as="span"
-                      className="text-gray-700 dark:text-gray-300"
-                    />
-                  ) : (
-                    <span className="text-gray-700 dark:text-gray-300">{skill}</span>
-                  )}
+      {/* Education section */}
+      <section id="education" className="mb-16">
+        <h2 className="text-2xl md:text-3xl font-bold mb-8 flex items-center">
+          <MdSchool className="mr-3 text-blue-600 dark:text-blue-400 text-3xl" />
+          Education
+        </h2>
+        
+        {/* Timeline implementation */}
+        <div className="relative">
+          {/* Timeline line */}
+          <div className="absolute left-0 md:left-1/2 transform md:-translate-x-1/2 h-full w-1 bg-blue-200 dark:bg-blue-800/50"></div>
+          
+          <div className="space-y-10">
+            {localEducation.map((edu, index) => (
+              <div key={index} className={`relative flex flex-col md:flex-row ${index % 2 === 0 ? 'md:flex-row-reverse' : ''}`}>
+                {/* Timeline dot */}
+                <div className="absolute left-0 md:left-1/2 transform -translate-x-1/2 w-5 h-5 rounded-full bg-blue-600 dark:bg-blue-400 z-10 mt-5"></div>
+                
+                {/* Content */}
+                <div className={`md:w-1/2 ${index % 2 === 0 ? 'md:pl-8' : 'md:pr-8'}`}></div>
+                <div className={`pl-8 md:w-1/2 ${index % 2 === 0 ? 'md:pr-8 text-right' : 'md:pl-8'} bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 transform hover:-translate-y-1 hover:shadow-blue-200 dark:hover:shadow-blue-900/20`}>
+                  <div className="flex flex-col">
+                    <h3 className="text-xl font-semibold">
+                      {isEditMode ? (
+                        <EditableContent
+                          value={edu.institution}
+                          onChange={(value) => updateEducation(index, 'institution', value)}
+                          className="inline-block"
+                        />
+                      ) : (
+                        edu.institution
+                      )}
+                    </h3>
+                    <p className="text-gray-600 dark:text-gray-400 mb-2">
+                      {isEditMode ? (
+                        <EditableContent
+                          value={edu.degree}
+                          onChange={(value) => updateEducation(index, 'degree', value)}
+                          className="inline-block"
+                        />
+                      ) : (
+                        edu.degree
+                      )}
+                    </p>
+                    <p className="text-gray-500 dark:text-gray-500 mb-2">
+                      {isEditMode ? (
+                        <EditableContent
+                          value={edu.period}
+                          onChange={(value) => updateEducation(index, 'period', value)}
+                          className="inline-block"
+                        />
+                      ) : (
+                        edu.period
+                      )}
+                    </p>
+                    {isEditMode && (
+                      <button
+                        onClick={() => removeEducation(index)}
+                        className="text-red-500 hover:text-red-700 mt-2 self-start"
+                      >
+                        <FaTrash /> Remove
+                      </button>
+                    )}
+                  </div>
                 </div>
-                {isEditMode && (
-                  <button
-                    onClick={() => removeSoftSkill(index)}
-                    className="opacity-0 group-hover:opacity-100 text-red-500 ml-2"
-                    aria-label="Remove skill"
-                  >
-                    <FaTrash size={12} />
-                  </button>
-                )}
-              </li>
+              </div>
             ))}
-          </ul>
+          </div>
           
           {isEditMode && (
             <button
-              onClick={addSoftSkill}
-              className="mt-4 px-3 py-1 flex items-center text-sm bg-blue-500 text-white rounded hover:bg-blue-600"
+              onClick={addEducation}
+              className="mt-4 flex items-center px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition"
             >
-              <FaPlus className="mr-1" size={10} /> Add Skill
+              <FaPlus className="mr-2" /> Add Education
             </button>
           )}
         </div>
       </section>
-
-      {/* Future Goals Section */}
-      <section className="mb-16">
-        <h2 className="text-2xl md:text-3xl font-bold mb-6">Future Goals</h2>
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-          <ul className="space-y-3">
-            {localFutureGoals.map((goal, index) => (
-              <li key={index} className="flex items-start group">
-                <div className="before:content-['→'] before:mr-2 before:text-indigo-500 dark:before:text-indigo-400 flex-grow">
+      
+      {/* Soft Skills Section */}
+      <section id="soft-skills" className="mb-16">
+        <h2 className="text-2xl md:text-3xl font-bold mb-8 flex items-center">
+          <GiSkills className="mr-3 text-blue-600 dark:text-blue-400 text-3xl" />
+          Soft Skills
+        </h2>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {localSoftSkills.map((skill, index) => {
+            // Get icon based on skill type
+            let Icon = FaUsers; // Default
+            
+            if (skill.toLowerCase().includes("communication")) {
+              Icon = FaUsers;
+            } else if (skill.toLowerCase().includes("leadership") || skill.toLowerCase().includes("team")) {
+              Icon = FaUsers;
+            } else if (skill.toLowerCase().includes("problem") || skill.toLowerCase().includes("critical")) {
+              Icon = FaBrain;
+            } else if (skill.toLowerCase().includes("time") || skill.toLowerCase().includes("organization")) {
+              Icon = FaClock;
+            } else if (skill.toLowerCase().includes("adapt") || skill.toLowerCase().includes("learning")) {
+              Icon = FaLightbulb;
+            }
+            
+            return (
+              <div key={index} className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md flex items-start hover:shadow-lg transition-shadow duration-300 transform hover:-translate-y-1 group">
+                <div className="mr-4 text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform duration-300">
+                  <Icon size={24} />
+                </div>
+                <div className="flex-1">
                   {isEditMode ? (
-                    <EditableContent
-                      value={goal}
-                      onChange={(value) => updateFutureGoal(index, value)}
-                      as="span"
-                      className="text-gray-700 dark:text-gray-300"
-                    />
+                    <div className="flex items-center justify-between">
+                      <EditableContent
+                        value={skill}
+                        onChange={(value) => updateSoftSkill(index, value)}
+                        className="inline-block flex-1"
+                      />
+                      <button
+                        onClick={() => removeSoftSkill(index)}
+                        className="text-red-500 hover:text-red-700 ml-2 flex-shrink-0"
+                      >
+                        <FaTrash />
+                      </button>
+                    </div>
                   ) : (
-                    <span className="text-gray-700 dark:text-gray-300">{goal}</span>
+                    <p className="text-gray-800 dark:text-gray-200">{skill}</p>
                   )}
                 </div>
-                {isEditMode && (
-                  <button
-                    onClick={() => removeFutureGoal(index)}
-                    className="opacity-0 group-hover:opacity-100 text-red-500 ml-2"
-                    aria-label="Remove goal"
-                  >
-                    <FaTrash size={12} />
-                  </button>
-                )}
-              </li>
-            ))}
-          </ul>
+              </div>
+            );
+          })}
+        </div>
+        
+        {isEditMode && (
+          <button
+            onClick={addSoftSkill}
+            className="mt-4 flex items-center px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition"
+          >
+            <FaPlus className="mr-2" /> Add Soft Skill
+          </button>
+        )}
+      </section>
+      
+      {/* Future Goals Section */}
+      <section id="future-goals" className="mb-16">
+        <h2 className="text-2xl md:text-3xl font-bold mb-8 flex items-center">
+          <FaRocket className="mr-3 text-blue-600 dark:text-blue-400 text-3xl" />
+          Future Goals
+        </h2>
+        
+        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 p-8 rounded-xl relative overflow-hidden">
+          <div className="absolute -bottom-16 -right-16 w-32 h-32 bg-blue-400/10 rounded-full blur-xl"></div>
+          <div className="absolute -top-16 -left-16 w-32 h-32 bg-indigo-400/10 rounded-full blur-xl"></div>
+          
+          <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-6">
+            {localFutureGoals.map((goal, index) => {
+              // Assign icons based on the content of the goal
+              let Icon = MdOutlineFlag;
+              
+              if (goal.toLowerCase().includes("degree") || goal.toLowerCase().includes("education")) {
+                Icon = MdSchool;
+              } else if (goal.toLowerCase().includes("expertise") || goal.toLowerCase().includes("ai") || goal.toLowerCase().includes("machine")) {
+                Icon = FaBrain;
+              } else if (goal.toLowerCase().includes("open") || goal.toLowerCase().includes("source") || goal.toLowerCase().includes("portfolio")) {
+                Icon = FaGitAlt;
+              } else if (goal.toLowerCase().includes("intern") || goal.toLowerCase().includes("experience") || goal.toLowerCase().includes("companies")) {
+                Icon = MdWork;
+              } else if (goal.toLowerCase().includes("innovative") || goal.toLowerCase().includes("solutions") || goal.toLowerCase().includes("impact")) {
+                Icon = FaLightbulb;
+              }
+              
+              return (
+                <div key={index} className="flex items-start bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1 group">
+                  <div className="mr-4 text-blue-600 dark:text-blue-400 mt-1 group-hover:scale-110 transition-transform duration-300">
+                    <Icon size={20} />
+                  </div>
+                  <div className="flex-1">
+                    {isEditMode ? (
+                      <div className="flex items-center justify-between">
+                        <EditableContent
+                          value={goal}
+                          onChange={(value) => updateFutureGoal(index, value)}
+                          className="inline-block flex-1"
+                        />
+                        <button
+                          onClick={() => removeFutureGoal(index)}
+                          className="text-red-500 hover:text-red-700 ml-2 flex-shrink-0"
+                        >
+                          <FaTrash />
+                        </button>
+                      </div>
+                    ) : (
+                      <p className="text-gray-800 dark:text-gray-200">{goal}</p>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
           
           {isEditMode && (
             <button
               onClick={addFutureGoal}
-              className="mt-4 px-3 py-1 flex items-center text-sm bg-blue-500 text-white rounded hover:bg-blue-600"
+              className="mt-6 flex items-center px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition"
             >
-              <FaPlus className="mr-1" size={10} /> Add Goal
+              <FaPlus className="mr-2" /> Add Future Goal
             </button>
           )}
         </div>
       </section>
 
-      {/* Education Section */}
-      <section>
-        <h2 className="text-2xl md:text-3xl font-bold mb-6">Education</h2>
-        
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-        {isEditMode && (
-          <button
-            onClick={addEducation}
-            className="mb-6 flex items-center px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition"
-          >
-            <FaPlus className="mr-2" /> Add Education
-          </button>
-        )}
-        
-        {localEducation.map((edu, index) => (
-          <div key={index} className="border-l-4 border-blue-600 pl-6 py-2 relative">
-            {isEditMode && (
-              <button
-                onClick={() => removeEducation(index)}
-                className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full hover:bg-red-600 transition"
-                aria-label="Delete Education"
-              >
-                <FaTrash size={12} />
-              </button>
-            )}
-            
-            <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-2">
-              {isEditMode ? (
-                <EditableContent
-                  value={edu.degree}
-                  onChange={(value) => updateEducation(index, 'degree', value)}
-                  as="h3"
-                  className="text-xl font-bold"
-                />
-              ) : (
-                <h3 className="text-xl font-bold">{edu.degree}</h3>
-              )}
-              
-              {isEditMode ? (
-                <EditableContent
-                  value={edu.period}
-                  onChange={(value) => updateEducation(index, 'period', value)}
-                  as="span"
-                  className="text-gray-600 dark:text-gray-400"
-                />
-              ) : (
-                <span className="text-gray-600 dark:text-gray-400">{edu.period}</span>
-              )}
-            </div>
-            
-            {isEditMode ? (
-              <EditableContent
-                value={edu.institution}
-                onChange={(value) => updateEducation(index, 'institution', value)}
-                as="h4"
-                className="text-gray-700 dark:text-gray-300"
-              />
-            ) : (
-              <h4 className="text-gray-700 dark:text-gray-300">{edu.institution}</h4>
-            )}
-            
-            {edu.description && (
-              isEditMode ? (
-                <EditableContent
-                  value={edu.description}
-                  onChange={(value) => updateEducation(index, 'description', value)}
-                  as="p"
-                  className="text-gray-600 dark:text-gray-400 mt-2"
-                />
-              ) : (
-                <p className="text-gray-600 dark:text-gray-400 mt-2">{edu.description}</p>
-              )
-            )}
-          </div>
-        ))}
-        </div>
+      {/* View more at Academics page*/}
+      <p className="text-gray-600 dark:text-gray-400 mt-4">
+        <Link href="/academics">View more at Academics page</Link>
+      </p>
 
-        { /* View more at Academics page*/}
-        <p className="text-gray-600 dark:text-gray-400 mt-4">
-          <Link href="/academics">View more at Academics page</Link>
-        </p>
-
-        { /* Link to Activities page */}
-        <p className="text-gray-600 dark:text-gray-400 mt-2">
-          <Link href="/activities" className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300">
-            See my activities, volunteering work, and services on the Activities page →
-          </Link>
-        </p>
-      </section>
+      {/* Link to Activities page */}
+      <p className="text-gray-600 dark:text-gray-400 mt-2">
+        <Link href="/activities" className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300">
+          See my activities, volunteering work, and services on the Activities page →
+        </Link>
+      </p>
     </div>
   );
 }

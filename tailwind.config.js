@@ -21,6 +21,43 @@ module.exports = {
           900: "var(--gray-900)",
         },
       },
+      animation: {
+        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'gradient': 'gradient 8s ease infinite alternate',
+        'float': 'float 6s ease-in-out infinite',
+        'tilt': 'tilt 10s infinite linear',
+      },
+      keyframes: {
+        float: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-10px)' },
+        },
+        gradient: {
+          '0%': { backgroundPosition: '0% 50%' },
+          '100%': { backgroundPosition: '100% 50%' },
+        },
+        tilt: {
+          '0%, 50%, 100%': {
+            transform: 'rotate(0deg)',
+          },
+          '25%': {
+            transform: 'rotate(1deg)',
+          },
+          '75%': {
+            transform: 'rotate(-1deg)',
+          },
+        },
+      },
+      backgroundSize: {
+        'gradient-size': '200% 200%',
+      },
+      transitionProperty: {
+        'transform': 'transform',
+      },
+      scale: {
+        '102': '1.02',
+        '103': '1.03',
+      },
     },
   },
   plugins: [],
