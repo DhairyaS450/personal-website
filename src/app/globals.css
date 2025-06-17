@@ -27,6 +27,18 @@
   --primary-hover: #93c5fd;
 }
 
+/* Grid Background Variables */
+:root {
+  --grid-size: 50px;
+  --grid-color: rgba(0, 0, 0, 0.1);
+  --grid-glow: rgba(59, 130, 246, 0.6);
+}
+
+.dark {
+  --grid-color: rgba(255, 255, 255, 0.1);
+  --grid-glow: rgba(59, 130, 246, 0.8);
+}
+
 /* Base Styles */
 html {
   scroll-behavior: smooth;
@@ -120,4 +132,22 @@ a:hover {
 
 .dark ::-webkit-scrollbar-thumb:hover {
   background-color: var(--gray-600);
+}
+
+/* Utility Classes for Layering */
+.content-layer {
+  position: relative;
+  z-index: 10;
+}
+
+.background-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Enhanced text rendering */
+.glow-text {
+  transition: text-shadow 0.2s ease-in-out, color 0.2s ease-in-out;
 }

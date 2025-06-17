@@ -26,6 +26,8 @@ module.exports = {
         'gradient': 'gradient 8s ease infinite alternate',
         'float': 'float 6s ease-in-out infinite',
         'tilt': 'tilt 10s infinite linear',
+        'scroll': 'scroll 15s linear infinite',
+        'reverse-scroll': 'reverse-scroll 15s linear infinite',
       },
       keyframes: {
         float: {
@@ -47,6 +49,14 @@ module.exports = {
             transform: 'rotate(-1deg)',
           },
         },
+        scroll: {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-100%)' },
+        },
+        'reverse-scroll': {
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(0)' },
+        },
       },
       backgroundSize: {
         'gradient-size': '200% 200%',
@@ -61,4 +71,4 @@ module.exports = {
     },
   },
   plugins: [],
-}; 
+};

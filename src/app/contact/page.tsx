@@ -208,7 +208,7 @@ export default function ContactPage() {
                   <FaTwitter size={24} />
                 </a>
                 <a 
-                  href="https://linkedin.com/in/dhairyashah2513" 
+                  href="https://linkedin.com/in/dhairya-bhaumik-shah" 
                   target="_blank" 
                   rel="noreferrer" 
                   className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition"

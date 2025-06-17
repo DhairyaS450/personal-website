@@ -1,11 +1,10 @@
 "use client";
 
-import { FaPlus, FaTrash, FaEdit, FaLaptopCode, FaChalkboardTeacher, FaEnvelope } from "react-icons/fa";
+import { FaPlus, FaTrash } from "react-icons/fa";
 import { useState, useEffect, Suspense } from "react";
 import { useContent, VolunteerExperience, ExtracurricularActivity, Service } from "@/contexts/ContentContext";
 import EditableContent from "@/components/EditableContent";
 import EditableList from "@/components/EditableList";
-import Link from "next/link";
 
 function ActivitiesPageLoading() {
   return (
@@ -150,62 +149,6 @@ function ActivitiesClient() {
     setLocalActivities(updatedActivities);
   };
 
-  // Helper functions for services
-  const updateService = (index: number, field: keyof Service, value: any) => {
-    const updatedServices = [...localServices];
-    updatedServices[index] = { ...updatedServices[index], [field]: value };
-    setLocalServices(updatedServices);
-  };
-
-  const updateServiceFeature = (serviceIndex: number, featureIndex: number, value: string) => {
-    const updatedServices = [...localServices];
-    const service = updatedServices[serviceIndex];
-    
-    if (service.features) {
-      const updatedFeatures = [...service.features];
-      updatedFeatures[featureIndex] = value;
-      updatedServices[serviceIndex] = { ...service, features: updatedFeatures };
-      setLocalServices(updatedServices);
-    }
-  };
-
-  const addServiceFeature = (serviceIndex: number) => {
-    const updatedServices = [...localServices];
-    const service = updatedServices[serviceIndex];
-    
-    const updatedFeatures = service.features ? [...service.features, "New feature"] : ["New feature"];
-    updatedServices[serviceIndex] = { ...service, features: updatedFeatures };
-    setLocalServices(updatedServices);
-  };
-
-  const removeServiceFeature = (serviceIndex: number, featureIndex: number) => {
-    const updatedServices = [...localServices];
-    const service = updatedServices[serviceIndex];
-    
-    if (service.features) {
-      const updatedFeatures = [...service.features];
-      updatedFeatures.splice(featureIndex, 1);
-      updatedServices[serviceIndex] = { ...service, features: updatedFeatures };
-      setLocalServices(updatedServices);
-    }
-  };
-
-  const addService = () => {
-    const newService: Service = {
-      title: "New Service",
-      description: "Description of the service...",
-      icon: "default",
-      features: ["Feature 1", "Feature 2", "Feature 3"]
-    };
-    setLocalServices([...localServices, newService]);
-  };
-
-  const removeService = (index: number) => {
-    const updatedServices = [...localServices];
-    updatedServices.splice(index, 1);
-    setLocalServices(updatedServices);
-  };
-
   if (isLoading) return <ActivitiesPageLoading />;
   if (error) return <div className="max-w-7xl mx-auto px-6 md:px-10 py-12 text-red-500">Error loading content: {error}</div>;
   if (!content) return <div className="max-w-7xl mx-auto px-6 md:px-10 py-12">Loading content...</div>;
@@ -329,134 +272,6 @@ function ActivitiesClient() {
             </div>
           ))}
         </div>
-        </div>
-      </section>
-
-      {/* Services Section */}
-      <section className="mb-16">
-        <h2 className="text-2xl md:text-3xl font-bold mb-6">Services</h2>
-        
-        {isEditMode && (
-          <button
-            onClick={addService}
-            className="mb-6 flex items-center px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition"
-          >
-            <FaPlus className="mr-2" /> Add Service
-          </button>
-        )}
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {localServices.map((service, index) => (
-            <div key={index} className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden relative">
-              {isEditMode && (
-                <button
-                  onClick={() => removeService(index)}
-                  className="absolute top-4 right-4 bg-red-500 text-white p-2 rounded-full hover:bg-red-600 z-10"
-                  aria-label="Delete Service"
-                >
-                  <FaTrash size={12} />
-                </button>
-              )}
-              
-              <div className="p-6">
-                <div className="flex items-center mb-4">
-                  <div className="bg-blue-100 dark:bg-blue-900 p-3 rounded-full mr-4">
-                    {service.icon === 'website' ? (
-                      <FaLaptopCode className="text-2xl text-blue-600 dark:text-blue-400" />
-                    ) : service.icon === 'tutoring' ? (
-                      <FaChalkboardTeacher className="text-2xl text-blue-600 dark:text-blue-400" />
-                    ) : (
-                      <FaEdit className="text-2xl text-blue-600 dark:text-blue-400" />
-                    )}
-                  </div>
-                  <div>
-                    {isEditMode ? (
-                      <EditableContent
-                        value={service.title}
-                        onChange={(value) => updateService(index, 'title', value)}
-                        as="h3"
-                        className="text-xl font-bold"
-                      />
-                    ) : (
-                      <h3 className="text-xl font-bold">{service.title}</h3>
-                    )}
-                  </div>
-                </div>
-                
-                {isEditMode ? (
-                  <EditableContent
-                    value={service.description}
-                    onChange={(value) => updateService(index, 'description', value)}
-                    as="p"
-                    className="text-gray-600 dark:text-gray-400 mb-4"
-                    isTextArea
-                  />
-                ) : (
-                  <p className="text-gray-600 dark:text-gray-400 mb-4">{service.description}</p>
-                )}
-                
-                {service.features && service.features.length > 0 && (
-                  <div>
-                    <h4 className="font-semibold mb-2">Features:</h4>
-                    <ul className="space-y-1">
-                      {service.features.map((feature, featureIndex) => (
-                        <li key={featureIndex} className="flex items-start group">
-                          <div className="before:content-['•'] before:mr-2 before:text-blue-500 flex-grow">
-                            {isEditMode ? (
-                              <EditableContent
-                                value={feature}
-                                onChange={(value) => updateServiceFeature(index, featureIndex, value)}
-                                as="span"
-                                className="text-gray-700 dark:text-gray-300"
-                              />
-                            ) : (
-                              <span className="text-gray-700 dark:text-gray-300">{feature}</span>
-                            )}
-                          </div>
-                          {isEditMode && (
-                            <button
-                              onClick={() => removeServiceFeature(index, featureIndex)}
-                              className="opacity-0 group-hover:opacity-100 text-red-500 ml-2"
-                              aria-label="Remove feature"
-                            >
-                              <FaTrash size={12} />
-                            </button>
-                          )}
-                        </li>
-                      ))}
-                    </ul>
-                    
-                    {isEditMode && (
-                      <button
-                        onClick={() => addServiceFeature(index)}
-                        className="mt-2 px-3 py-1 flex items-center text-sm bg-blue-500 text-white rounded hover:bg-blue-600"
-                      >
-                        <FaPlus className="mr-1" size={10} /> Add Feature
-                      </button>
-                    )}
-                  </div>
-                )}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Contact invitation */}
-        <div className="mt-12 bg-blue-50 dark:bg-blue-900/30 p-6 rounded-lg border border-blue-100 dark:border-blue-800">
-          <div className="flex items-center mb-4">
-            <FaEnvelope className="text-blue-600 dark:text-blue-400 text-xl mr-3" />
-            <h3 className="text-xl font-bold text-blue-800 dark:text-blue-300">Interested in my services?</h3>
-          </div>
-          <p className="mb-4 text-gray-700 dark:text-gray-300">
-            I'm available for both website development projects and tutoring sessions. 
-            Please feel free to reach out for a consultation or to discuss your specific needs.
-          </p>
-          <Link 
-            href="/contact" 
-            className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-          >
-            Contact Me
-          </Link>
         </div>
       </section>
     </div>

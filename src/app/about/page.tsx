@@ -1,21 +1,35 @@
 "use client";
 
 import Image from "next/image";
-import { FaReact, FaNodeJs, FaJs, FaHtml5, FaCss3Alt, FaGitAlt, FaPlus, FaTrash } from "react-icons/fa";
-import { SiTypescript, SiNextdotjs, SiTailwindcss, SiPython, SiMongodb, SiFirebase } from "react-icons/si";
+import { FaPlus, FaTrash } from "react-icons/fa";
 import { useState, useEffect, Suspense } from "react";
 import { useContent, AboutMeContent, Collaboration, Education } from "@/contexts/ContentContext";
 import EditableContent from "@/components/EditableContent";
+import GlowText from "@/components/GlowText";
+import TechnicalSkillsSlider from "@/components/TechnicalSkillsSlider";
+import Modal from "@/components/Modal";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { GiAchievement, GiSkills } from "react-icons/gi";
-import { MdSchool, MdWork, MdStar, MdOutlineFlag } from "react-icons/md";
-import { FaRocket, FaCertificate, FaBrain, FaUsers, FaLightbulb, FaClock, FaTools, FaChartLine } from "react-icons/fa";
+import { GiSkills } from "react-icons/gi";
+import { MdSchool, MdWork, MdOutlineFlag } from "react-icons/md";
+import { FaRocket, FaBrain, FaUsers, FaLightbulb, FaClock, FaGraduationCap } from "react-icons/fa";
+import { FaGitAlt } from "react-icons/fa";
 
 // export const metadata = {
 //   title: "About | Dhairya Shah",
 //   description: "Learn more about me, my skills, and my experience",
 // }; gives error since cannot have use client and metadata together
+
+// Course History Types
+interface CourseEntry {
+  subject: string;
+  code: string;
+}
+
+interface GradeSection {
+  title: string;
+  status: string;
+  courses: CourseEntry[];
+}
 
 function AboutPageLoading() {
   return (
@@ -58,14 +72,77 @@ function AboutClient() {
       window.removeEventListener('hashchange', handleHashChange);
     };
   }, []);
-  
-  // Local states for editing
+    // Local states for editing
   const [localAboutMe, setLocalAboutMe] = useState<AboutMeContent | null>(null);
   const [localCollaborations, setLocalCollaborations] = useState<Collaboration[]>([]);
   const [localEducation, setLocalEducation] = useState<Education[]>([]);
   const [localSoftSkills, setLocalSoftSkills] = useState<string[]>([]);
   const [localFutureGoals, setLocalFutureGoals] = useState<string[]>([]);
   const [prevEditMode, setPrevEditMode] = useState(false);
+  
+  // Course History Modal State
+  const [isCourseHistoryModalOpen, setIsCourseHistoryModalOpen] = useState(false);
+  const [courseHistory] = useState<GradeSection[]>([
+    {
+      title: "Grade 9",
+      status: "(Completed)",
+      courses: [
+        { subject: "Geography", code: "CGC1D" },
+        { subject: "Technologies", code: "TIJ1O" },
+        { subject: "French", code: "FSF1D" },
+        { subject: "Phys-ed", code: "PPL1O" },
+        { subject: "Math", code: "MTH1W" },
+        { subject: "Science", code: "SNC1W" },
+        { subject: "Business", code: "BBI1O" },
+        { subject: "English", code: "ENL1W" },
+        { subject: "Gujarati", code: "LIJBDI" }
+      ]
+    },
+    {
+      title: "Grade 10",
+      status: "(Current Year)",
+      courses: [
+        { subject: "English", code: "ENG2D" },
+        { subject: "Math", code: "MPM2D" },
+        { subject: "Science", code: "SNC2D" },
+        { subject: "History", code: "CHC2D" },
+        { subject: "Civics", code: "CHV2O" },
+        { subject: "Careers", code: "GLC2O" },
+        { subject: "Computer Science", code: "ICS3U" },
+        { subject: "Accounting", code: "BAF3M" },
+        { subject: "French", code: "FSF2D" },
+        { subject: "Guitar", code: "AMG2O" }
+      ]
+    },
+    {
+      title: "Grade 11",
+      status: "(Next Year)",
+      courses: [
+        { subject: "IB English", code: "NBE3U" },
+        { subject: "IB Math", code: "MCR3U" },
+        { subject: "IB Physics (Part 1)", code: "SPH3U" },
+        { subject: "IB Chemistry", code: "SCH3U" },
+        { subject: "IB History", code: "CHY4U" },
+        { subject: "IB Physics (Part 2)", code: "SPH4U" },
+        { subject: "IB TOK", code: "HZT4U" },
+        { subject: "IB French", code: "FSF3U" }
+      ]
+    },
+    {
+      title: "Grade 12",
+      status: "(Plan Ahead)",
+      courses: [
+        { subject: "English", code: "TBD" },
+        { subject: "Course 2", code: "TBD" },
+        { subject: "Course 3", code: "TBD" },
+        { subject: "Course 4", code: "TBD" },
+        { subject: "Course 5", code: "TBD" },
+        { subject: "Course 6", code: "TBD" },
+        { subject: "Course 7", code: "TBD" },
+        { subject: "Course 8", code: "TBD" }
+      ]
+    }
+  ]);
 
   // Initialize local states from content
   useEffect(() => {
@@ -270,62 +347,12 @@ function AboutClient() {
             />
           </div>
         </div>
-      </section>
-
-      {/* Technical Skills Section */}
+      </section>      {/* Technical Skills Section */}
       <section className="mb-16">
-        <h2 className="text-2xl md:text-3xl font-bold mb-6">Technical Skills</h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
-          {/* Frontend */}
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 text-center">
-            <FaReact className="text-blue-500 text-4xl mx-auto mb-2" />
-            <h3 className="font-medium">React</h3>
-          </div>
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 text-center">
-            <SiNextdotjs className="text-black dark:text-white text-4xl mx-auto mb-2" />
-            <h3 className="font-medium">Next.js</h3>
-          </div>
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 text-center">
-            <SiTypescript className="text-blue-600 text-4xl mx-auto mb-2" />
-            <h3 className="font-medium">TypeScript</h3>
-          </div>
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 text-center">
-            <FaJs className="text-yellow-500 text-4xl mx-auto mb-2" />
-            <h3 className="font-medium">JavaScript</h3>
-          </div>
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 text-center">
-            <SiTailwindcss className="text-teal-500 text-4xl mx-auto mb-2" />
-            <h3 className="font-medium">Tailwind</h3>
-          </div>
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 text-center">
-            <FaHtml5 className="text-orange-500 text-4xl mx-auto mb-2" />
-            <h3 className="font-medium">HTML5</h3>
-          </div>
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 text-center">
-            <FaCss3Alt className="text-blue-400 text-4xl mx-auto mb-2" />
-            <h3 className="font-medium">CSS3</h3>
-          </div>
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 text-center">
-            <FaNodeJs className="text-green-500 text-4xl mx-auto mb-2" />
-            <h3 className="font-medium">Node.js</h3>
-          </div>
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 text-center">
-            <SiPython className="text-blue-700 text-4xl mx-auto mb-2" />
-            <h3 className="font-medium">Python</h3>
-          </div>
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 text-center">
-            <SiMongodb className="text-green-600 text-4xl mx-auto mb-2" />
-            <h3 className="font-medium">MongoDB</h3>
-          </div>
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 text-center">
-            <SiFirebase className="text-red-800 text-4xl mx-auto mb-2" />
-            <h3 className="font-medium">Firebase</h3>
-          </div>
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 text-center">
-            <FaGitAlt className="text-orange-600 text-4xl mx-auto mb-2" />
-            <h3 className="font-medium">Git</h3>
-          </div>
-        </div>
+        <h2 className="text-2xl md:text-3xl font-bold mb-6">
+          <GlowText intensity={0.25}>Technical Skills</GlowText>
+        </h2>
+        <TechnicalSkillsSlider />
       </section>
 
       {/* Education section */}
@@ -371,8 +398,7 @@ function AboutClient() {
                       ) : (
                         edu.degree
                       )}
-                    </p>
-                    <p className="text-gray-500 dark:text-gray-500 mb-2">
+                    </p>                    <p className="text-gray-500 dark:text-gray-500 mb-2">
                       {isEditMode ? (
                         <EditableContent
                           value={edu.period}
@@ -383,6 +409,18 @@ function AboutClient() {
                         edu.period
                       )}
                     </p>
+                    
+                    {/* Show Course History button for Cameron Heights */}
+                    {edu.institution.includes("Cameron Heights") && (
+                      <button
+                        onClick={() => setIsCourseHistoryModalOpen(true)}
+                        className="mt-3 mb-2 inline-flex items-center px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-md transition-colors duration-200"
+                      >
+                        <FaGraduationCap className="mr-2" />
+                        View Course History
+                      </button>
+                    )}
+                    
                     {isEditMode && (
                       <button
                         onClick={() => removeEducation(index)}
@@ -542,14 +580,39 @@ function AboutClient() {
       {/* View more at Academics page*/}
       <p className="text-gray-600 dark:text-gray-400 mt-4">
         <Link href="/academics">View more at Academics page</Link>
-      </p>
-
-      {/* Link to Activities page */}
+      </p>      {/* Link to Activities page */}
       <p className="text-gray-600 dark:text-gray-400 mt-2">
         <Link href="/activities" className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300">
           See my activities, volunteering work, and services on the Activities page →
         </Link>
       </p>
+
+      {/* Course History Modal */}
+      <Modal
+        isOpen={isCourseHistoryModalOpen}
+        onClose={() => setIsCourseHistoryModalOpen(false)}
+        title="Course History - Cameron Heights Collegiate Institute"
+      >
+        <div className="space-y-8">
+          {courseHistory.map((grade, gradeIndex) => (
+            <div key={gradeIndex} className="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
+              <div className="flex flex-wrap items-center gap-2 mb-4">
+                <h3 className="text-xl font-semibold">{grade.title}</h3>
+                <span className="text-indigo-500 dark:text-indigo-400">{grade.status}</span>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {grade.courses.map((course, courseIndex) => (
+                  <div key={courseIndex} className="flex justify-between items-center bg-white dark:bg-gray-600 p-3 rounded border border-gray-200 dark:border-gray-500">
+                    <span className="font-medium">{course.subject}</span>
+                    <span className="text-gray-600 dark:text-gray-300 text-sm">{course.code}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </Modal>
     </div>
   );
 }

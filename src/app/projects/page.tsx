@@ -7,6 +7,7 @@ import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 import EditableContent from "@/components/EditableContent";
 import EditableList from "@/components/EditableList";
+import HoverCard from "@/components/HoverCard";
 import { useContent, Project, AcademicAchievement, ExtracurricularActivity, File as FileType, Collaboration } from "@/contexts/ContentContext";
 
 // export const metadata = {
@@ -510,13 +511,12 @@ function ProjectsClient() {
           >
             <FaPlus className="mr-2" /> Add New Project
           </button>
-        )}
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        )}        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {projectsToDisplay.map((project, index) => (
-            <div
+            <HoverCard
               key={project.id}
-              className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg transition duration-300 hover:shadow-xl relative"
+              className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg relative"
+              glowColor="blue"
             >
               {isEditMode && (
                 <button
@@ -637,12 +637,11 @@ function ProjectsClient() {
                         as="span"
                         className="text-xs text-gray-500"
                         isPlainValue
-                      />
-                    )}
+                      />                    )}
                   </div>
                 </div>
               </div>
-            </div>
+            </HoverCard>
           ))}
         </div>
       </section>

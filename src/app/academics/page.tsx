@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useContent } from "@/contexts/ContentContext";
 import EditableContent from "@/components/EditableContent";
-import { FaEdit, FaPlus, FaTrash, FaDownload } from "react-icons/fa";
+import HoverCard from "@/components/HoverCard";
+import { FaPlus, FaTrash, FaDownload } from "react-icons/fa";
 import { usePathname } from "next/navigation";
 import { File as FileType } from "@/contexts/ContentContext";
 
@@ -83,8 +84,7 @@ function AcademicsLoading() {
 function AcademicsClient() {
   const { content, isLoading, error, updateContent, isEditMode } = useContent();
   const pathname = usePathname();
-  
-  // Local state for academics content
+    // Local state for academics content
   const [localAcademics, setLocalAcademics] = useState<AcademicsContent>({
     title: "Academic Journey",
     subtitle: "I currently attend Cameron Heights Collegiate Institute and am in the IB program.\nMy educational path, achievements, and course history",
@@ -289,54 +289,8 @@ function AcademicsClient() {
   const updateTitle = (value: string) => {
     setLocalAcademics(prev => ({ ...prev, title: value }));
   };
-  
-  const updateSubtitle = (value: string) => {
+    const updateSubtitle = (value: string) => {
     setLocalAcademics(prev => ({ ...prev, subtitle: value }));
-  };
-  
-  const updateGradeTitle = (index: number, value: string) => {
-    setLocalAcademics(prev => {
-      const newHistory = [...prev.courseHistory];
-      newHistory[index] = { ...newHistory[index], title: value };
-      return { ...prev, courseHistory: newHistory };
-    });
-  };
-  
-  const updateGradeStatus = (index: number, value: string) => {
-    setLocalAcademics(prev => {
-      const newHistory = [...prev.courseHistory];
-      newHistory[index] = { ...newHistory[index], status: value };
-      return { ...prev, courseHistory: newHistory };
-    });
-  };
-  
-  const updateCourse = (gradeIndex: number, courseIndex: number, field: keyof CourseEntry, value: string) => {
-    setLocalAcademics(prev => {
-      const newHistory = [...prev.courseHistory];
-      const newCourses = [...newHistory[gradeIndex].courses];
-      newCourses[courseIndex] = { ...newCourses[courseIndex], [field]: value };
-      newHistory[gradeIndex] = { ...newHistory[gradeIndex], courses: newCourses };
-      return { ...prev, courseHistory: newHistory };
-    });
-  };
-  
-  const addCourse = (gradeIndex: number) => {
-    setLocalAcademics(prev => {
-      const newHistory = [...prev.courseHistory];
-      const newCourses = [...newHistory[gradeIndex].courses, { subject: "New Subject", code: "CODE" }];
-      newHistory[gradeIndex] = { ...newHistory[gradeIndex], courses: newCourses };
-      return { ...prev, courseHistory: newHistory };
-    });
-  };
-  
-  const removeCourse = (gradeIndex: number, courseIndex: number) => {
-    setLocalAcademics(prev => {
-      const newHistory = [...prev.courseHistory];
-      const newCourses = [...newHistory[gradeIndex].courses];
-      newCourses.splice(courseIndex, 1);
-      newHistory[gradeIndex] = { ...newHistory[gradeIndex], courses: newCourses };
-      return { ...prev, courseHistory: newHistory };
-    });
   };
   
   const updateExamScore = (index: number, field: keyof ExamScore, value: string | string[]) => {
@@ -499,78 +453,11 @@ function AcademicsClient() {
           as="p"
           className="text-lg text-gray-600 dark:text-gray-400"
         />
-      </div>
-
-      {/* Course History */}
-      <section className="mb-16">
-        <h2 className="text-2xl font-bold text-indigo-600 dark:text-indigo-400 mb-6">Course History</h2>
-        <div className="space-y-8">
-          {localAcademics.courseHistory.map((grade, gradeIndex) => (
-            <div key={gradeIndex} className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 overflow-hidden">
-              <div className="flex flex-wrap items-center gap-2 mb-4">
-                <EditableContent
-                  value={grade.title}
-                  onChange={(value) => updateGradeTitle(gradeIndex, value)}
-                  as="h3"
-                  className="text-xl font-semibold"
-                />
-                <EditableContent
-                  value={grade.status}
-                  onChange={(value) => updateGradeStatus(gradeIndex, value)}
-                  as="span"
-                  className="text-indigo-500 dark:text-indigo-400"
-                />
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {grade.courses.map((course, courseIndex) => (
-                  <div key={courseIndex} className="flex justify-between items-center group">
-                    <div className="flex-1">
-                      <EditableContent
-                        value={course.subject}
-                        onChange={(value) => updateCourse(gradeIndex, courseIndex, 'subject', value)}
-                        as="span"
-                        className="font-medium"
-                      />
-                      {": "}
-                      <EditableContent
-                        value={course.code}
-                        onChange={(value) => updateCourse(gradeIndex, courseIndex, 'code', value)}
-                        as="span"
-                        className="text-gray-500 dark:text-gray-400"
-                      />
-                    </div>
-                    {isEditMode && (
-                      <button
-                        onClick={() => removeCourse(gradeIndex, courseIndex)}
-                        className="opacity-0 group-hover:opacity-100 text-red-500 p-1"
-                      >
-                        <FaTrash size={14} />
-                      </button>
-                    )}
-                  </div>
-                ))}
-              </div>
-              
-              {isEditMode && (
-                <button
-                  onClick={() => addCourse(gradeIndex)}
-                  className="mt-4 px-3 py-1 flex items-center text-sm bg-indigo-100 text-indigo-600 dark:bg-indigo-900 dark:text-indigo-300 rounded-md hover:bg-indigo-200 dark:hover:bg-indigo-800"
-                >
-                  <FaPlus size={10} className="mr-1" /> Add Course
-                </button>
-              )}
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Exam Scores */}
+      </div>      {/* Exam Scores */}
       <section className="mb-16" id="achievements">
-        <h2 className="text-2xl font-bold text-indigo-600 dark:text-indigo-400 mb-6">Competition & Exam Scores</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <h2 className="text-2xl font-bold text-indigo-600 dark:text-indigo-400 mb-6">Competition & Exam Scores</h2>        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {localAcademics.examScores.map((exam, examIndex) => (
-            <div key={examIndex} className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 relative group">
+            <HoverCard key={examIndex} className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 relative group" glowColor="blue">
               {isEditMode && (
                 <button
                   onClick={() => removeExamScore(examIndex)}
@@ -640,8 +527,7 @@ function AcademicsClient() {
                   ))}
                 </ul>
                 
-                {isEditMode && (
-                  <button
+                {isEditMode && (                  <button
                     onClick={() => addHighlight(examIndex)}
                     className="mt-2 px-2 py-1 flex items-center text-xs bg-indigo-100 text-indigo-600 dark:bg-indigo-900 dark:text-indigo-300 rounded-md hover:bg-indigo-200 dark:hover:bg-indigo-800"
                   >
@@ -649,7 +535,7 @@ function AcademicsClient() {
                   </button>
                 )}
               </div>
-            </div>
+            </HoverCard>
           ))}
         </div>
         
@@ -665,10 +551,9 @@ function AcademicsClient() {
 
       {/* Other Achievements */}
       <section className="mb-16">
-        <h2 className="text-2xl font-bold text-indigo-600 dark:text-indigo-400 mb-6">Other Achievements</h2>
-        <div className="space-y-4">
+        <h2 className="text-2xl font-bold text-indigo-600 dark:text-indigo-400 mb-6">Other Achievements</h2>        <div className="space-y-4">
           {localAcademics.academicAchievements.map((achievement, index) => (
-            <div key={index} className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 flex justify-between group">
+            <HoverCard key={index} className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 flex justify-between group" glowColor="green">
               <div className="flex-1">
                 <div className="flex justify-between mb-2">
                   <EditableContent
@@ -692,8 +577,7 @@ function AcademicsClient() {
                   className="text-gray-600 dark:text-gray-400 text-sm"
                 />
               </div>
-              
-              {isEditMode && (
+                {isEditMode && (
                 <button
                   onClick={() => removeAchievement(index)}
                   className="opacity-0 group-hover:opacity-100 self-start ml-2 text-red-500 p-1"
@@ -701,7 +585,7 @@ function AcademicsClient() {
                   <FaTrash size={14} />
                 </button>
               )}
-            </div>
+            </HoverCard>
           ))}
         </div>
         
