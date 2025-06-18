@@ -250,7 +250,7 @@ const fallbackContent: WebsiteContent = {
   ],
   blogPosts: [],
   academics: {
-    title: "Academic Journey",
+    title: "Achievements",
     subtitle: "I currently attend Cameron Heights Collegiate Institute and am in the IB program.\nMy educational path, achievements, and course history",
     courseHistory: [
       {
@@ -407,7 +407,7 @@ export function ContentProvider({ children }: { children: ReactNode }) {
     }
 
     fetchContent();
-  }, []);
+  }, []); //ignore dependency it makes unlimited refresh
 
   // Use fallback content if fetch was attempted but content is still null
   useEffect(() => {

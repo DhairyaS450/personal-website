@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { FaGithub, FaExternalLinkAlt, FaDownload, FaEdit, FaPlus, FaTrash } from "react-icons/fa";
+import { FaGithub, FaExternalLinkAlt, FaEdit, FaPlus, FaTrash } from "react-icons/fa";
 import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
@@ -71,69 +71,6 @@ const projects = [
     githubUrl: "https://github.com/DhairyaS450/snake_ai_agent",
     liveUrl: "https://github.com/DhairyaS450/snake_ai_agent",
   },
-];
-
-// Academic achievements data
-const academicAchievements = [
-  {
-    title: "Canadian Computing Competition (CCC)",
-    description: "Scored 73/75 in the Junior Division, ranking among the top performers at school.",
-    year: "2025",
-  },
-  {
-    title: "Youth Tech Labs Demo Day",
-    description: "Presented my project to a panel of judges and got second place, winning $300",
-    year: "2024",
-  },
-  {
-    title: "Pascal Math Competition",
-    description: "Scored around 120, ranking among the top performers at school.",
-    year: "2024",
-  },
-  {
-    title: "DECA Provincials",
-    description: "Competed in Entrepreneurship Team Decision Making (ETDM), focusing on business strategy and tech innovation.",
-    year: "2025",
-  },
-  {
-    title: "Hackathon Awards",
-    description: "Won 'Best use of MongoDB' award at SproutHacks. Participated in multiple hackathons including HawkHacks.",
-    year: "2025",
-  },
-  {
-    title: "CIMC Math Competition",
-    description: "Ranked among the top performers at school.",
-    year: "2024",
-  },
-];
-
-// Extracurricular activities data
-const extracurricularActivities = [
-  {
-    title: "Youth Tech Labs",
-    description: "Developed AI healthcare application and other tech solutions. Collaborated with peers and presented solutions.",
-    period: "2024 - Present, Ongoing",
-  },
-  {
-    title: "Coding Club at Cameron Heights",
-    description: "Active member learning software development and data science. Participated in various competitions.",
-    period: "2023 - Present, Ongoing",
-  },
-  {
-    title: "DECA",
-    description: "Participated in Entrepreneurship Team Decision Making (ETDM), focusing on business strategy and tech innovation.",
-    period: "2025",
-  },
-  {
-    title: "Chess & Tutoring",
-    description: "Competitive chess player and tutor for mathematics, coding, and chess to younger students (my family members and family friends).",
-    period: "2023 - Present, Ongoing",
-  },
-  {
-    title: "Cross Country Running",
-    description: "Participated in cross country running at school, and have been on the team for 2 years now.",
-    period: "2023 - Present",
-  }
 ];
 
 // Files and evidence
@@ -364,73 +301,6 @@ function ProjectsClient() {
     setLocalProjects(updatedProjects);
   };
 
-  // Achievement update handlers
-  const updateAchievement = (index: number, field: keyof AcademicAchievement, value: string) => {
-    const updatedAchievements = [...localAchievements];
-    updatedAchievements[index] = { ...updatedAchievements[index], [field]: value };
-    setLocalAchievements(updatedAchievements);
-  };
-
-  const addAchievement = () => {
-    const newAchievement: AcademicAchievement = {
-      title: "New Achievement",
-      description: "Achievement description",
-      year: new Date().getFullYear().toString(),
-    };
-    setLocalAchievements([...localAchievements, newAchievement]);
-  };
-
-  const removeAchievement = (index: number) => {
-    const updatedAchievements = [...localAchievements];
-    updatedAchievements.splice(index, 1);
-    setLocalAchievements(updatedAchievements);
-  };
-
-  // Activity update handlers
-  const updateActivity = (index: number, field: keyof ExtracurricularActivity, value: string) => {
-    const updatedActivities = [...localActivities];
-    updatedActivities[index] = { ...updatedActivities[index], [field]: value };
-    setLocalActivities(updatedActivities);
-  };
-
-  const addActivity = () => {
-    const newActivity: ExtracurricularActivity = {
-      title: "New Activity",
-      description: "Activity description",
-      period: "Ongoing",
-    };
-    setLocalActivities([...localActivities, newActivity]);
-  };
-
-  const removeActivity = (index: number) => {
-    const updatedActivities = [...localActivities];
-    updatedActivities.splice(index, 1);
-    setLocalActivities(updatedActivities);
-  };
-
-  // File update handlers
-  const updateFile = (index: number, field: keyof FileType, value: string) => {
-    const updatedFiles = [...localFiles];
-    updatedFiles[index] = { ...updatedFiles[index], [field]: value };
-    setLocalFiles(updatedFiles);
-  };
-
-  const addFile = () => {
-    const newFile: FileType = {
-      title: "New File",
-      description: "File description",
-      fileUrl: "/files/example.pdf",
-      fileType: "PDF",
-    };
-    setLocalFiles([...localFiles, newFile]);
-  };
-
-  const removeFile = (index: number) => {
-    const updatedFiles = [...localFiles];
-    updatedFiles.splice(index, 1);
-    setLocalFiles(updatedFiles);
-  };
-
   // Collaboration update handlers
   const updateCollaboration = (index: number, field: keyof Collaboration, value: any) => {
     const updatedCollaborations = [...localCollaborations];
@@ -456,10 +326,6 @@ function ProjectsClient() {
 
   // Make sure we always have data to display, even if localFiles is empty
   const projectsToDisplay = localProjects.length > 0 ? localProjects : projects;
-  const achievementsToDisplay = localAchievements.length > 0 ? localAchievements : academicAchievements;
-  const activitiesToDisplay = localActivities.length > 0 ? localActivities : extracurricularActivities;
-  const filesToDisplay = localFiles.length > 0 ? localFiles : files;
-
   if (isLoading) return <ProjectsLoading />;
   if (error) return <div className="max-w-7xl mx-auto px-6 md:px-10 py-12 text-red-500">Error loading content: {error}</div>;
 

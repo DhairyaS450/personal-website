@@ -5,6 +5,7 @@ import Footer from "@/components/layout/Footer";
 import ThemeProvider from "@/components/ThemeProvider";
 import { ContentProvider } from "@/contexts/ContentContext";
 import AnimatedBackground from "@/components/AnimatedBackground";
+import CustomCursor from "@/components/CustomCursor";
 
 export const metadata: Metadata = {
   title: "Dhairya Shah | Personal Website",
@@ -23,6 +24,7 @@ export default function RootLayout({
         <ThemeProvider>
           <ContentProvider>
             <AnimatedBackground />
+            <CustomCursor />
             <div className="flex flex-col min-h-screen content-layer">
               <Navbar />
               <main className="flex-grow pt-24">{children}</main>

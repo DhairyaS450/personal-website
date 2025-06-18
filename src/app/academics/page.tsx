@@ -86,8 +86,8 @@ function AcademicsClient() {
   const pathname = usePathname();
     // Local state for academics content
   const [localAcademics, setLocalAcademics] = useState<AcademicsContent>({
-    title: "Academic Journey",
-    subtitle: "I currently attend Cameron Heights Collegiate Institute and am in the IB program.\nMy educational path, achievements, and course history",
+    title: "Achievements",
+    subtitle: "Here are some of my achievements so far. I hope to keep learning, growing and adding to this list!",
     courseHistory: [
       {
         title: "Grade 9",
