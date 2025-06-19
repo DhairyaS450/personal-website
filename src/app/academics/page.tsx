@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, Suspense } from "react";
+import { useState, Suspense, useEffect } from "react";
 import { useContent } from "@/contexts/ContentContext";
 import AccomplishmentCard from "@/components/AccomplishmentCard";
 import AccomplishmentModal from "@/components/AccomplishmentModal";
 import { PodiumAchievement, HonorableMention } from "@/contexts/ContentContext";
+import { XMarkIcon } from "@heroicons/react/24/solid";
 
 export default function AcademicsPage() {
   return (
@@ -39,14 +40,93 @@ function AcademicsLoading() {
 }
 
 function AcademicsClient() {
-  const { content, isLoading } = useContent();
-  const [selectedAccomplishment, setSelectedAccomplishment] = useState<PodiumAchievement | HonorableMention | null>(null);
+  const { content, isLoading, error, updateContent, isEditMode } = useContent();
+  const [selectedAccomplishment, setSelectedAccomplishment] = useState<{
+    accomplishment: PodiumAchievement | HonorableMention;
+    index?: number;
+  } | null>(null);
+
+  const [localPodiumAchievements, setLocalPodiumAchievements] = useState<PodiumAchievement[]>([]);
+  const [localHonorableMentions, setLocalHonorableMentions] = useState<HonorableMention[]>([]);
+  const [prevEditMode, setPrevEditMode] = useState(false);
+
+  useEffect(() => {
+    if (content?.academics) {
+      setLocalPodiumAchievements(content.academics.podiumAchievements || []);
+      setLocalHonorableMentions(content.academics.honorableMentions || []);
+    }
+  }, [content]);
+
+  useEffect(() => {
+    setPrevEditMode(isEditMode);
+  }, [isEditMode]);
+
+  useEffect(() => {
+    if (!content || !content.academics) return;
+    if (prevEditMode && !isEditMode) {
+      const updatedContent = {
+        ...content,
+        academics: {
+          ...content.academics,
+          podiumAchievements: localPodiumAchievements,
+          honorableMentions: localHonorableMentions,
+        },
+      };
+      updateContent(updatedContent);
+    }
+  }, [isEditMode, prevEditMode, content, localPodiumAchievements, localHonorableMentions, updateContent]);
+
 
   if (isLoading) {
     return <AcademicsLoading />;
   }
 
-  const { podiumAchievements = [], honorableMentions = [] } = content.academics || {};
+  if (error) {
+    return <div className="container mx-auto px-4 py-12 text-red-500">Error: {error}</div>;
+  }
+
+  if (!content) {
+    return <div className="container mx-auto px-4 py-12">Loading...</div>;
+  }
+
+  const handleUpdateAccomplishment = (updatedAccomplishment: PodiumAchievement | HonorableMention) => {
+    if ("rank" in updatedAccomplishment) {
+      setLocalPodiumAchievements(prev => prev.map(p => p.rank === (updatedAccomplishment as PodiumAchievement).rank ? updatedAccomplishment : p));
+    } else {
+      if (selectedAccomplishment?.index !== undefined) {
+        const newMentions = [...localHonorableMentions];
+        newMentions[selectedAccomplishment.index] = updatedAccomplishment as HonorableMention;
+        setLocalHonorableMentions(newMentions);
+      }
+    }
+    setSelectedAccomplishment(prev => prev ? { ...prev, accomplishment: updatedAccomplishment } : null);
+  };
+
+  const addHonorableMention = () => {
+    const newMention: HonorableMention = {
+      title: "New Honorable Mention",
+      caption: "A brief description of the achievement.",
+      imageUrl: "/images/project2.jpg",
+      badgeUrl: "/images/badges/silver_badge.png",
+      year: "2025",
+      modalContent: {
+        title: "New Honorable Mention",
+        fullDescription: "A more detailed explanation of what this accomplishment is about, what was done, and what the outcome was.",
+        keyHighlights: ["Key highlight 1", "Key highlight 2"],
+        evidenceUrl: "/files/resume.pdf"
+      }
+    };
+    setLocalHonorableMentions(prev => [...prev, newMention]);
+  };
+
+  const removeHonorableMention = (index: number) => {
+    setLocalHonorableMentions(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const { podiumAchievements = [], honorableMentions = [] } = {
+    podiumAchievements: localPodiumAchievements,
+    honorableMentions: localHonorableMentions
+  };
 
   const firstPlace = podiumAchievements.find(p => p.rank === 1);
   const secondPlace = podiumAchievements.find(p => p.rank === 2);
@@ -66,7 +146,7 @@ function AcademicsClient() {
           {secondPlace && (
             <AccomplishmentCard
               accomplishment={secondPlace}
-              onClick={() => setSelectedAccomplishment(secondPlace)}
+              onClick={() => setSelectedAccomplishment({ accomplishment: secondPlace })}
               className="w-64 h-80 sm:w-72 sm:h-96"
             />
           )}
@@ -76,7 +156,7 @@ function AcademicsClient() {
           {firstPlace && (
             <AccomplishmentCard
               accomplishment={firstPlace}
-              onClick={() => setSelectedAccomplishment(firstPlace)}
+              onClick={() => setSelectedAccomplishment({ accomplishment: firstPlace })}
               className="w-72 h-96 sm:w-80 sm:h-[28rem]"
               isFirstPlace
             />
@@ -87,7 +167,7 @@ function AcademicsClient() {
           {thirdPlace && (
             <AccomplishmentCard
               accomplishment={thirdPlace}
-              onClick={() => setSelectedAccomplishment(thirdPlace)}
+              onClick={() => setSelectedAccomplishment({ accomplishment: thirdPlace })}
               className="w-64 h-80 sm:w-72 sm:h-96"
             />
           )}
@@ -96,16 +176,33 @@ function AcademicsClient() {
 
 
       {/* Honorable Mentions Section */}
-      {honorableMentions.length > 0 && (
+      {(honorableMentions.length > 0 || isEditMode) && (
         <div>
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-8">Honorable Mentions</h2>
+          {isEditMode && (
+            <div className="text-center mb-8">
+              <button onClick={addHonorableMention} className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">
+                Add Honorable Mention
+              </button>
+            </div>
+          )}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {honorableMentions.map((mention, index) => (
-              <AccomplishmentCard
-                key={index}
-                accomplishment={mention}
-                onClick={() => setSelectedAccomplishment(mention)}
-              />
+              <div key={index} className="relative group">
+                <AccomplishmentCard
+                  accomplishment={mention}
+                  onClick={() => setSelectedAccomplishment({ accomplishment: mention, index })}
+                />
+                {isEditMode && (
+                  <button
+                    onClick={() => removeHonorableMention(index)}
+                    className="absolute top-2 right-2 bg-red-600 text-white rounded-full p-1.5 z-20 opacity-0 group-hover:opacity-100 transition-opacity"
+                    aria-label="Remove mention"
+                  >
+                    <XMarkIcon className="w-4 h-4" />
+                  </button>
+                )}
+              </div>
             ))}
           </div>
         </div>
@@ -113,8 +210,10 @@ function AcademicsClient() {
 
       {/* Modal */}
         <AccomplishmentModal
-          accomplishment={selectedAccomplishment}
+          accomplishment={selectedAccomplishment?.accomplishment ?? null}
           onClose={() => setSelectedAccomplishment(null)}
+          isEditMode={isEditMode}
+          onUpdate={handleUpdateAccomplishment}
         />
 
       { /* Whitespace */}
