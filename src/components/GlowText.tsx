@@ -69,11 +69,11 @@ export default function GlowText({
         const y = e.clientY - rect.top;
         
         const isHovering = x >= 0 && x <= rect.width && y >= 0 && y <= rect.height;
-        
-        if (isHovering) {
-          // Get current computed styles
-          const computedStyle = window.getComputedStyle(targetElement);
-          const currentColor = computedStyle.color;
+          if (isHovering) {
+          // Check if the element has gradient text (text-transparent class)
+          const hasGradientText = targetElement.classList.contains('text-transparent') || 
+                                 targetElement.closest('.text-transparent') !== null ||
+                                 window.getComputedStyle(targetElement).webkitBackgroundClip === 'text';
           
           // Calculate glow intensity
           const centerX = rect.width / 2;
@@ -82,18 +82,31 @@ export default function GlowText({
           const maxDistance = Math.sqrt(centerX ** 2 + centerY ** 2);
           const glowIntensity = Math.max(0.3, 1 - distance / maxDistance) * intensity;
           
-          // Apply enhanced effects
-          targetElement.style.textShadow = `
-            0 0 ${5 * glowIntensity}px currentColor,
-            0 0 ${15 * glowIntensity}px ${glowColor},
-            0 0 ${25 * glowIntensity}px ${glowColor}
-          `;
-          
-          // Enhance existing colors or add blue tint
-          if (currentColor.includes('rgb')) {
-            targetElement.style.filter = `brightness(${100 + 50 * glowIntensity}%) saturate(${100 + 30 * glowIntensity}%)`;
+          if (hasGradientText) {
+            // For gradient text, only add glow effects without changing colors
+            targetElement.style.textShadow = `
+              0 0 ${8 * glowIntensity}px rgba(59, 130, 246, 0.8),
+              0 0 ${16 * glowIntensity}px rgba(139, 92, 246, 0.6),
+              0 0 ${24 * glowIntensity}px rgba(59, 130, 246, 0.4)
+            `;
+            // Enhance the gradient brightness without affecting the gradient itself
+            targetElement.style.filter = `brightness(${100 + 40 * glowIntensity}%)`;
           } else {
-            targetElement.style.color = `color-mix(in srgb, ${currentColor} 60%, ${glowColor} ${40 * glowIntensity}%)`;
+            // For regular text, apply full effects
+            const computedStyle = window.getComputedStyle(targetElement);
+            const currentColor = computedStyle.color;
+            
+            targetElement.style.textShadow = `
+              0 0 ${5 * glowIntensity}px currentColor,
+              0 0 ${15 * glowIntensity}px ${glowColor},
+              0 0 ${25 * glowIntensity}px ${glowColor}
+            `;
+            
+            if (currentColor.includes('rgb')) {
+              targetElement.style.filter = `brightness(${100 + 50 * glowIntensity}%) saturate(${100 + 30 * glowIntensity}%)`;
+            } else {
+              targetElement.style.color = `color-mix(in srgb, ${currentColor} 60%, ${glowColor} ${40 * glowIntensity}%)`;
+            }
           }
         } else {
           // Reset styles smoothly

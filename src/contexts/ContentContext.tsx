@@ -112,13 +112,42 @@ export interface ExamScore {
   highlights: string[];
 }
 
+// New Accomplishments Page Types
+export interface AccomplishmentModalContent {
+  title: string;
+  fullDescription: string;
+  keyHighlights: string[];
+  evidenceUrl?: string;
+}
+
+export interface PodiumAchievement {
+  rank: 1 | 2 | 3;
+  title: string;
+  caption: string;
+  imageUrl: string;
+  badgeUrl: string;
+  modalContent: AccomplishmentModalContent;
+}
+
+export interface HonorableMention {
+  title: string;
+  caption: string;
+  imageUrl: string;
+  badgeUrl: string;
+  year: string;
+  modalContent: AccomplishmentModalContent;
+}
+
 export interface AcademicsContent {
   title: string;
   subtitle: string;
-  courseHistory: GradeSection[];
-  examScores: ExamScore[];
-  academicAchievements: AcademicAchievement[];
-  academicGoals: string[];
+  podiumAchievements: PodiumAchievement[];
+  honorableMentions: HonorableMention[];
+  // Deprecated fields, will be removed later
+  courseHistory?: GradeSection[];
+  examScores?: ExamScore[];
+  academicAchievements?: AcademicAchievement[];
+  academicGoals?: string[];
 }
 
 export interface Testimonial {
@@ -252,6 +281,45 @@ const fallbackContent: WebsiteContent = {
   academics: {
     title: "Achievements",
     subtitle: "I currently attend Cameron Heights Collegiate Institute and am in the IB program.\nMy educational path, achievements, and course history",
+    podiumAchievements: [
+      {
+        rank: 1,
+        title: "Top in Class - Grade 10 Math",
+        caption: "Achieved highest mark in the class for Grade 10 Math.",
+        imageUrl: "/images/achievements/math_topper.jpg",
+        badgeUrl: "/images/badges/gold_badge.png",
+        modalContent: {
+          title: "Top in Class - Grade 10 Math",
+          fullDescription: "Dhairya Shah achieved the highest mark in the class for Grade 10 Math, demonstrating exceptional analytical and problem-solving skills.",
+          keyHighlights: [
+            "Consistently high grades throughout the year",
+            "Active participation in math competitions",
+            "Demonstrated leadership in group projects"
+          ],
+          evidenceUrl: "/files/math_topper_certificate.pdf"
+        }
+      }
+    ],
+    honorableMentions: [
+      {
+        title: "Honorable Mention - Science Fair 2025",
+        caption: "Received an Honorable Mention at the 2025 Science Fair for the project on renewable energy sources.",
+        imageUrl: "/images/achievements/science_fair_2025.jpg",
+        badgeUrl: "/images/badges/silver_badge.png",
+        year: "2025",
+        modalContent: {
+          title: "Honorable Mention - Science Fair 2025",
+          fullDescription: "Dhairya Shah received an Honorable Mention at the 2025 Science Fair for the project on renewable energy sources, showcasing innovative thinking and dedication to environmental issues.",
+          keyHighlights: [
+            "In-depth research on renewable energy sources",
+            "Innovative project design and implementation",
+            "Effective communication of complex ideas"
+          ],
+          evidenceUrl: "/files/science_fair_certificate.pdf"
+        }
+      }
+    ],
+    // Deprecated fields, will be removed later
     courseHistory: [
       {
         title: "Grade 9",
@@ -502,4 +570,4 @@ export function useContent() {
     throw new Error("useContent must be used within a ContentProvider");
   }
   return context;
-} 
+}

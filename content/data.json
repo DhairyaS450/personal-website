@@ -306,5 +306,115 @@
       ],
       "published": true
     }
-  ]
+  ],
+  "academics": {
+    "title": "Achievements",
+    "subtitle": "Here's a list of my achievements so far. I hope to keep learning, growing, and achieving more!",
+    "podiumAchievements": [
+      {
+        "rank": 1,
+        "title": "CCC Junior",
+        "caption": "73/75 - School First Place",
+        "imageUrl": "/images/ccc_score.png",
+        "badgeUrl": "/file.svg",
+        "modalContent": {
+          "title": "Canadian Computing Competition (CCC)",
+          "fullDescription": "The Canadian Computing Competition (CCC) is a fun challenge for secondary school students with an interest in programming. It is an opportunity for students to test their ability in designing, understanding and implementing algorithms. I scored 73/75 in the Junior Division, placing first in my school.",
+          "keyHighlights": [
+            "Score of 73/75",
+            "First place in the school for junior division",
+            "Strong problem-solving demonstration",
+            "Efficient code implementation"
+          ],
+          "evidenceUrl": "/files/ccc_score.png"
+        }
+      },
+      {
+        "rank": 2,
+        "title": "Youth Tech Labs",
+        "caption": "Second Place, $300 Prize",
+        "imageUrl": "/files/ytl_photo.png",
+        "badgeUrl": "/file.svg",
+        "modalContent": {
+          "title": "Youth Tech Labs Demo Day",
+          "fullDescription": "Presented my AI-powered project to a panel of judges at the Youth Tech Labs Demo Day and won second place.",
+          "keyHighlights": [
+            "Won second place",
+            "Awarded $300 prize",
+            "Presented to a panel of industry judges"
+          ],
+          "evidenceUrl": "/files/ytl_photo.png"
+        }
+      },
+      {
+        "rank": 3,
+        "title": "Pascal Math Contest",
+        "caption": "Top 10 in School",
+        "imageUrl": "/files/pascal.jpg",
+        "badgeUrl": "/file.svg",
+        "modalContent": {
+          "title": "Pascal Math Competition",
+          "fullDescription": "The Pascal Contest is a mathematics competition that challenges students with complex problems and mathematical reasoning. I ranked among the top performers at my school.",
+          "keyHighlights": [
+            "Ranked in the top 10 in school",
+            "Strong understanding of the concepts",
+            "Efficient problem solving"
+          ],
+          "evidenceUrl": "/files/pascal.jpg"
+        }
+      }
+    ],
+    "honorableMentions": [
+      {
+        "title": "CIMC Math Competition",
+        "caption": "Ranked among the top performers at school.",
+        "imageUrl": "/files/cimc.jpg",
+        "badgeUrl": "/file.svg",
+        "year": "2024",
+        "modalContent": {
+          "title": "CIMC Math Competition",
+          "fullDescription": "The Canadian Intermediate Mathematics Contest (CIMC) is a mathematics competition that challenges students with complex problems and mathematical reasoning. I ranked high in the school.",
+          "keyHighlights": [
+            "Ranked high in the school",
+            "Excellence in mathematical reasoning",
+            "Creative problem-solving approach"
+          ],
+          "evidenceUrl": "/files/cimc.jpg"
+        }
+      },
+      {
+        "title": "DECA Provincials",
+        "caption": "Competed in Entrepreneurship Team Decision Making (ETDM).",
+        "imageUrl": "/files/deca.jpg",
+        "badgeUrl": "/file.svg",
+        "year": "2025",
+        "modalContent": {
+          "title": "DECA Provincials",
+          "fullDescription": "Competed in the DECA Provincial Competition representing CHCI in Entrepreneurship. Focused on business strategy and tech innovation in the Entrepreneurship Team Decision Making (ETDM) category.",
+          "keyHighlights": [
+            "Competed at the provincial level",
+            "Developed a business strategy for a tech startup",
+            "Presented to a panel of judges"
+          ],
+          "evidenceUrl": "/files/deca.jpg"
+        }
+      },
+      {
+        "title": "Hackathon Awards",
+        "caption": "Won 'Best use of MongoDB' award at SproutHacks.",
+        "imageUrl": "/images/project1.jpg",
+        "badgeUrl": "/file.svg",
+        "year": "2025",
+        "modalContent": {
+          "title": "Hackathon Awards",
+          "fullDescription": "Won 'Best use of MongoDB' award at SproutHacks. Participated in multiple hackathons including HawkHacks.",
+          "keyHighlights": [
+            "Won 'Best use of MongoDB' award",
+            "Built a full-stack web app in 36 hours"
+          ],
+          "evidenceUrl": ""
+        }
+      }
+    ]
+  }
 }
