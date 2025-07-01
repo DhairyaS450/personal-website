@@ -27,13 +27,14 @@ interface ChatbotProps {
 const getToolDisplayName = (toolName: string): string => {
   const toolNames: Record<string, string> = {
     'getProjects': 'Fetching projects',
-    'getAchievements': 'Fetching achievements',
+    'getAcademicsAndAchievements': 'Fetching academics and achievements',
     'getExperience': 'Fetching experience',
     'getEducationInfo': 'Fetching education info',
     'getFiles': 'Fetching files',
     'getBlogPosts': 'Fetching blog posts',
     'getContactInfo': 'Fetching contact info',
-    'analyzeURL': 'Analyzing URL'
+    'analyzeURL': 'Analyzing URL',
+    'googleSearch': 'Searching the web'
   };
   return toolNames[toolName] || `Using ${toolName}`;
 };

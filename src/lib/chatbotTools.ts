@@ -64,28 +64,95 @@ export const chatbotTools = {
     }
   }),
 
-  getAchievements: tool({
-    description: "Fetch Dhairya's academic achievements, awards, and competition results",
+  getAcademicsAndAchievements: tool({
+    description: "Fetch Dhairya's academic information including goals, course history, achievements, and awards. Can filter by specific categories or achievement types.",
     parameters: z.object({
-      type: z.enum(["podium", "honorable", "all"]).optional().describe("Type of achievements to fetch")
+      category: z.enum([
+        "goals", 
+        "courses", 
+        "achievements", 
+        "podium", 
+        "honorable", 
+        "all"
+      ]).optional().describe("Category to fetch: goals (academic goals), courses (course history), achievements (all achievements), podium (1st-3rd place), honorable (honorable mentions), all (everything)"),
+      grade: z.enum(["9", "10", "11", "12"]).optional().describe("Filter courses by specific grade level"),
+      achievementType: z.enum(["competition", "hackathon", "contest", "tournament"]).optional().describe("Filter achievements by type")
     }),
-    execute: async ({ type = "all" }) => {
-      const content = await getWebsiteContent();
-      if (!content?.academicAchievements) return { achievements: [] };
+    execute: async ({ category = "all", grade, achievementType }) => {
+      try {
+        const content = await getWebsiteContent() as unknown as Record<string, unknown>;
+        
+        // Check if academics data exists in the content
+        if (!content?.academics) {
+          return { error: "Academic information not available" };
+        }
 
-      // Since the current data structure has academicAchievements as a simple array,
-      // we'll return all of them for now. In the future, this could be enhanced
-      // to differentiate between podium and honorable mentions if the data structure changes.
-      // The 'type' parameter is kept for future use when the data structure supports different types.
-      console.log(`Fetching achievements of type: ${type}`);
-      
-      return { 
-        achievements: content.academicAchievements.map(achievement => ({
-          title: achievement.title,
-          description: achievement.description,
-          year: achievement.year
-        }))
-      };
+        const academics = content.academics as Record<string, unknown>;
+        const result: Record<string, unknown> = {};
+
+        // Handle different categories
+        if (category === "goals" || category === "all") {
+          result.academicGoals = academics.academicGoals || [];
+        }
+
+        if (category === "courses" || category === "all") {
+          let courseHistory = (academics.courseHistory as Record<string, unknown>[]) || [];
+          
+          // Filter by grade if specified
+          if (grade) {
+            courseHistory = courseHistory.filter((gradeInfo: Record<string, unknown>) => 
+              String(gradeInfo.title).toLowerCase().includes(`grade ${grade}`)
+            );
+          }
+          
+          result.courseHistory = courseHistory;
+        }
+
+        if (category === "achievements" || category === "podium" || category === "all") {
+          let podiumAchievements = (academics.podiumAchievements as Record<string, unknown>[]) || [];
+          
+          // Filter by achievement type if specified
+          if (achievementType) {
+            podiumAchievements = podiumAchievements.filter((achievement: Record<string, unknown>) => {
+              const title = String(achievement.title || "").toLowerCase();
+              const caption = String(achievement.caption || "").toLowerCase();
+              const description = String((achievement.modalContent as Record<string, unknown>)?.fullDescription || "").toLowerCase();
+              return title.includes(achievementType) || caption.includes(achievementType) || description.includes(achievementType);
+            });
+          }
+          
+          result.podiumAchievements = podiumAchievements;
+        }
+
+        if (category === "achievements" || category === "honorable" || category === "all") {
+          let honorableMentions = (academics.honorableMentions as Record<string, unknown>[]) || [];
+          
+          // Filter by achievement type if specified
+          if (achievementType) {
+            honorableMentions = honorableMentions.filter((achievement: Record<string, unknown>) => {
+              const title = String(achievement.title || "").toLowerCase();
+              const caption = String(achievement.caption || "").toLowerCase();
+              const description = String((achievement.modalContent as Record<string, unknown>)?.fullDescription || "").toLowerCase();
+              return title.includes(achievementType) || caption.includes(achievementType) || description.includes(achievementType);
+            });
+          }
+          
+          result.honorableMentions = honorableMentions;
+        }
+
+        // Add metadata
+        result.summary = {
+          totalPodiumAchievements: Array.isArray(result.podiumAchievements) ? result.podiumAchievements.length : 0,
+          totalHonorableMentions: Array.isArray(result.honorableMentions) ? result.honorableMentions.length : 0,
+          currentGrade: "10",
+          nextGrade: "11 (IB Program)"
+        };
+
+        return result;
+      } catch (error) {
+        console.error('getAcademicsAndAchievements error:', error);
+        return { error: "Failed to fetch academic information" };
+      }
     }
   }),
 
@@ -253,13 +320,52 @@ Please provide a comprehensive answer based on the most current web information 
   })
 };
 
-// Helper to get minimal core context (always included)
-export const getCoreContext = () => {
+// Unified system prompt following 2025 prompt engineering best practices
+export const getSystemPrompt = () => {
   const core = getCorePersonality();
-  return `You are ${core.name}, a ${core.role} at ${core.school}. You are ${core.personality} and passionate about ${core.interests.join(", ")}. You are currently a ${core.currentStatus} in the ${core.location}.
+return `# IDENTITY & CONTEXT
+You are ${core.name}, a ${core.role} at ${core.school}. 
+- Location: ${core.location}
+- Current Status: ${core.currentStatus}  
+- Personality: ${core.personality}
+- Interests: ${core.interests.join(", ")}
+- Website: https://dhairyashah.work
+- Time: ${new Date().toLocaleString('en-US', { timeZone: 'America/New_York' })}
 
-Current time: ${new Date().toLocaleString()}
+# PRIMARY MISSION
+Act exactly like Dhairya. Your goal is to help visitors understand his background, projects, achievements, and capabilities while maintaining his voice and personality.
 
-For urls always include the https.
-You have access to tools to fetch specific information about your projects, achievements, experience, education, files, and blog posts. Use these tools when users ask about specific topics rather than providing general information.`;
+# CORE BEHAVIORAL GUIDELINES
+
+## Communication Style
+- Mirror the user's communication style (if they use Gen Z language like "wsg bro", respond similarly: "Not much wbu? Got any questions for me?")
+- Be enthusiastic when discussing projects and achievements
+- Keep responses conversational, friendly, and authentic to Dhairya's personality
+- Use "I" when referring to Dhairya's experiences (you ARE Dhairya's digital twin)
+
+## Information Accuracy
+- CRITICAL: Never fabricate information about projects, achievements, or personal details
+- Always use the available tools to fetch accurate, up-to-date information
+- If you don't have specific information available through tools, acknowledge this limitation
+- When mentioning URLs, always include the full https:// prefix
+
+## Tool Usage Protocol
+1. Use tools proactively when users ask about specific topics (projects, achievements, experience, education, files, blog posts)
+2. For real-time information needs (weather, current events, latest tech trends), use the googleSearch tool
+3. Call getExperience for more information about work, volunteering or any of my extracurriculars (like chess, guitar, deca, stem, coding club, cross country, etc)
+3. After calling any tool, ALWAYS provide a complete, comprehensive response using the fetched data
+4. Never stop after just calling a tool - the user expects a full answer
+
+## Response Structure
+1. Acknowledge the request briefly ("Let me grab my latest projects for you...")
+2. Execute the appropriate tool(s)
+3. Provide a complete, well-formatted response using the retrieved data
+4. Maintain Dhairya's enthusiastic and helpful tone throughout
+
+# COLLABORATION & OPPORTUNITIES
+When users present partnership opportunities, collaboration requests, or ask for services:
+- Show genuine interest and enthusiasm
+- Provide contact information or direct them to the contact page
+- Encourage them to reach out through the website's contact form
+`;
 };

@@ -1,6 +1,6 @@
 import { google } from '@ai-sdk/google';
 import { streamText, convertToCoreMessages } from 'ai';
-import { chatbotTools, getCoreContext } from '@/lib/chatbotTools';
+import { chatbotTools, getSystemPrompt } from '@/lib/chatbotTools';
 
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 30;
@@ -20,24 +20,8 @@ export async function POST(req: Request) {
     
     console.log('Chat API: Google API key found');
 
-    // Use minimal core context instead of loading all data
-    const systemPrompt = getCoreContext() + `
-
-Guidelines for responses:
-- Be conversational and friendly, as if you're personally talking to the user. If they talk gen Z, respond with gen Z ie "wsg bro" --> "Not much wbu? Got any questions for me?"
-- Show enthusiasm when discussing your projects and achievements
-- Use the available tools to fetch specific information when asked anything about projects, achievements, experience, education, files, or blog posts. Dont make up info.
-- IMPORTANT: After calling a tool and receiving data, ALWAYS provide a complete response using that data. Never stop after just calling a tool.
-- When using tools, briefly acknowledge you're fetching information (e.g., "Let me grab my latest projects for you...") and then immediately provide the full response with the fetched data
-- If asked about something you don't have a tool for, politely say you don't have that information. 
-- If asked about a specific blog post, just use the tool to get info about all blog posts.
-- Keep responses concise but informative
-- Always maintain Dhairya's voice and personality
-- The website url is https://dhairyashah.work
-- If the user presents any partnership opportunities or asks for a service, don't deny them. Give them my contacts and tell them to send a message or refer them to the contact page.
-- If asked for any realtime data (ie whats the weather like there or whats the best AI model right now) use search otherwise stick to the other tools.
-- Complete every response with the information you've fetched - don't leave the user hanging
-` 
+    // Use the unified system prompt following 2025 best practices
+    const systemPrompt = getSystemPrompt(); 
 
     // Convert messages to the format expected by the AI SDK
     console.log('Chat API: Converting messages...');
