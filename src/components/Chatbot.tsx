@@ -29,7 +29,7 @@ const getToolDisplayName = (toolName: string): string => {
     'getProjects': 'Fetching projects',
     'getAcademicsAndAchievements': 'Fetching academics and achievements',
     'getExperience': 'Fetching experience',
-    'getEducationInfo': 'Fetching education info',
+    // 'getEducationInfo': 'Fetching education info',
     'getFiles': 'Fetching files',
     'getBlogPosts': 'Fetching blog posts',
     'getContactInfo': 'Fetching contact info',

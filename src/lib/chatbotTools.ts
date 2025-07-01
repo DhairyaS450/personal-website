@@ -183,23 +183,23 @@ export const chatbotTools = {
     }
   }),
 
-  getEducationInfo: tool({
-    description: "Fetch Dhairya's educational background and course information",
-    parameters: z.object({}),
-    execute: async () => {
-      const content = await getWebsiteContent();
-      if (!content?.education) return { education: null };
+//   getEducationInfo: tool({
+//     description: "Fetch Dhairya's educational background and course information",
+//     parameters: z.object({}),
+//     execute: async () => {
+//       const content = await getWebsiteContent();
+//       if (!content?.education) return { education: null };
 
-      return {
-        education: {
-          currentGrade: "Grade 10",
-          school: "Cameron Heights Collegiate Institute",
-          graduationYear: "2027",
-          educationList: content.education
-        }
-      };
-    }
-  }),
+//       return {
+//         education: {
+//           currentGrade: "Grade 10",
+//           school: "Cameron Heights Collegiate Institute",
+//           graduationYear: "2027",
+//           educationList: content.education
+//         }
+//       };
+//     }
+//   }),
 
   getFiles: tool({
     description: "Fetch available files like resume, certificates, photos",
