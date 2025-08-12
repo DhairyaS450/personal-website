@@ -426,8 +426,7 @@ interface ContentContextType {
   updateContent: (newContent: WebsiteContent) => Promise<boolean>;
   isEditMode: boolean;
   setEditMode: (mode: boolean) => void;
-  token: string | null;
-  setToken: (token: string | null) => void;
+  isAdmin: boolean;
 }
 
 const ContentContext = createContext<ContentContextType | undefined>(undefined);
@@ -437,7 +436,7 @@ export function ContentProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isEditMode, setIsEditMode] = useState(false);
-  const [token, setToken] = useState<string | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [fetchAttempted, setFetchAttempted] = useState(false);
 
   // Initial content fetch
@@ -475,7 +474,8 @@ export function ContentProvider({ children }: { children: ReactNode }) {
     }
 
     fetchContent();
-  }, []); //ignore dependency it makes unlimited refresh
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // ignore dependency it makes unlimited refresh
 
   // Use fallback content if fetch was attempted but content is still null
   useEffect(() => {
@@ -484,45 +484,54 @@ export function ContentProvider({ children }: { children: ReactNode }) {
     }
   }, [fetchAttempted, content]);
 
-  // Check for token in localStorage on initial load
+  // Determine admin status from Supabase user metadata
   useEffect(() => {
-    const storedToken = localStorage.getItem("adminToken");
-    if (storedToken) {
-      setToken(storedToken);
-    }
-  }, []);
+    let mounted = true;
+    (async () => {
+      try {
+        const { createClient } = await import('@/lib/supabase/client');
+        const supabase = createClient();
+        const { data: { user } } = await supabase.auth.getUser();
+        if (mounted) {
+          const isAdminUser = (user?.user_metadata?.role === 'admin') || false;
+          setIsAdmin(!!user && isAdminUser);
+        }
 
-  // Update token in localStorage when it changes
-  useEffect(() => {
-    if (token) {
-      localStorage.setItem("adminToken", token);
-    } else {
-      localStorage.removeItem("adminToken");
-    }
-  }, [token]);
+        // keep in sync with auth changes
+        const { data: sub } = supabase.auth.onAuthStateChange(async () => {
+          const { data: { user: nextUser } } = await supabase.auth.getUser();
+          const isAdminUserNext = (nextUser?.user_metadata?.role === 'admin') || false;
+          if (mounted) setIsAdmin(!!nextUser && isAdminUserNext);
+        });
+
+        return () => {
+          sub.subscription.unsubscribe();
+        }
+  } catch {
+        // non-fatal
+        setIsAdmin(false);
+      }
+    })();
+    return () => { mounted = false };
+  }, []);
 
   // Function to update content - requires authentication
   const updateContent = async (newContent: WebsiteContent): Promise<boolean> => {
     // Clear any previous errors
     setError(null);
     
-    // Check for authentication
-    if (!token) {
-      console.error('Authentication required: No token available');
-      setError("Authentication required to save changes");
+    // Check for admin
+    if (!isAdmin) {
+      setError("Admin access required to save changes");
       return false;
     }
-
-    console.log(`Attempting to update content with token: "${token}"`);
-    console.log(`Token length: ${token.length}`);
     
     try {
       setIsLoading(true);
-      const response = await fetch("/api/content", {
+  const response = await fetch("/api/content", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
         },
         body: JSON.stringify(newContent),
       });
@@ -553,8 +562,7 @@ export function ContentProvider({ children }: { children: ReactNode }) {
     updateContent,
     isEditMode,
     setEditMode: setIsEditMode,
-    token,
-    setToken,
+  isAdmin,
   };
 
   return (

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useContent } from "@/contexts/ContentContext";
 import { generateSlug } from "@/lib/utils";
 import { v4 as uuidv4 } from "uuid";
-import { EditorContent, useEditor } from "@tiptap/react";
+import { EditorContent, useEditor, Editor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Link from "@tiptap/extension-link";
 import Image from "@tiptap/extension-image";
@@ -50,19 +50,19 @@ interface PostState {
 
 export function EditorClient({ id }: EditorClientProps) {
   const router = useRouter();
-  const { isEditMode, token } = useContent();
+  const { isEditMode, isAdmin } = useContent();
   
   // Determine if this is a new post
   const isNew = id === "new";
   
-  // If not in edit mode or no token, redirect to blog page
+  // If not in edit mode or not admin, redirect to blog page
   useEffect(() => {
-    if (!isEditMode || !token) {
+    if (!isEditMode || !isAdmin) {
       router.push('/blog');
     }
-  }, [isEditMode, token, router]);
+  }, [isEditMode, isAdmin, router]);
 
-  if (!isEditMode || !token) {
+  if (!isEditMode || !isAdmin) {
     return null; // Don't render anything while redirecting
   }
 
@@ -139,7 +139,7 @@ function BlogPostEditor({ id, isNew }: EditorProps) {
       }),
     ],
     content: post.content,
-    onUpdate: ({ editor }: { editor: any }) => {
+  onUpdate: ({ editor }: { editor: Editor }) => {
       const newContent = editor.getHTML();
       console.log(`Editor content updated (${newContent.length} chars)`);
       

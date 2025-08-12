@@ -5,9 +5,6 @@ import Link from "next/link";
 import { FaGithub, FaTwitter, FaLinkedin, FaEnvelope, FaLock, FaUnlock } from "react-icons/fa";
 import { useContent } from "@/contexts/ContentContext";
 
-// Add this constant to the top of the file, after imports
-const ADMIN_TOKEN = process.env.ADMIN_API_TOKEN || 'fallback-admin-token-12345';
-
 export default function Footer() {
   const currentYear = new Date().getFullYear();
   const [showAdminLogin, setShowAdminLogin] = useState(false);
@@ -16,55 +13,24 @@ export default function Footer() {
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   
   // Use our content context
-  const { 
-    isEditMode, 
-    setEditMode, 
-    token, 
-    setToken, 
-    updateContent,
-    content
-  } = useContent();
+  const { isEditMode, setEditMode, isAdmin } = useContent();
 
-  // Check if user is logged in
-  const isAdmin = !!token;
-
-  // Then update the login handler
+  // Supabase email link login (magic link) for admin account
   const handleAdminLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoggingIn(true);
     
     try {
-      console.log('Attempting login...');
-      const response = await fetch('/api/auth', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ password })
-      });
-      
-      const data = await response.json();
-      
-      if (response.ok && data.success) {
-        console.log('Login successful, received token:', data.token);
-        console.log('Token length:', data.token.length);
-        console.log('Expected token:', ADMIN_TOKEN);
-        console.log('Expected token length:', ADMIN_TOKEN.length);
-        console.log('Tokens match:', data.token === ADMIN_TOKEN);
-        
-        // Use the constant token directly to ensure consistency
-        setToken(ADMIN_TOKEN);
-        setMessage("Admin access granted!");
-        setPassword("");
-        setTimeout(() => setMessage(""), 3000);
-      } else {
-        console.error('Login failed:', data.error);
-        setMessage(data.error || "Authentication failed");
-        setTimeout(() => setMessage(""), 3000);
-      }
+      const { createClient } = await import('@/lib/supabase/client');
+      const supabase = createClient();
+      const { error } = await supabase.auth.signInWithOtp({ email: password });
+      if (error) throw error;
+      setMessage("Check your email for a login link");
+      setPassword("");
+      setTimeout(() => setMessage(""), 5000);
     } catch (error) {
       console.error("Login error:", error);
-      setMessage("An error occurred during login");
+      setMessage("Login failed");
       setTimeout(() => setMessage(""), 3000);
     } finally {
       setIsLoggingIn(false);
@@ -72,10 +38,14 @@ export default function Footer() {
   };
 
   const handleLogout = () => {
-    setToken(null);
-    setEditMode(false);
-    setMessage("Logged out successfully");
-    setTimeout(() => setMessage(""), 3000);
+    (async () => {
+      const { createClient } = await import('@/lib/supabase/client');
+      const supabase = createClient();
+      await supabase.auth.signOut();
+      setEditMode(false);
+      setMessage("Logged out successfully");
+      setTimeout(() => setMessage(""), 3000);
+    })();
   };
 
   // This toggles edit mode in our content context
@@ -193,10 +163,10 @@ export default function Footer() {
             <div className="mt-4 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
               <form onSubmit={handleAdminLogin} className="flex flex-col sm:flex-row gap-2">
                 <input
-                  type="password"
+                  type="email"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Enter admin password"
+                  placeholder="Enter admin email"
                   className="px-3 py-2 rounded border border-gray-300 dark:border-gray-700 text-sm flex-grow bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
                   disabled={isLoggingIn}
                 />
@@ -205,7 +175,7 @@ export default function Footer() {
                   className="px-4 py-2 bg-blue-600 text-white rounded text-sm hover:bg-blue-700 transition disabled:opacity-50"
                   disabled={isLoggingIn}
                 >
-                  {isLoggingIn ? "Logging in..." : "Login"}
+                  {isLoggingIn ? "Sending..." : "Send Magic Link"}
                 </button>
               </form>
             </div>

@@ -104,3 +104,56 @@ For more advanced setups (multiple admins, file uploads, etc.), consider:
 1. Setting up Supabase Auth for proper authentication
 2. Using Supabase Storage for file uploads
 3. Creating more granular database tables for different content types 
+
+## Auth (SSR) setup
+
+- Packages already installed: `@supabase/supabase-js`, `@supabase/ssr`.
+- Required env vars:
+  - `NEXT_PUBLIC_SUPABASE_URL`
+  - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- SSR helpers:
+  - Server: `src/lib/supabase/server.ts` using `createServerClient` with cookies `getAll`/`setAll`.
+  - Client: `src/lib/supabase/client.ts` using `createBrowserClient`.
+- Middleware: `src/middleware.ts` refreshes auth cookies and protects editor routes.
+
+### Admin role
+
+- Admin access uses `user.user_metadata.role === 'admin'`.
+- Set in Supabase Dashboard > Auth > Users > Edit user metadata:
+  `{ "role": "admin" }`.
+
+### RLS policies
+
+Enable RLS and restrict writes to admins:
+
+```sql
+alter table website_content enable row level security;
+
+create policy "read content for all"
+on website_content for select
+using (true);
+
+create policy "write content for admins"
+on website_content for insert
+to authenticated
+with check (
+  auth.jwt() -> 'user_metadata' ->> 'role' = 'admin'
+);
+
+create policy "update content for admins"
+on website_content for update
+to authenticated
+using (
+  auth.jwt() -> 'user_metadata' ->> 'role' = 'admin'
+)
+with check (
+  auth.jwt() -> 'user_metadata' ->> 'role' = 'admin'
+);
+```
+
+### Login flow
+
+- Visit `/login` to request a magic link to your admin email.
+- After login, the footer shows Admin controls for users with `role=admin`.
+
+Note: The legacy localStorage admin token flow has been removed.

@@ -51,24 +51,4 @@ export async function updateWebsiteContent(content: WebsiteContent): Promise<boo
   }
 }
 
-/**
- * Validate admin credentials and get a session token
- */
-export async function validateAdmin(password: string): Promise<string | null> {
-  // For demo purposes - in a real app, you would use Supabase Auth
-  // This is just to maintain compatibility with the existing authentication flow
-  try {
-    const adminPassword = process.env.ADMIN_PASSWORD || 'dhairya2025';
-    
-    if (password === adminPassword) {
-      // Return a token that will be used for authorization
-      // In a real app, we would use Supabase Auth to get a proper JWT
-      return process.env.ADMIN_API_TOKEN || 'fallback-admin-token-12345';
-    }
-    
-    return null;
-  } catch (error) {
-    console.error('Error validating admin:', error);
-    return null;
-  }
-} 
+// Legacy validateAdmin removed: use Supabase Auth instead.
