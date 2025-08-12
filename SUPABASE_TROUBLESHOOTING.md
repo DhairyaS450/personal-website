@@ -37,7 +37,7 @@ If you see `Error uploading content to Supabase: {}` or an empty error object, t
 
    - Make sure there are no trailing spaces or quotes in your environment variables
    - The URL should look like: `https://[project-ref].supabase.co`
-   - The anon key should start with "eyJ..."
+  - The publishable key should start with "eyJ..."
 
 4. **Network Issues**: If you're behind a firewall or proxy, it might be blocking connections to Supabase.
 
@@ -54,7 +54,7 @@ import { createClient } from '@supabase/supabase-js';
 dotenv.config({ path: '.env.local' });
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
 
 console.log('Supabase URL:', supabaseUrl ? '✅ Available' : '❌ Missing');
 console.log('Supabase Key:', supabaseKey ? '✅ Available' : '❌ Missing');

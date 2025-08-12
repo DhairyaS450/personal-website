@@ -11,7 +11,7 @@ Vercel's serverless functions run in a read-only filesystem environment, which p
 ### 1. Create a Supabase Account and Project
 
 1. Go to [supabase.com](https://supabase.com/) and sign up for an account
-2. Create a new project and note down the project URL and anon key
+2. Create a new project and note down the project URL and publishable key
 3. Set a secure database password
 
 ### 2. Create the Database Table
@@ -66,7 +66,7 @@ CREATE POLICY "Allow public read access"
 
 ```
 NEXT_PUBLIC_SUPABASE_URL=https://your-project-id.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your-publishable-key
 ```
 
 2. In your Vercel dashboard, go to your project's settings, then to the "Environment Variables" section, and add the same variables.
@@ -110,7 +110,7 @@ For more advanced setups (multiple admins, file uploads, etc.), consider:
 - Packages already installed: `@supabase/supabase-js`, `@supabase/ssr`.
 - Required env vars:
   - `NEXT_PUBLIC_SUPABASE_URL`
-  - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+  - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
 - SSR helpers:
   - Server: `src/lib/supabase/server.ts` using `createServerClient` with cookies `getAll`/`setAll`.
   - Client: `src/lib/supabase/client.ts` using `createBrowserClient`.
