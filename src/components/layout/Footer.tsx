@@ -23,7 +23,11 @@ export default function Footer() {
     try {
       const { createClient } = await import('@/lib/supabase/client');
       const supabase = createClient();
-      const { error } = await supabase.auth.signInWithOtp({ email: password });
+      const redirectTo = `${window.location.origin}/login`;
+      const { error } = await supabase.auth.signInWithOtp({
+        email: password,
+        options: { emailRedirectTo: redirectTo },
+      });
       if (error) throw error;
       setMessage("Check your email for a login link");
       setPassword("");

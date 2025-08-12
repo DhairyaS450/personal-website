@@ -11,8 +11,20 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    // Handle OAuth/Magic link callback automatically via middleware cookies refresh
-    // Nothing needed here beyond optional messages.
+    // On magic link visit, Supabase provides code/hash in URL. Exchange it to finalize the session.
+    (async () => {
+      try {
+        const { createClient } = await import('@/lib/supabase/client')
+        const supabase = createClient()
+        await supabase.auth.getSession() // pre-warm
+  const { error } = await supabase.auth.exchangeCodeForSession(window.location.href)
+  if (!error) {
+          setMessage('You are logged in. You can close this page.')
+        }
+      } catch {
+        // noop
+      }
+    })()
   }, [])
 
   const sendMagicLink = async (e: React.FormEvent) => {
