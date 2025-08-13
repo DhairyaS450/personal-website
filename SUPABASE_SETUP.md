@@ -118,8 +118,8 @@ For more advanced setups (multiple admins, file uploads, etc.), consider:
 
 ### Admin role
 
-- Admin access uses `user.user_metadata.role === 'admin'`.
-- Set in Supabase Dashboard > Auth > Users > Edit user metadata:
+- Admin access now uses `user.app_metadata.role === 'admin'` (app_metadata is immutable by end-users and set via service role or dashboard only).
+- Set in Supabase Dashboard > Auth > Users > Edit app metadata (Advanced JSON editor) or via the provided script:
   `{ "role": "admin" }`.
 
 ### RLS policies
@@ -137,17 +137,17 @@ create policy "write content for admins"
 on website_content for insert
 to authenticated
 with check (
-  auth.jwt() -> 'user_metadata' ->> 'role' = 'admin'
+  auth.jwt() -> 'app_metadata' ->> 'role' = 'admin'
 );
 
 create policy "update content for admins"
 on website_content for update
 to authenticated
 using (
-  auth.jwt() -> 'user_metadata' ->> 'role' = 'admin'
+  auth.jwt() -> 'app_metadata' ->> 'role' = 'admin'
 )
 with check (
-  auth.jwt() -> 'user_metadata' ->> 'role' = 'admin'
+  auth.jwt() -> 'app_metadata' ->> 'role' = 'admin'
 );
 ```
 

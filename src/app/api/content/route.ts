@@ -49,8 +49,8 @@ export async function PUT(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    // Optional: check a claim or role if you store roles in user metadata
-    const isAdmin = (user.user_metadata?.role === 'admin') || false
+  // Check role placed in app_metadata (immutable by users) instead of user_metadata
+  const isAdmin = (user.app_metadata?.role === 'admin') || false
     if (!isAdmin) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
     }

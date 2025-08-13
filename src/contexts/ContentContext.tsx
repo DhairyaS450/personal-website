@@ -493,14 +493,14 @@ export function ContentProvider({ children }: { children: ReactNode }) {
         const supabase = createClient();
         const { data: { user } } = await supabase.auth.getUser();
         if (mounted) {
-          const isAdminUser = (user?.user_metadata?.role === 'admin') || false;
+          const isAdminUser = (user?.app_metadata?.role === 'admin') || false;
           setIsAdmin(!!user && isAdminUser);
         }
 
         // keep in sync with auth changes
         const { data: sub } = supabase.auth.onAuthStateChange(async () => {
           const { data: { user: nextUser } } = await supabase.auth.getUser();
-          const isAdminUserNext = (nextUser?.user_metadata?.role === 'admin') || false;
+          const isAdminUserNext = (nextUser?.app_metadata?.role === 'admin') || false;
           if (mounted) setIsAdmin(!!nextUser && isAdminUserNext);
         });
 
