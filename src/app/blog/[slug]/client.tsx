@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { useContent, BlogPost } from "@/contexts/ContentContext";
+import SafeHtml from "@/components/SafeHtml";
 import { formatDate } from "@/lib/utils";
 import { ChevronLeft, Edit } from "lucide-react";
 
@@ -13,7 +13,6 @@ interface BlogClientProps {
 }
 
 export function BlogClient({ slug }: BlogClientProps) {
-  const router = useRouter();
   const { content, isLoading, error, isEditMode } = useContent();
   const [post, setPost] = useState<BlogPost | null>(null);
   const [baseUrl, setBaseUrl] = useState('');
@@ -144,10 +143,7 @@ export function BlogClient({ slug }: BlogClientProps) {
         </div>
       )}
 
-      <div
-        className="prose prose-lg dark:prose-invert max-w-none mb-12"
-        dangerouslySetInnerHTML={{ __html: post.content }}
-      />
+  <SafeHtml html={post.content} className="prose prose-lg dark:prose-invert max-w-none mb-12" />
 
       <div className="border-t border-gray-200 dark:border-gray-800 pt-8 mt-12">
         <h2 className="text-xl font-bold mb-4">Share this post</h2>

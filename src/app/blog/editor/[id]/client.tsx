@@ -1,8 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import sanitizeHtml from "sanitize-html";
 import { useRouter } from "next/navigation";
 import { useContent } from "@/contexts/ContentContext";
+import SafeHtml from "@/components/SafeHtml";
 import { generateSlug } from "@/lib/utils";
 import { v4 as uuidv4 } from "uuid";
 import { EditorContent, useEditor, Editor } from "@tiptap/react";
@@ -208,10 +210,14 @@ function BlogPostEditor({ id, isNew }: EditorProps) {
         setPost(prev => ({ ...prev, excerpt }));
       }
       
+      // Sanitize content before persisting (defense-in-depth; SafeHtml also sanitizes at render)
+      const sanitizedContent = sanitizeHtml(post.content, {
+        allowedTags: false, // basic scrub - rely on render-time policy
+      });
       // Update the post's updatedAt field
       const updatedPost = {
         ...post,
-        content: post.content || "", // Ensure content is explicitly set and never undefined
+        content: sanitizedContent || "", // Ensure content is explicitly set and sanitized
         updatedAt: new Date().toISOString(),
       };
       
@@ -523,7 +529,7 @@ function BlogPostEditor({ id, isNew }: EditorProps) {
       {/* Editor or Preview */}
       <div className={`min-h-[500px] p-4 border border-gray-300 dark:border-gray-700 rounded-b-lg ${previewMode ? 'rounded-t-lg' : ''} bg-white dark:bg-gray-800`}>
         {previewMode ? (
-          <div className="prose prose-lg dark:prose-invert max-w-none" dangerouslySetInnerHTML={{ __html: post.content }} />
+          <SafeHtml html={post.content} className="prose prose-lg dark:prose-invert max-w-none" />
         ) : (
           <EditorContent editor={editor} />
         )}
